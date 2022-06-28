@@ -11,19 +11,19 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_WEIERSTRASS_MILLER_LOOP_TEST_HPP
-#define CRYPTO3_ZK_BLUEPRINT_WEIERSTRASS_MILLER_LOOP_TEST_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_WEIERSTRASS_MILLER_LOOP_TEST_HPP
+#define ACTOR_ZK_BLUEPRINT_WEIERSTRASS_MILLER_LOOP_TEST_HPP
 
 #include <boost/test/unit_test.hpp>
 
 #include <nil/crypto3/algebra/algorithms/pair.hpp>
 
 
-#include <nil/crypto3/zk/components/algebra/curves/weierstrass/element_g1.hpp>
-#include <nil/crypto3/zk/components/algebra/curves/weierstrass/element_g2.hpp>
+#include <nil/actor/zk/components/algebra/curves/weierstrass/element_g1.hpp>
+#include <nil/actor/zk/components/algebra/curves/weierstrass/element_g2.hpp>
 
-#include <nil/crypto3/zk/components/algebra/pairing/weierstrass/precomputation.hpp>
-#include <nil/crypto3/zk/components/algebra/pairing/weierstrass/miller_loop.hpp>
+#include <nil/actor/zk/components/algebra/pairing/weierstrass/precomputation.hpp>
+#include <nil/actor/zk/components/algebra/pairing/weierstrass/miller_loop.hpp>
 
 #include <nil/crypto3/algebra/random_element.hpp>
 #include <nil/crypto3/algebra/algorithms/pair.hpp>
@@ -252,4 +252,4 @@ void test_mnt_e_times_e_over_e_miller_loop() {
     std::cout << "number of constraints for e times e over e Miller loop " << bp.num_constraints() << std::endl;
 }
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_WEIERSTRASS_MILLER_LOOP_TEST_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_WEIERSTRASS_MILLER_LOOP_TEST_HPP

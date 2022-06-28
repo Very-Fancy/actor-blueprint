@@ -47,13 +47,13 @@
 #include <nil/crypto3/algebra/curves/params/multiexp/mnt6.hpp>
 #include <nil/crypto3/algebra/curves/params/wnaf/mnt6.hpp>
 
-#include <nil/crypto3/zk/components/disjunction.hpp>
-#include <nil/crypto3/zk/components/conjunction.hpp>
-#include <nil/crypto3/zk/components/comparison.hpp>
-#include <nil/crypto3/zk/components/inner_product.hpp>
-#include <nil/crypto3/zk/components/loose_multiplexing.hpp>
+#include <nil/actor/zk/components/disjunction.hpp>
+#include <nil/actor/zk/components/conjunction.hpp>
+#include <nil/actor/zk/components/comparison.hpp>
+#include <nil/actor/zk/components/inner_product.hpp>
+#include <nil/actor/zk/components/loose_multiplexing.hpp>
 
-#include <nil/crypto3/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
+#include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
 
 #include "verify_r1cs_scheme.hpp"
 

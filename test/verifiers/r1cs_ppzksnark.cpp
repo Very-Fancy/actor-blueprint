@@ -42,16 +42,16 @@
 
 #include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/crypto3/zk/components/algebra/pairing/detail/mnt4.hpp>
-#include <nil/crypto3/zk/components/algebra/pairing/detail/mnt6.hpp>
-//#include <nil/crypto3/zk/components/algebra/pairing/pairing_params.hpp>
+#include <nil/actor/zk/components/algebra/pairing/detail/mnt4.hpp>
+#include <nil/actor/zk/components/algebra/pairing/detail/mnt6.hpp>
+//#include <nil/actor/zk/components/algebra/pairing/pairing_params.hpp>
 
-#include <nil/crypto3/zk/components/algebra/fields/element_fp2.hpp>
-#include <nil/crypto3/zk/components/algebra/fields/element_fp3.hpp>
-#include <nil/crypto3/zk/components/algebra/fields/element_fp4.hpp>
-#include <nil/crypto3/zk/components/algebra/fields/element_fp6_2over3.hpp>
-#include <nil/crypto3/zk/snark/components/verifiers/r1cs_ppzksnark_verifier_component.hpp>
-#include <nil/crypto3/zk/snark/schemes/ppzksnark/r1cs_ppzksnark.hpp>
+#include <nil/actor/zk/components/algebra/fields/element_fp2.hpp>
+#include <nil/actor/zk/components/algebra/fields/element_fp3.hpp>
+#include <nil/actor/zk/components/algebra/fields/element_fp4.hpp>
+#include <nil/actor/zk/components/algebra/fields/element_fp6_2over3.hpp>
+#include <nil/actor/zk/snark/components/verifiers/r1cs_ppzksnark_verifier_component.hpp>
+#include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_ppzksnark.hpp>
 
 #include "../pairing/weierstrass_miller_loop.hpp"
 #include "../r1cs_examples.hpp"

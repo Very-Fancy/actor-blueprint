@@ -23,17 +23,17 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
-#define CRYPTO3_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
+#define ACTOR_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
 
 #include <boost/test/unit_test.hpp>
 
-#include <nil/crypto3/zk/snark/algorithms/generate.hpp>
-#include <nil/crypto3/zk/snark/algorithms/verify.hpp>
-#include <nil/crypto3/zk/snark/algorithms/prove.hpp>
-#include <nil/crypto3/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
+#include <nil/actor/zk/snark/algorithms/generate.hpp>
+#include <nil/actor/zk/snark/algorithms/verify.hpp>
+#include <nil/actor/zk/snark/algorithms/prove.hpp>
+#include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
 
-#include <nil/crypto3/zk/components/blueprint.hpp>
+#include <nil/actor/zk/components/blueprint.hpp>
 
 #include <nil/crypto3/algebra/curves/edwards.hpp>
 
@@ -87,4 +87,4 @@ bool verify_component<curves::edwards<183>,
     return false;
 }
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_VERIFY_R1CS_SCHEME_COMPONENT_TEST_HPP

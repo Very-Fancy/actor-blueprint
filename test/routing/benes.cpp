@@ -32,7 +32,7 @@
 #include <nil/crypto3/algebra/curves/mnt4.hpp>
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
 
-#include <nil/crypto3/zk/snark/components/routing/benes_components.hpp>
+#include <nil/actor/zk/snark/components/routing/benes_components.hpp>
 
 using namespace nil::crypto3;
 using namespace nil::crypto3::zk;

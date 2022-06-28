@@ -24,8 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TEST_DATA_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TEST_DATA_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TEST_DATA_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TEST_DATA_HPP
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -35,11 +35,11 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/pickles/proof.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
 
 using namespace nil::crypto3;
 
@@ -235,4 +235,4 @@ nil::crypto3::zk::snark::pickles_proof<algebra::curves::vesta> test_proof() {
     return proof;
 }
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TEST_DATA_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TEST_DATA_HPP

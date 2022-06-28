@@ -24,23 +24,23 @@
 // @file Declaration of interfaces for auxiliary components for the SHA256 component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_AUXILIARY_SPONGE_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_AUXILIARY_SPONGE_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_AUXILIARY_SPONGE_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_AUXILIARY_SPONGE_HPP
 
 #include <iostream>
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 
@@ -188,4 +188,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_CURVE_ELEMENT_ENDO_SCALAR_COMPONENT_15_WIRES_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_CURVE_ELEMENT_ENDO_SCALAR_COMPONENT_15_WIRES_HPP

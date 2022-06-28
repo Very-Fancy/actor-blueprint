@@ -26,15 +26,15 @@
 // R1CS examples with prescribed parameters (according to some distribution).
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
-#define CRYPTO3_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
+#define ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
 
-#include <nil/crypto3/zk/snark/arithmetization/constraint_satisfaction_problems/r1cs.hpp>
+#include <nil/actor/zk/snark/arithmetization/constraint_satisfaction_problems/r1cs.hpp>
 
 #include <nil/crypto3/algebra/random_element.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace snark {
 
@@ -213,4 +213,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP

@@ -39,20 +39,20 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/commitments/polynomial/lpc.hpp>
+#include <nil/actor/zk/commitments/polynomial/lpc.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/pickles/proof.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/proof.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/prover.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/verifier.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/proof.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/algorithms/allocate.hpp>
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/algorithms/allocate.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
-#include <nil/crypto3/zk/components/algebra/curves/pasta/plonk/unified_addition.hpp>
+#include <nil/actor/zk/components/algebra/curves/pasta/plonk/unified_addition.hpp>
 
 #include "proof_data.hpp"
 

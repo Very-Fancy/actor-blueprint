@@ -34,12 +34,12 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
 
-#include <nil/crypto3/zk/components/non_native/algebra/fields/plonk/reduction.hpp>
+#include <nil/actor/zk/components/non_native/algebra/fields/plonk/reduction.hpp>
 
 #include "test_plonk_component.hpp"
 

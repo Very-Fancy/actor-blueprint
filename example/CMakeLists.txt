@@ -8,29 +8,28 @@
 #---------------------------------------------------------------------------#
 
 macro(define_blueprint_example name)
-    add_executable(blueprint_${name}_example ${name}.cpp)
+    add_executable(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${name}_example ${name}.cpp)
     target_link_libraries(blueprint_${name}_example PRIVATE
-                          ${CMAKE_WORKSPACE_NAME}_blueprint
+            ${CMAKE_WORKSPACE_NAME}_blueprint
 
-                          ${CMAKE_WORKSPACE_NAME}::algebra
-                          ${CMAKE_WORKSPACE_NAME}::math
-                          ${CMAKE_WORKSPACE_NAME}::block
-                          ${CMAKE_WORKSPACE_NAME}::hash
-                          ${CMAKE_WORKSPACE_NAME}::multiprecision
-                          ${CMAKE_WORKSPACE_NAME}::zk
-                          marshalling::crypto3_zk
+            crypto3::algebra
+            crypto3::math
+            crypto3::block
+            crypto3::hash
+            crypto3::multiprecision
+            crypto3::zk
+            marshalling::crypto3_zk
 
-                          ${Boost_LIBRARIES})
+            ${Boost_LIBRARIES})
     set_target_properties(blueprint_${name}_example PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED TRUE)
 endmacro()
 
 
-
 set(EXAMPLES_NAMES
-    "curves"
-    "test_component"
-    "plonk/addition_component")
+        "curves"
+        "test_component"
+        "plonk/addition_component")
 
-foreach(EXAMPLE_NAME ${EXAMPLES_NAMES})
+foreach (EXAMPLE_NAME ${EXAMPLES_NAMES})
     define_blueprint_example(${EXAMPLE_NAME})
-endforeach()
+endforeach ()

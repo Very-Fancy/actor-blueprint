@@ -26,21 +26,21 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
-#define CRYPTO3_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
+#define ACTOR_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
 
 #include <cmath>
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/component.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/component.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 
@@ -203,4 +203,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_EXAMPLE_PLONK_ADDITION_HPP

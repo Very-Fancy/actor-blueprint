@@ -31,16 +31,16 @@
 #include <fstream>
 #include <sstream>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         template<typename FieldType, typename ArithmetizationParams, typename Hash, std::size_t Lambda>
         struct profiling_plonk_circuit {
             using placeholder_params = zk::snark::placeholder_params<FieldType, ArithmetizationParams, Hash, Hash, Lambda>;
@@ -52,7 +52,7 @@ namespace nil {
                 return it == (std::cend(c) - 1);
             }
 
-            static void print_variable(std::ostream &os, const nil::crypto3::zk::snark::plonk_variable<FieldType> &var,
+            static void print_variable(std::ostream &os, const zk::snark::plonk_variable<FieldType> &var,
                                        const typename types::preprocessed_public_data_type &public_preprocessed_data) {
                 std::size_t rotation_idx =
                     std::find(std::cbegin(public_preprocessed_data.common_data.columns_rotations.at(var.index)),
@@ -67,7 +67,7 @@ namespace nil {
 
             template<typename Vars, typename VarsIt>
             static typename std::enable_if<
-                std::is_same<nil::crypto3::zk::snark::plonk_variable<FieldType>,
+                std::is_same<zk::snark::plonk_variable<FieldType>,
                              typename std::iterator_traits<typename Vars::iterator>::value_type>::value>::type
                 print_term(std::ostream &os,
                            const Vars &vars,
@@ -90,7 +90,7 @@ namespace nil {
 
             template<typename Terms, typename TermsIt>
             static typename std::enable_if<
-                std::is_same<nil::crypto3::math::non_linear_term<nil::crypto3::zk::snark::plonk_variable<FieldType>>,
+                std::is_same<math::non_linear_term<zk::snark::plonk_variable<FieldType>>,
                              typename std::iterator_traits<typename Terms::iterator>::value_type>::value>::type
                 print_terms(std::ostream &os,
                             const Terms &terms,
@@ -126,7 +126,7 @@ namespace nil {
 
             static void
                 print_constraint(std::ostream &os,
-                                 const typename nil::crypto3::zk::snark::plonk_constraint<FieldType> &constraint,
+                                 const typename zk::snark::plonk_constraint<FieldType> &constraint,
                                  const typename types::preprocessed_public_data_type &public_preprocessed_data) {
                 os << "mstore(add(gate_params, CONSTRAINT_EVAL_OFFSET), 0)" << std::endl;
                 print_terms(os, constraint.terms, std::cbegin(constraint.terms), public_preprocessed_data);
@@ -158,8 +158,8 @@ namespace nil {
             }
 
             static void print_selector(std::ostream &os,
-                                       const nil::crypto3::zk::snark::plonk_gate<
-                                           FieldType, nil::crypto3::zk::snark::plonk_constraint<FieldType>> &gate) {
+                                       const zk::snark::plonk_gate<
+                                           FieldType, zk::snark::plonk_constraint<FieldType>> &gate) {
                 os << "mstore("
                       "add(gate_params, GATE_EVAL_OFFSET),"
                       "mulmod("
@@ -185,8 +185,8 @@ namespace nil {
             }
 
             static void print_gate(std::ostream &os,
-                                   const nil::crypto3::zk::snark::plonk_gate<
-                                       FieldType, nil::crypto3::zk::snark::plonk_constraint<FieldType>> &gate,
+                                   const zk::snark::plonk_gate<
+                                       FieldType, zk::snark::plonk_constraint<FieldType>> &gate,
                                    const typename types::preprocessed_public_data_type &public_preprocessed_data) {
                 os << "mstore(add(gate_params, GATE_EVAL_OFFSET), 0)" << std::endl;
                 for (auto &constraint : gate.constraints) {

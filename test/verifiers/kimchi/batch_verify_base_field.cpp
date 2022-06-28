@@ -34,15 +34,15 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-//#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+//#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/components/algebra/curves/pasta/plonk/types.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/batch_verify_base_field.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_base_field.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
 
 #include "test_plonk_component.hpp"
 

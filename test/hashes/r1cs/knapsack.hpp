@@ -23,8 +23,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_KNAPSACK_COMPONENT_TEST_HPP
-#define CRYPTO3_ZK_BLUEPRINT_KNAPSACK_COMPONENT_TEST_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_KNAPSACK_COMPONENT_TEST_HPP
+#define ACTOR_ZK_BLUEPRINT_KNAPSACK_COMPONENT_TEST_HPP
 
 #include <boost/test/unit_test.hpp>
 
@@ -33,7 +33,7 @@
 #include <nil/crypto3/algebra/curves/mnt6.hpp>
 #include <nil/crypto3/algebra/curves/edwards.hpp>
 
-#include <nil/crypto3/zk/components/hashes/knapsack/knapsack_component.hpp>
+#include <nil/actor/zk/components/hashes/knapsack/knapsack_component.hpp>
 
 using namespace nil::crypto3::algebra;
 using namespace nil::crypto3::zk;
@@ -296,4 +296,4 @@ blueprint<typename curves::mnt6<298>::scalar_field_type> test_knapsack_crh_with_
     return test_knapsack_crh_with_bit_out_component_internal<FieldType>(dimension, input_bits, digest_bits);
 }
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_KNAPSACK_COMPONENT_TEST_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_KNAPSACK_COMPONENT_TEST_HPP

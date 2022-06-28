@@ -24,8 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/curves/vesta.hpp>
@@ -37,13 +37,13 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/pickles/proof.hpp>
-#include <nil/crypto3/zk/commitments/polynomial/lpc.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
+#include <nil/actor/zk/commitments/polynomial/lpc.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
 
 using namespace nil::crypto3;
 
@@ -138,4 +138,4 @@ using proof_type_scalar = zk::snark::placeholder_proof<FrType, commitment_scheme
 using proof_generator_result_type_scalar = proof_generator_result_type<FrType, 
         ArithmetizationParamsScalar, proof_type_scalar>;
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_PICKLES_VERIFIER_PROOF_TYPES_HPP

@@ -23,15 +23,15 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_CURVES_TEST_UTILS_HPP
-#define CRYPTO3_ZK_BLUEPRINT_CURVES_TEST_UTILS_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_CURVES_TEST_UTILS_HPP
+#define ACTOR_ZK_BLUEPRINT_CURVES_TEST_UTILS_HPP
 
 #include <vector>
 
 #include <boost/iterator/zip_iterator.hpp>
 #include <boost/tuple/tuple.hpp>
 
-#include <nil/crypto3/zk/components/algebra/curves/element_g1_affine.hpp>
+#include <nil/actor/zk/components/algebra/curves/element_g1_affine.hpp>
 
 using namespace nil::crypto3::zk;
 using namespace nil::crypto3::algebra;
@@ -256,4 +256,4 @@ void check_affine_twisted_edwards_g1_operations(
     check_is_well_formed_component<Curve, ElementComponent>(points);
 }
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_CURVES_TEST_UTILS_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_CURVES_TEST_UTILS_HPP

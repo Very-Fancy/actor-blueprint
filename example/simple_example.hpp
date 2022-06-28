@@ -31,7 +31,7 @@
 #include <nil/crypto3/algebra/random_element.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 

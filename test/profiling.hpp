@@ -28,13 +28,13 @@
 #ifndef CRYPTO3_PROFILING_HPP
 #define CRYPTO3_PROFILING_HPP
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         template<typename ValueType>
         void profiling(std::vector<ValueType> column) {
             for (std::size_t index = 0; index < column.size(); index++) {

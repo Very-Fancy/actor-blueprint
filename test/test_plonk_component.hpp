@@ -30,16 +30,16 @@
 
 #include <fstream>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/prover.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/verifier.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/params.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/algorithms/allocate.hpp>
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/algorithms/allocate.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 #include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
 
 #include "profiling_plonk_circuit.hpp"
@@ -50,7 +50,7 @@
 #include <nil/marshalling/endianness.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         template<typename fri_type, typename FieldType>
         typename fri_type::params_type create_fri_params(std::size_t degree_log) {
             typename fri_type::params_type params;
@@ -59,8 +59,8 @@ namespace nil {
             constexpr std::size_t expand_factor = 0;
             std::size_t r = degree_log - 1;
 
-            std::vector<std::shared_ptr<math::evaluation_domain<FieldType>>> domain_set =
-                math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
+            std::vector<std::shared_ptr<crypto3::math::evaluation_domain<FieldType>>> domain_set =
+                crypto3::math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
 
             params.r = r;
             params.D = domain_set;
@@ -126,11 +126,11 @@ namespace nil {
             typename zk::snark::placeholder_public_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
                 zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, public_assignment, desc, fri_params, permutation_size);
+                    bp, public_assignment, desc, fri_params, permutation_size).get();
             typename zk::snark::placeholder_private_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
                 zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, private_assignment, desc, fri_params);
+                    bp, private_assignment, desc, fri_params).get();
 
             return std::make_tuple(desc, bp, fri_params, assignments, public_preprocessed_data,
                                    private_preprocessed_data);

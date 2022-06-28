@@ -35,7 +35,7 @@ The vector `w` is called a *witness* and zk-SNARK proofs can always be reduced t
 In the =nil; Crypto3 Blueprint tool, the blueprint is where our "circuits" (i.e. PLONK, R1CS and components) will be 
 collected.
 
-The C++ file defining the blueprint is [here](https://github.com/NilFoundation/crypto3-blueprint/blob/master/include/nil/crypto3/zk/snark/blueprint.hpp). We will first show how to add R1CS to the blueprint.
+The C++ file defining the blueprint is [here](https://github.com/NilFoundation/crypto3-blueprint/blob/master/include/nil/actor/zk/snark/blueprint.hpp). We will first show how to add R1CS to the blueprint.
 
 Let's assume, that we want to prove knowing of a value x that satisfies the equation
 
@@ -437,7 +437,7 @@ zk-SNARK verifier argument has to contain of 3 parts packed together:
 * `primary_input_type primary_input`
 * `proof_type proof`
 
-Type requirements for those are described in the [Groth16 zk-SNARK policy](https://github.com/NilFoundation/crypto3-zk/blob/master/include/nil/crypto3/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp)
+Type requirements for those are described in the [Groth16 zk-SNARK policy](https://github.com/NilFoundation/crypto3-zk/blob/master/include/nil/actor/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp)
 
 Byte vector assumes to be byte representation of all the underlying data types, 
 recursively unwrapped to Fp field element and integral `std::size_t` values. 

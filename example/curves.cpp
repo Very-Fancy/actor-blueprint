@@ -20,14 +20,14 @@
 
 #include <nil/crypto3/algebra/random_element.hpp>
 
-#include <nil/crypto3/zk/components/blueprint.hpp>
-#include <nil/crypto3/zk/components/algebra/curves/edwards/element_g1.hpp>
+#include <nil/actor/zk/components/blueprint.hpp>
+#include <nil/actor/zk/components/algebra/curves/edwards/element_g1.hpp>
 
-#include <nil/crypto3/zk/snark/algorithms/generate.hpp>
-#include <nil/crypto3/zk/snark/algorithms/verify.hpp>
-#include <nil/crypto3/zk/snark/algorithms/prove.hpp>
+#include <nil/actor/zk/snark/algorithms/generate.hpp>
+#include <nil/actor/zk/snark/algorithms/verify.hpp>
+#include <nil/actor/zk/snark/algorithms/prove.hpp>
 
-#include <nil/crypto3/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
+#include <nil/actor/zk/snark/schemes/ppzksnark/r1cs_gg_ppzksnark.hpp>
 
 using namespace nil::crypto3::zk;
 using namespace nil::crypto3::algebra;

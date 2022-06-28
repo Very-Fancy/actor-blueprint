@@ -23,13 +23,13 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
-#define CRYPTO3_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
+#define ACTOR_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
 
-#include <nil/crypto3/zk/components/hashes/sha256/sha256_component.hpp>
-#include <nil/crypto3/zk/components/hashes/hash_io.hpp>
+#include <nil/actor/zk/components/hashes/sha256/sha256_component.hpp>
+#include <nil/actor/zk/components/hashes/hash_io.hpp>
 
-#include <nil/crypto3/zk/components/blueprint.hpp>
+#include <nil/actor/zk/components/blueprint.hpp>
 
 #include <nil/crypto3/hash/sha2.hpp>
 
@@ -91,4 +91,4 @@ blueprint<FieldType> sha2_two_to_one_bp() {
     return bp;
 }
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_SHA256_COMPONENT_TEST_HPP

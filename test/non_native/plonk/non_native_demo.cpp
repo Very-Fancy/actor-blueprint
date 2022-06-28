@@ -42,18 +42,18 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/commitments/polynomial/lpc.hpp>
+#include <nil/actor/zk/commitments/polynomial/lpc.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/pickles/proof.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/proof.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/prover.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/verifier.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/pickles/proof.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/proof.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/algorithms/allocate.hpp>
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/algorithms/allocate.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
 #include <boost/test/unit_test.hpp>
 
@@ -63,8 +63,8 @@
 #include <nil/crypto3/algebra/curves/ed25519.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/ed25519.hpp>
 
-#include <nil/crypto3/zk/components/non_native/algebra/fields/plonk/fixed_base_multiplication_edwards25519.hpp>
-#include <nil/crypto3/zk/components/hashes/sha256/plonk/sha256.hpp>
+#include <nil/actor/zk/components/non_native/algebra/fields/plonk/fixed_base_multiplication_edwards25519.hpp>
+#include <nil/actor/zk/components/hashes/sha256/plonk/sha256.hpp>
 
 using namespace nil::crypto3;
 

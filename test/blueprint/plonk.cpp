@@ -32,8 +32,8 @@
 #include <nil/crypto3/algebra/curves/params/multiexp/bls12.hpp>
 #include <nil/crypto3/algebra/curves/params/wnaf/bls12.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
 
 using namespace nil::crypto3;
 
