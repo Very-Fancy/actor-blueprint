@@ -132,7 +132,7 @@ namespace nil {
                         assignment.var_value(params.T.y[1]), assignment.var_value(params.T.y[2]), assignment.var_value(params.T.y[3])};
 
                         typename Ed25519Type::template 
-                        g1_type<algebra::curves::coordinates::affine>::value_type T((typename Ed25519Type::base_field_type::integral_type(T_x_array[0].data)
+                        g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T((typename Ed25519Type::base_field_type::integral_type(T_x_array[0].data)
                          + typename Ed25519Type::base_field_type::integral_type(T_x_array[1].data) * (base << 66) +
                         typename Ed25519Type::base_field_type::integral_type(T_x_array[2].data) * (base << 132) +
                          typename Ed25519Type::base_field_type::integral_type(T_x_array[3].data) * (base << 198)),
@@ -143,7 +143,7 @@ namespace nil {
 
 
                         typename Ed25519Type::template 
-                        g1_type<algebra::curves::coordinates::affine>::value_type P = T + T;
+                        g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = T + T;
 
                         typename Ed25519Type::base_field_type::integral_type mask = (base << 66) - 1;
 

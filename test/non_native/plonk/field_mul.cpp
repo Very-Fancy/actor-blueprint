@@ -24,11 +24,11 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
+//#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
 
-#include <boost/test/unit_test.hpp>
-//#include <nil/actor/testing/test_case.hh>
-//#include <nil/actor/testing/thread_test_case.hh>
+//#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -52,7 +52,7 @@ using namespace nil::actor;
 
 //BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_multiplication) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_multiplication) {
     auto start = std::chrono::high_resolution_clock::now();
 
     using curve_type = nil::crypto3::algebra::curves::pallas;

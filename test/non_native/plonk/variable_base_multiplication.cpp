@@ -22,10 +22,12 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
+//#define BOOST_TEST_MODULE blueprint_plonk_non_native_field_test
 
 #include <chrono>
-#include <boost/test/unit_test.hpp>
+//#include <boost/test/unit_test.hpp>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -46,15 +48,15 @@
 
 #include "../../test_plonk_component.hpp"
 
-using namespace nil::crypto3;
+using namespace nil::actor;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+//BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_non_native_variable_base_multiplication) {
+ACTOR_THREAD_TEST_CASE(blueprint_non_native_variable_base_multiplication) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
-    using ed25519_type = algebra::curves::ed25519;
+    using curve_type = nil::crypto3::algebra::curves::pallas;
+    using ed25519_type = nil::crypto3::algebra::curves::ed25519;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 9;
     constexpr std::size_t PublicInputColumns = 1;
@@ -81,11 +83,11 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_variable_base_multiplication) {
 
     typename component_type::params_type params = {{input_var_Xa, input_var_Xb}, b_var};
 
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type T = algebra::random_element<ed25519_type::template g1_type<algebra::curves::coordinates::affine>>();
-    ed25519_type::scalar_field_type::value_type b = algebra::random_element<ed25519_type::scalar_field_type>();
+    ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type T = nil::crypto3::algebra::random_element<ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>>();
+    ed25519_type::scalar_field_type::value_type b = nil::crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
     //ed25519_type::scalar_field_type::value_type b = 1;
     ed25519_type::base_field_type::integral_type integral_b = ed25519_type::base_field_type::integral_type(b.data);
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type P = b*T;
+    ed25519_type::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type P = b*T;
     ed25519_type::base_field_type::integral_type Tx = ed25519_type::base_field_type::integral_type(T.X.data);
     ed25519_type::base_field_type::integral_type Ty = ed25519_type::base_field_type::integral_type(T.Y.data);
     ed25519_type::base_field_type::integral_type Px = ed25519_type::base_field_type::integral_type(P.X.data);
@@ -97,12 +99,12 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_variable_base_multiplication) {
     Ty & mask, (Ty >> 66) & mask, (Ty >> 132) & mask, (Ty >> 198) & mask,
     integral_b};
 
-    auto result_check = [Px, Py](AssignmentType &assignment, 
+    auto result_check = [Px, Py](AssignmentType &assignment,
         component_type::result_type &real_res) {
             typename ed25519_type::base_field_type::integral_type base = 1;
             typename ed25519_type::base_field_type::integral_type mask = (base << 66) - 1;
             for (std::size_t i = 0; i < 4; i++) {
-                assert(typename BlueprintFieldType::value_type((Px >>66*i) & mask) == assignment.var_value(real_res.output.x[i])); 
+                assert(typename BlueprintFieldType::value_type((Px >>66*i) & mask) == assignment.var_value(real_res.output.x[i]));
                 assert(typename BlueprintFieldType::value_type((Py >>66*i) & mask) == assignment.var_value(real_res.output.y[i]));
             }
     };
@@ -113,4 +115,4 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_variable_base_multiplication) {
     std::cout << "Time_execution: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+//BOOST_AUTO_TEST_SUITE_END()
