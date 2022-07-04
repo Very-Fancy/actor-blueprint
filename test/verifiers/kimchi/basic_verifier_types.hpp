@@ -45,8 +45,6 @@
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
 
-using namespace nil::crypto3;
-
 using curve_type = algebra::curves::vesta;
 using FpType = typename curve_type::base_field_type;
 using FrType = typename curve_type::scalar_field_type;

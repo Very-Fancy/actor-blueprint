@@ -37,7 +37,6 @@
 
 #include <nil/crypto3/algebra/curves/edwards.hpp>
 
-using namespace nil::crypto3;
 using namespace nil::crypto3::zk;
 using namespace nil::crypto3::algebra;
 

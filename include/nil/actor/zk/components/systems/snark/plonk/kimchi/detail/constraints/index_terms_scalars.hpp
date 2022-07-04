@@ -99,13 +99,17 @@ namespace nil {
 
                     constexpr static const std::size_t mds_size = 3;
 
+                    /*static var w1_scalar_assignment(blueprint_assignment_table<ArithmetizationType> &assignment,
+                                                            const params_type &params,
+                                                            std::size_t row) {
+                            
+                    }*/
+
                 public:
                     constexpr static const std::size_t rows_amount = 1;
                     constexpr static const std::size_t gates_amount = 0;
 
                     struct params_type {
-                        constraint_description combined_constraint;
-
                         var vanishing_polynomial_eval;
                         var zeta; 
                         std::array<kimchi_proof_evaluations<BlueprintFieldType, KimchiParamsType>,
@@ -115,12 +119,11 @@ namespace nil {
                         var beta;
                         var gamma;
                         var joint_combiner;
-                        typename BlueprintFieldType::value_type endo_coeff;
                         std::array<std::array<typename BlueprintFieldType::value_type, mds_size>, mds_size> mds;
                     };
 
                     struct result_type {
-                        var output;
+                        std::array<var, KimchiParamsType::index_term_size> output;
 
                         result_type(std::size_t start_row_index) {
                             std::size_t row = start_row_index;
@@ -165,6 +168,8 @@ namespace nil {
                                                   blueprint_public_assignment_table<ArithmetizationType> &assignment,
                                                   const params_type &params,
                                                   const std::size_t start_row_index) {
+
+                        // typename BlueprintFieldType::value_type endo_coeff;
                     }
                 };
             }    // namespace components

@@ -41,13 +41,11 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 
-using namespace nil::crypto3;
-
-nil::crypto3::zk::snark::pickles_proof<algebra::curves::vesta> test_proof() {
+nil::actor::zk::snark::pickles_proof<algebra::curves::vesta> test_proof() {
 
     using curve_type = algebra::curves::vesta;
     using affine_point_type = algebra::curves::vesta::g1_type<algebra::curves::coordinates::affine>;
-    nil::crypto3::zk::snark::pickles_proof<curve_type> proof;
+    nil::actor::zk::snark::pickles_proof<curve_type> proof;
 
     std::vector<std::vector<typename affine_point_type::value_type>> w_comm_unshifted = {
     {{0x29C11510848CF79EA9D58C2E7B2F9EABDE5470AB0C7D8051DB68B6A597844291_cppui256,
