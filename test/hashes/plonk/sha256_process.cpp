@@ -2,6 +2,7 @@
 // Copyright (c) 2021-2022 Mikhail Komarov <nemo@nil.foundation>
 // Copyright (c) 2021-2022 Nikita Kaskov <nbering@nil.foundation>
 // Copyright (c) 2022 Alisa Cherniaeva <a.cherniaeva@nil.foundation>
+// Copyright (c) 2022 Aleksei Moskvin <alalmoskvin@nil.foundation>
 //
 // MIT License
 //
@@ -24,9 +25,11 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE plonk_sha256_test
+//#define BOOST_TEST_MODULE plonk_sha256_test
 
-#include <boost/test/unit_test.hpp>
+#include <chrono>
+#include <nil/actor/testing/test_case.hh>
+#include <nil/actor/testing/thread_test_case.hh>
 
 #include <nil/crypto3/algebra/curves/pallas.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/pallas.hpp>
@@ -44,13 +47,14 @@
 
 #include "../../test_plonk_component.hpp"
 
-using namespace nil::crypto3;
+using namespace nil::actor;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
+//BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_process) {
+ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_process) {
+    auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = nil::crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 9;
     constexpr std::size_t PublicInputColumns = 1;
@@ -194,6 +198,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_sha256_process) {
     };
     typename component_type::params_type params = {input_state_var, input_words_var};
     test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda> (params, public_input, result_check);
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::high_resolution_clock::now() - start);
+    std::cout << "Time_execution: " << duration.count() << "ms" << std::endl;
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+//BOOST_AUTO_TEST_SUITE_END()

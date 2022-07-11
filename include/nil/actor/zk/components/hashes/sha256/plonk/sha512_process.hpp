@@ -166,7 +166,7 @@ namespace nil {
                                 typename CurveType::base_field_type::integral_type(input_state[i].data);
                             for (std::size_t i = 0; i < 64; i++) {
                                 input_state_sparse[64 - i - 1] =
-                                    multiprecision::bit_test(integral_input_state_sparse, i);
+                                        crypto3::multiprecision::bit_test(integral_input_state_sparse, i);
                             }
                             std::vector<std::size_t> input_state_sparse_sizes = {64};
                             std::array<std::vector<typename CurveType::base_field_type::integral_type>, 2> input_state_sparse_chunks =
@@ -181,7 +181,7 @@ namespace nil {
                                 typename CurveType::base_field_type::integral_type(input_state[i].data);
                             for (std::size_t i = 0; i < 64; i++) {
                                 input_state_sparse[64 - i - 1] =
-                                    multiprecision::bit_test(integral_input_state_sparse, i);
+                                        crypto3::multiprecision::bit_test(integral_input_state_sparse, i);
                             }
                             std::vector<std::size_t> input_state_sparse_sizes = {64};
                             std::array<std::vector<typename CurveType::base_field_type::integral_type>, 2> input_state_sparse_chunks =
@@ -201,7 +201,7 @@ namespace nil {
                                     message_scheduling_words[(i - row) / 6 + 1].data);
                             assignment.witness(W0)[i] = message_scheduling_words[(i - row) / 6 + 1];
                             for (std::size_t j = 0; j < 64; j++) {
-                                a[64 - j - 1] = multiprecision::bit_test(integral_a, j);
+                                a[64 - j - 1] = crypto3::multiprecision::bit_test(integral_a, j);
                             }
                             std::vector<std::size_t> a_sizes = {1, 6, 1, 14, 14, 14, 14};
                             std::array<std::vector<typename CurveType::base_field_type::integral_type>, 2> a_chunks = split_and_sparse(a, a_sizes, base4);
@@ -248,7 +248,7 @@ namespace nil {
                                 typename CurveType::base_field_type::integral_type(
                                     message_scheduling_words[(i - row) / 6 + 14].data);
                             for (std::size_t j = 0; j < 64; j++) {
-                                b[64 - j - 1] = multiprecision::bit_test(integral_b, j);
+                                b[64 - j - 1] = crypto3::multiprecision::bit_test(integral_b, j);
                             }
                             std::vector<std::size_t> b_sizes = {6, 13, 14, 14, 14, 3};
                             std::array<std::vector<typename CurveType::base_field_type::integral_type>, 2> b_chunks = split_and_sparse(b, b_sizes, base4);
@@ -308,7 +308,7 @@ namespace nil {
                             typename CurveType::base_field_type::integral_type integral_e =
                                 typename CurveType::base_field_type::integral_type(e.data);
                             for (std::size_t j = 0; j < 64; j++) {
-                                e_bits[64 - j - 1] = multiprecision::bit_test(integral_e, j);
+                                e_bits[64 - j - 1] = crypto3::multiprecision::bit_test(integral_e, j);
                             }
                             std::vector<std::size_t> e_sizes = {14, 4, 14, 9, 14, 9};
                             std::array<std::vector<typename CurveType::base_field_type::integral_type>, 2> e_chunks = split_and_sparse(e_bits, e_sizes, base7);
@@ -401,7 +401,7 @@ namespace nil {
                             typename CurveType::base_field_type::integral_type integral_a =
                                 typename CurveType::base_field_type::integral_type(a.data);
                             for (std::size_t j = 0; j < 64; j++) {
-                                a_bits[64 - j - 1] = multiprecision::bit_test(integral_a, j);
+                                a_bits[64 - j - 1] = crypto3::multiprecision::bit_test(integral_a, j);
                             }
                             std::vector<std::size_t> a_sizes = {14, 14, 6, 5, 14, 11};
                             std::array<std::vector<typename CurveType::base_field_type::integral_type>, 2> a_chunks =

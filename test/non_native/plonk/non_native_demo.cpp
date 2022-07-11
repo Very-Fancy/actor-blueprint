@@ -230,8 +230,6 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     }
 
     assignment_bp.padding();
-    std::cout << "Usable rows: " << desc.usable_rows_amount << std::endl;
-    std::cout << "Padded rows: " << desc.rows_amount << std::endl;
 
     nil::actor::zk::snark::plonk_assignment_table<BlueprintFieldType, ArithmetizationParams> assignments(
             private_assignment,

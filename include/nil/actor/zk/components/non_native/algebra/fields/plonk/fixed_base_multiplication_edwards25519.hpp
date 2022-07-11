@@ -119,12 +119,12 @@ namespace nil {
                         }
 
                         typename Ed25519Type::template 
-                        g1_type<algebra::curves::coordinates::affine>::value_type B = Ed25519Type::template g1_type<algebra::curves::coordinates::affine>::value_type::one();
+                        g1_type<crypto3::algebra::curves::coordinates::affine>::value_type B = Ed25519Type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::one();
 
                         typename Ed25519Type::scalar_field_type::integral_type mask = (base << 66) - 1;
 
                         typename Ed25519Type::template 
-                        g1_type<algebra::curves::coordinates::affine>::value_type P = typename Ed25519Type::scalar_field_type::value_type(k_chunks[0]) * B;
+                        g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = typename Ed25519Type::scalar_field_type::value_type(k_chunks[0]) * B;
 
                         typename Ed25519Type::base_field_type::integral_type Px_integral = typename Ed25519Type::base_field_type::integral_type(P.X.data);
                         std::array<typename Ed25519Type::base_field_type::integral_type, 4> x3 = {Px_integral & mask, (Px_integral >>66) & mask, (Px_integral >>132) & mask, (Px_integral >>198) & mask};
@@ -149,7 +149,7 @@ namespace nil {
 
                         for (std::size_t i = 0; i < 11; i ++) {
                             typename Ed25519Type::template 
-                            g1_type<algebra::curves::coordinates::affine>::value_type Q = typename Ed25519Type::scalar_field_type::value_type(k_chunks[i + 1]) * (base << 22 * (i + 1)) * B;
+                            g1_type<crypto3::algebra::curves::coordinates::affine>::value_type Q = typename Ed25519Type::scalar_field_type::value_type(k_chunks[i + 1]) * (base << 22 * (i + 1)) * B;
 
                             typename Ed25519Type::base_field_type::integral_type Qx_integral = typename Ed25519Type::base_field_type::integral_type(Q.X.data);
                             std::array<typename Ed25519Type::base_field_type::integral_type, 4> x3 = {Qx_integral & mask, (Qx_integral >>66) & mask, (Qx_integral >>132) & mask, (Qx_integral >>198) & mask};
@@ -188,7 +188,7 @@ namespace nil {
                             } else {
 
                                 typename Ed25519Type::template 
-                                g1_type<algebra::curves::coordinates::affine>::value_type Q = typename Ed25519Type::scalar_field_type::value_type((k_chunks[i + 1]) * (base << 11)) * P;
+                                g1_type<crypto3::algebra::curves::coordinates::affine>::value_type Q = typename Ed25519Type::scalar_field_type::value_type((k_chunks[i + 1]) * (base << 11)) * P;
 
                                 typename Ed25519Type::base_field_type::integral_type Qx_integral = typename Ed25519Type::base_field_type::integral_type(Q.X.data);
                                 std::array<typename Ed25519Type::base_field_type::integral_type, 4> x3 = {Qx_integral & mask, (Qx_integral >>66) & mask, (Qx_integral >>132) & mask, (Qx_integral >>198) & mask};
