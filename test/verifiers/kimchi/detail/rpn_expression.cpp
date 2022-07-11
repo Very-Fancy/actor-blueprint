@@ -25,7 +25,7 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#define BOOST_TEST_MODULE blueprint_plonk_kimchi_detail_index_terms_scalar_test
+#define BOOST_TEST_MODULE blueprint_plonk_kimchi_detail_rpn_expression_test
 
 #include <boost/test/unit_test.hpp>
 
@@ -41,19 +41,19 @@
 
 #include <nil/crypto3/zk/blueprint/plonk.hpp>
 #include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/constraints/index_terms_scalars.hpp>
+#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/constraints/rpn_expression.hpp>
 #include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
 #include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
 #include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
 
 #include "test_plonk_component.hpp"
 
 using namespace nil::crypto3;
 
-BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_detail_index_terms_scalar_test_suite)
+BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_detail_rpn_expression_test_suite)
 
-BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_test_suite) {
+BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_rpn_expression_test_suite) {
 
     using curve_type = algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_test_suite
     constexpr static bool use_lookup = false;
 
     constexpr static std::size_t srs_len = 10;
-    constexpr static const std::size_t index_terms = 1;
+    constexpr static const std::size_t index_terms = 0;
     constexpr static const std::size_t prev_chal_size = 1;
 
     using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
@@ -89,8 +89,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_test_suite
         zk::components::kimchi_params_type<curve_type, commitment_params, witness_columns, perm_size, use_lookup, lookup_table_size,
                                            alpha_powers_n, public_input_size, index_terms, prev_chal_size>;
 
+    constexpr std::string_view expression_str = "Alpha;Beta;Cell(Variable { col: Witness(3), row: Curr });Add;";
+
+    //constexpr std::size_t rows_amount = tmp_component_type::rows_by_expr(expression_str);
     using component_type =
-        zk::components::index_terms_scalars<ArithmetizationType, kimchi_params, 0, 1, 2,
+        zk::components::rpn_expression<ArithmetizationType, kimchi_params, 100, 0, 1, 2,
                                              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
 
     typename BlueprintFieldType::value_type alpha_val =
@@ -118,17 +121,19 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_test_suite
     public_input.push_back(joint_combiner_val);
     var joint_combiner = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
+    auto expression = component_type::rpn_from_string(expression_str);
+
     using evaluations_type = typename zk::components::kimchi_proof_evaluations<
                         BlueprintFieldType, kimchi_params>;
     std::array<evaluations_type, 2> evals; 
     evals[0].w[3] = gamma;
 
-    typename component_type::params_type params = { 
+    typename component_type::params_type params = {expression, 
         alpha, beta, gamma, joint_combiner,
         evals};
 
     auto result_check = [&gamma_val, &beta_val](AssignmentType &assignment, component_type::result_type &real_res) {
-        //assert((gamma_val + beta_val) == assignment.var_value(real_res.output));
+        assert((gamma_val + beta_val) == assignment.var_value(real_res.output));
     };
 
     test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,

@@ -25,8 +25,8 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_PROFILING_HPP
-#define CRYPTO3_PROFILING_HPP
+#ifndef ACTOR_PROFILING_HPP
+#define ACTOR_PROFILING_HPP
 
 #include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
@@ -73,4 +73,4 @@ namespace nil {
     }    // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_PROFILING_HPP
+#endif    // ACTOR_PROFILING_HPP

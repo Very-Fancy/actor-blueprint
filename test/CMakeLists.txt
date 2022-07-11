@@ -188,6 +188,7 @@ set(PLONK_TESTS_FILES
     "verifiers/kimchi/detail/ft_eval"
     "verifiers/kimchi/detail/combine_proof_evals"
     "verifiers/kimchi/detail/index_terms_scalars"
+    "verifiers/kimchi/detail/rpn_expression"
     "sponge/sponge"
     "sponge/oracles"
     "sponge/transcript_fr"
@@ -273,3 +274,4 @@ SET(ALL_TESTS_FILES
 actor_add_test("non_native/plonk/variable_base_multiplication")
 actor_add_test("non_native/plonk/field_mul")
 actor_add_test("verifiers/kimchi/demo_verifier")
+actor_add_test("non_native/plonk/non_native_demo")

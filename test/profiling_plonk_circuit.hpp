@@ -25,8 +25,8 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_PROFILING_COMPONENT_HPP
-#define CRYPTO3_PROFILING_COMPONENT_HPP
+#ifndef ACTOR_PROFILING_COMPONENT_HPP
+#define ACTOR_PROFILING_COMPONENT_HPP
 
 #include <fstream>
 #include <sstream>
@@ -217,4 +217,4 @@ namespace nil {
     }    // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_PROFILING_COMPONENT_HPP
+#endif    // ACTOR_PROFILING_COMPONENT_HPP

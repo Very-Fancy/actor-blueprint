@@ -23,8 +23,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_SIMPLE_EXAMPLE_HPP
-#define CRYPTO3_SIMPLE_EXAMPLE_HPP
+#ifndef ACTOR_SIMPLE_EXAMPLE_HPP
+#define ACTOR_SIMPLE_EXAMPLE_HPP
 
 #include "relations/constraint_satisfaction_problems/r1cs/examples/r1cs_examples.hpp"
 
@@ -77,4 +77,4 @@ namespace nil {
     }            // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_SIMPLE_EXAMPLE_HPP
+#endif    // ACTOR_SIMPLE_EXAMPLE_HPP

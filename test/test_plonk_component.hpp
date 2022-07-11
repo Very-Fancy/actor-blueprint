@@ -25,8 +25,8 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_TEST_PLONK_COMPONENT_HPP
-#define CRYPTO3_TEST_PLONK_COMPONENT_HPP
+#ifndef ACTOR_TEST_PLONK_COMPONENT_HPP
+#define ACTOR_TEST_PLONK_COMPONENT_HPP
 
 #include <fstream>
 #include <random>
@@ -124,7 +124,9 @@ namespace nil {
             zk::components::generate_circuit<component_type>(bp, public_assignment, params, start_row);
             typename component_type::result_type component_result =
                 component_type::generate_assignments(assignment_bp, params, start_row);
-            std::bind(result_check, assignment_bp, component_result);
+            
+            auto rc = std::bind(result_check, assignment_bp, component_result);
+            rc(assignment_bp, component_result);
 
             assignment_bp.padding();
             std::cout << "Usable rows: " << desc.usable_rows_amount << std::endl;
@@ -211,4 +213,4 @@ namespace nil {
     }    // namespace crypto3
 }    // namespace nil
 
-#endif    // CRYPTO3_TEST_PLONK_COMPONENT_HPP
+#endif    // ACTOR_TEST_PLONK_COMPONENT_HPP

@@ -23,8 +23,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
-#define CRYPTO3_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
+#ifndef ACTOR_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
+#define ACTOR_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
 
 #include <nil/actor/zk/component.hpp>
 
@@ -78,4 +78,4 @@ public:
     }
 };
 
-#endif    // CRYPTO3_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP
+#endif    // ACTOR_BLUEPRINT_EXAMPLE_TEST_COMPONENT_HPP

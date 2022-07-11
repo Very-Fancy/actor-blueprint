@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CRYPTO3_DETAIL_STATIC_POW_HPP
-#define CRYPTO3_DETAIL_STATIC_POW_HPP
+#ifndef ACTOR_DETAIL_STATIC_POW_HPP
+#define ACTOR_DETAIL_STATIC_POW_HPP
 
 namespace nil {
     namespace actor {
@@ -48,4 +48,4 @@ namespace nil {
     }        // namespace crypto3
 }    // namespace nil
 
-#endif    // #ifndef CRYPTO3_DETAIL_STATIC_POW_HPP
+#endif    // #ifndef ACTOR_DETAIL_STATIC_POW_HPP

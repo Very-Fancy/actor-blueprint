@@ -92,8 +92,8 @@ namespace nil {
                         _table_description.rows_amount = std::pow(2,
                             std::ceil(std::log2(_table_description.rows_amount)));
 
-                        if (_table_description.rows_amount < 4)
-                            _table_description.rows_amount = 4;
+                        if (_table_description.rows_amount < 8)
+                            _table_description.rows_amount = 8;
                     }
                     
                     for (std::size_t w_index = 0; w_index <
@@ -129,6 +129,8 @@ namespace nil {
                 std::map<std::size_t, std::size_t> selector_map;
 
                 std::size_t next_selector_index = 0;
+
+                std::size_t allocated_public_input_rows = 0;
 
             public:
 
@@ -308,7 +310,7 @@ namespace nil {
                 }
 
                 var allocate_public_input(typename BlueprintFieldType::value_type data) {
-                    static std::size_t allocated_public_input_rows = 0;
+
 
                     public_input(0)[allocated_public_input_rows] = data;
                     allocated_public_input_rows++;
