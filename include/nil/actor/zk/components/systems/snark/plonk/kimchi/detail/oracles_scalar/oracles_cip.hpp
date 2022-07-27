@@ -48,14 +48,13 @@ namespace nil {
                 // https://github.com/o1-labs/proof-systems/blob/1f8532ec1b8d43748a372632bd854be36b371afe/kimchi/src/verifier.rs#L386-L441
                 // Input:  
                 // Output: 
-                template<typename ArithmetizationType, typename KimchiCommitmentParamsType,
+                template<typename ArithmetizationType,
                     typename KimchiParamsType,
                     std::size_t... WireIndexes>
                 class oracles_cip;
 
                 template<typename BlueprintFieldType, 
                          typename ArithmetizationParams,
-                         typename KimchiCommitmentParamsType,
                          typename KimchiParamsType,
                          std::size_t W0,
                          std::size_t W1,
@@ -74,7 +73,6 @@ namespace nil {
                          std::size_t W14>
                 class oracles_cip<
                     snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
-                    KimchiCommitmentParamsType,
                     KimchiParamsType,
                     W0,
                     W1,
@@ -97,25 +95,36 @@ namespace nil {
 
                     using var = snark::plonk_variable<BlueprintFieldType>;
 
-                    constexpr static const std::size_t cip_size = 1;
+                    constexpr static const std::size_t cip_size = KimchiParamsType::prev_challenges_size // polys
+                            + 1 // p_eval
+                            + 1 // ft_eval
+                            + 1 // z
+                            + 1 // generic_selector
+                            + 1 // poseidon_selector
+                            + KimchiParamsType::witness_columns
+                            + KimchiParamsType::permut_size - 1;
+                            
                     constexpr static const std::size_t eval_points_amount = 2;
 
-                    using component_type = zk::components::combined_inner_product<ArithmetizationType, cip_size, 
+                    using cip_component = zk::components::combined_inner_product<ArithmetizationType, cip_size, 
                                                         W0, W1, W2, W3,
                                                         W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>; 
 
                     constexpr static const std::size_t selector_seed = 0xf2e;
 
                 public:
-                    constexpr static const std::size_t rows_amount = 1;
+                    constexpr static const std::size_t rows_amount = cip_component::rows_amount;
                     constexpr static const std::size_t gates_amount = 0;
 
                     struct params_type {
+                        var v;
+                        var u;
+
                         var ft_eval0;
                         var ft_eval1;
                         std::array<
                             std::array<
-                            std::array<var, KimchiCommitmentParamsType::size_for_max_poly>, 
+                            std::array<var, KimchiParamsType::commitment_params_type::split_poly_eval_size>, 
                             eval_points_amount>,
                             KimchiParamsType::prev_challenges_size> polys;
                         std::array<var, eval_points_amount> p_eval;
@@ -136,12 +145,84 @@ namespace nil {
                         }
                     };
 
+                    private:
+                    static std::array<std::array<var, cip_size>,
+                            eval_points_amount> prepare_cip_input(const params_type &params) {
+                        std::array<
+                            std::array<var, cip_size>,
+                            eval_points_amount> es;
+                        
+                        // in the original code, cip transpose the evaluations of the same polynomial according to the evaluation point
+                        // we do it right here to use cip_component for general use-case
+                        // from [[f_full(zeta), f_diff(zeta)], [f_full(zeta_omega), f_diff(zeta_omega)]]
+                        // to [[f_full(zeta), f_full(zeta_omega)], [f_diff(zeta), f_diff(zeta_omega)]]
+                        std::size_t es_idx = 0;
+                        for (std::size_t i = 0; i < KimchiParamsType::prev_challenges_size; ++i) {
+                            for (std::size_t j = 0; j < KimchiParamsType::commitment_params_type::split_poly_eval_size; ++j) {
+                                for (std::size_t k = 0; k < eval_points_amount; ++k) {
+                                    es[k][i] = params.polys[i][k][j];
+                                }
+                            }
+                        }
+                        es_idx += KimchiParamsType::prev_challenges_size;
+
+                        for (std::size_t i = 0; i < eval_points_amount; ++i) {
+                            es[i][es_idx] = params.p_eval[i];
+                            es_idx++;
+                        }
+
+                        es[0][es_idx] = params.ft_eval0;
+                        es[1][es_idx] = params.ft_eval1;
+                        es_idx++;
+
+                        for (std::size_t i = 0; i < eval_points_amount; ++i) {
+                            es[i][es_idx] = params.evals[i].z;
+                            es_idx++;
+                        }
+
+                        for (std::size_t i = 0; i < eval_points_amount; ++i) {
+                            es[i][es_idx] = params.evals[i].generic_selector;
+                            es_idx++;
+                        }
+
+                        for (std::size_t i = 0; i < eval_points_amount; ++i) {
+                            es[i][es_idx] = params.evals[i].poseidon_selector;
+                            es_idx++;
+                        }
+
+                        for (std::size_t i = 0; i < eval_points_amount; ++i) {
+                            for (std::size_t j = 0; j < KimchiParamsType::witness_columns; ++j) {
+                                es[i][es_idx] = params.evals[i].w[j];
+                                es_idx++;
+                            }
+                        }
+
+                        for (std::size_t i = 0; i < eval_points_amount; ++i) {
+                            for (std::size_t j = 0; j < KimchiParamsType::permut_size - 1; ++j) {
+                                es[i][es_idx] = params.evals[i].s[j];
+                                es_idx++;
+                            }
+                        }
+
+                        return es;
+                    }
+
+                    public:
+
                     static result_type generate_circuit(blueprint<ArithmetizationType> &bp,
                                          blueprint_public_assignment_table<ArithmetizationType> &assignment,
                                          const params_type &params,
                                          const std::size_t start_row_index) {
 
                         std::size_t row = start_row_index;
+
+                        auto es = prepare_cip_input(params);
+
+                        var res = cip_component::generate_circuit(bp, assignment,
+                            {es[0], es[1], params.v, params.u}, row).output;
+                        row += cip_component::rows_amount;
+
+                        assert(row == start_row_index + rows_amount);
 
                         generate_copy_constraints(bp, assignment, params, start_row_index);
                         return result_type(params, start_row_index);
@@ -153,16 +234,18 @@ namespace nil {
 
                         std::size_t row = start_row_index;
 
+                        auto es = prepare_cip_input(params);
+
+                        var res = cip_component::generate_assignments(assignment,
+                            {es[0], es[1], params.v, params.u}, row).output;
+                        row += cip_component::rows_amount;
+
+                        assert(row == start_row_index + rows_amount);
+
                         return result_type(params, start_row_index);
                     }
 
                 private:
-                    static void generate_gates(blueprint<ArithmetizationType> &bp,
-                                               blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                               const params_type &params,
-                                               const std::size_t first_selector_index) {
-
-                    }
 
                     static void generate_copy_constraints(blueprint<ArithmetizationType> &bp,
                                                   blueprint_public_assignment_table<ArithmetizationType> &assignment,

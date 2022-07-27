@@ -36,51 +36,17 @@
 
 #include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>
 
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/evaluation_proof.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/commitment.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
 namespace nil {
     namespace actor {
         namespace zk {
             namespace components {
-
-                template<typename FieldType, typename KimchiParamsType>
-                struct kimchi_lookup_evaluations {
-                    /// sorted lookup table polynomial
-                    // pub sorted: Vec<Field>,
-                    // /// lookup aggregation polynomial
-                    // pub aggreg: Field,
-                    // // TODO: May be possible to optimize this away?
-                    // /// lookup table polynomial
-                    // pub table: Field,
-
-                    // /// Optionally, a runtime table polynomial.
-                    // pub runtime: Option<Field>,
-                    kimchi_lookup_evaluations() {
-                    }
-                };
-
-                template<typename FieldType, typename KimchiParamsType>
-                struct kimchi_proof_evaluations {
-                    using var = snark::plonk_variable<FieldType>;
-                    // witness polynomials
-                    std::array<var, KimchiParamsType::witness_columns> w;
-                    // permutation polynomial
-                    var z;
-                    // permutation polynomials
-                    // (PERMUTS-1 evaluations because the last permutation is only used in commitment form)
-                    std::array<var, KimchiParamsType::permut_size - 1> s;
-                    // /// lookup-related evaluations
-                    kimchi_lookup_evaluations<FieldType, KimchiParamsType> lookup;
-                    // /// evaluation of the generic selector polynomial
-                    var generic_selector;
-                    // /// evaluation of the poseidon selector polynomial
-                    var poseidon_selector;
-
-                    kimchi_proof_evaluations() {
-                    }
-                };
 
                 template<typename BlueprintFieldType>
                 struct kimchi_opening_proof_scalar {
@@ -123,6 +89,12 @@ namespace nil {
 
                     kimchi_opening_proof_scalar<BlueprintFieldType> 
                         opening;
+
+                    using transcript_type = kimchi_transcript<ArithmetizationType, typename KimchiParamsType::curve_type,
+                                        KimchiParamsType,
+                                        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                        11, 12, 13, 14>;
+                    transcript_type transcript;
                 };
 
                 template<typename BlueprintFieldType,
@@ -167,7 +139,7 @@ namespace nil {
 
                     constexpr static const std::size_t f_comm_base_size = 1 // permuation-argument
                         + 5 // generic gate
-                        + KimchiParamsType::index_term_size;
+                        + KimchiParamsType::index_term_size();
 
                     commitments comm;
                     opening_proof_type o;
@@ -191,6 +163,8 @@ namespace nil {
                         zk::components::kimchi_opening_proof_base<BlueprintFieldType, 
                         KimchiCommitmentParamsType::eval_rounds>;
 
+                    using kimchi_constants = zk::components::kimchi_inner_constants<KimchiParamsType>;
+
                     // using transcript_type = typename 
                     //     zk::components::kimchi_transcript_fq<ArithmetizationType, typename KimchiParamsType::curve_type,
                     //                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -198,7 +172,7 @@ namespace nil {
 
                     //typename proof_binding::fq_sponge_output fq_output;
                     std::array<shifted_commitment_type, 
-                        KimchiParamsType::evaluations_in_batch_size> comm;
+                        kimchi_constants::evaluations_in_batch_size> comm;
                     opening_proof_type opening_proof;
 
                     // transcript_type transcript;

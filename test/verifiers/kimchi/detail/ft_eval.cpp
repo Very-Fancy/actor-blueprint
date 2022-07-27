@@ -40,7 +40,8 @@
 
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/ft_eval.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
 
@@ -69,14 +70,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_ft_eval_test) {
     using var = zk::snark::plonk_variable<BlueprintFieldType>;
 
     constexpr static std::size_t alpha_powers_n = 5;
-    constexpr static std::size_t public_input_size = 3;
+    constexpr static std::size_t public_input_size = 0;
     constexpr static std::size_t max_poly_size = 32;
     constexpr static std::size_t eval_rounds = 5;
     constexpr static std::size_t witness_columns = 15;
     constexpr static std::size_t perm_size = 7;
     constexpr static std::size_t lookup_table_size = 1;
     constexpr static bool use_lookup = false;
-    constexpr static const std::size_t index_terms = 0;
 
     constexpr static const std::size_t srs_len = 1;
     constexpr static const std::size_t prev_chal_size = 1;
@@ -90,19 +90,12 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_ft_eval_test) {
                                                              lookup_table_size,
                                                              alpha_powers_n,
                                                              public_input_size,
-                                                             index_terms,
                                                              prev_chal_size>;
 
     zk::components::kimchi_verifier_index_scalar<BlueprintFieldType> verifier_index;
     typename BlueprintFieldType::value_type omega_value =
         0x1B1A85952300603BBF8DD3068424B64608658ACBB72CA7D2BB9694ADFA504418_cppui256;
-    verifier_index.zkpm = {0x2C46205451F6C3BBEA4BABACBEE609ECF1039A903C42BFF639EDC5BA33356332_cppui256,
-                           0x1764D9CB4C64EBA9A150920807637D458919CB6948821F4D15EB1994EADF9CE3_cppui256,
-                           0x0140117C8BBC4CE4644A58F7007148577782213065BB9699BF5C391FBE1B3E6D_cppui256,
-                           0x0000000000000000000000000000000000000000000000000000000000000001_cppui256};
     std::size_t domain_size_value = 128;
-    verifier_index.public_input_size = public_input_size;
-    verifier_index.alpha_powers = alpha_powers_n;
 
     using component_type = zk::components::
         ft_eval<ArithmetizationType, curve_type, kimchi_params, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
@@ -131,8 +124,6 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_ft_eval_test) {
     var zeta(0, 6, false, var::column_type::public_input);
     var one(0, 7, false, var::column_type::public_input);
     var zero(0, 8, false, var::column_type::public_input);
-    verifier_index.domain_size = domain_size;
-    verifier_index.omega = omega;
 
     // TODO prepare real data
     std::array<var, alpha_powers_n> alpha_powers;
@@ -143,9 +134,12 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_ft_eval_test) {
 
     zk::components::kimchi_proof_scalar<BlueprintFieldType, kimchi_params, eval_rounds> proof;
 
+    std::array<std::optional<var>, 2> public_eval = {std::nullopt, std::nullopt};
+
     typename component_type::params_type params = {verifier_index,    zeta_pow_n, alpha_powers,
                                                    proof.proof_evals, gamma,      beta,
-                                                   proof.proof_evals, zeta,       joint_combiner};
+                                                   proof.proof_evals, zeta,       joint_combiner,
+                                                   public_eval};
 
     auto result_check = [](AssignmentType &assignment, component_type::result_type &real_res) {};
 

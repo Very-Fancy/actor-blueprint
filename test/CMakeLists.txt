@@ -142,17 +142,19 @@ macro(define_blueprint_test test)
 endmacro()
 
 set(NON_NATIVE_TESTS_FILES
-        "non_native/plonk/field_mul"
-        "non_native/plonk/field_add"
-        "non_native/plonk/field_sub"
-        "non_native/plonk/var_base_mul_per_bit"
-        "non_native/plonk/complete_addition"
-        "non_native/plonk/doubling"
-        "non_native/plonk/non_native_range"
-        "non_native/plonk/fixed_base_mul"
-        "non_native/plonk/variable_base_multiplication"
-        "non_native/plonk/non_native_demo"
-        )
+    "non_native/plonk/field_mul"
+    "non_native/plonk/field_add"
+    "non_native/plonk/field_sub"
+    "non_native/plonk/var_base_mul_per_bit"
+    "non_native/plonk/complete_addition"
+    "non_native/plonk/doubling"
+    "non_native/plonk/non_native_range"
+    "non_native/plonk/fixed_base_mul"
+    "non_native/plonk/variable_base_multiplication"
+    "non_native/plonk/non_native_demo"
+    "non_native/plonk/reduction"
+    "non_native/plonk/ed25519"
+    )
 
 set(BLUEPRINT_TESTS_FILES
         "blueprint/plonk"
@@ -189,6 +191,7 @@ set(PLONK_TESTS_FILES
     "verifiers/kimchi/detail/combine_proof_evals"
     "verifiers/kimchi/detail/index_terms_scalars"
     "verifiers/kimchi/detail/rpn_expression"
+    "verifiers/kimchi/detail/oracles_cip"
     "sponge/sponge"
     "sponge/oracles"
     "sponge/transcript_fr"

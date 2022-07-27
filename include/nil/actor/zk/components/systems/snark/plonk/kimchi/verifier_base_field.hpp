@@ -38,6 +38,7 @@
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/commitment.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_base_field.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/map_fq.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
 namespace nil {
     namespace actor {
@@ -149,6 +150,8 @@ namespace nil {
                                             KimchiParamsType, KimchiCommitmentParamsType, BatchSize, W0, W1,
                                                                                W2, W3, W4, W5, W6, W7, W8, W9, W10, W11,
                                                                                W12, W13, W14>;
+                    
+                    using kimchi_constants = zk::components::kimchi_inner_constants<KimchiParamsType>;
 
                     constexpr static const std::size_t selector_seed = 0xff91;
 
@@ -189,7 +192,7 @@ namespace nil {
                             params.verifier_index.comm.sigma_comm[KimchiParamsType::permut_size - 1].shifted;
 
                         // take generic_size coeff_comm
-                        std::array<shifted_commitment_type, KimchiParamsType::ft_generic_size> generic_comm;
+                        std::array<shifted_commitment_type, kimchi_constants::ft_generic_size> generic_comm;
                         for (std::size_t i = 0; i < generic_comm.size(); i++) {
                             generic_comm[i] = params.verifier_index.comm.coefficient_comm[i];
                         }
@@ -253,12 +256,12 @@ namespace nil {
                             comm_idx);
 
                         // take generic_size coeff_comm
-                        std::array<shifted_commitment_type, KimchiParamsType::ft_generic_size> generic_comm;
+                        std::array<shifted_commitment_type, kimchi_constants::ft_generic_size> generic_comm;
                         for (std::size_t i = 0; i < generic_comm.size(); i++) {
                             generic_comm[i] = params.verifier_index.comm.coefficient_comm[i];
                         }
 
-                        parse_commitments<KimchiParamsType::ft_generic_size>(
+                        parse_commitments<kimchi_constants::ft_generic_size>(
                             unshifted_commitments,
                             generic_comm,
                             comm_idx
@@ -353,8 +356,8 @@ namespace nil {
                                 unshifted_commitments = prepare_f_comm_unshifted(params);
 
                             //to-do: U = zero()
-                            typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type U = 
-                                algebra::random_element<typename CurveType::template g1_type<algebra::curves::coordinates::affine>>();
+                            typename CurveType::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type U =
+                                crypto3::algebra::random_element<typename CurveType::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
                             assignment.witness(W0)[row] = U.X;
                             assignment.witness(W1)[row] = U.Y;
                             std::size_t urow = row;
@@ -430,7 +433,7 @@ namespace nil {
                             shifted_commitment_type ft_comm = {{ft_comm_shifted.X, ft_comm_shifted.Y}, {{ft_comm_unshifted.X, ft_comm_unshifted.Y}}};
 
                             std::array<shifted_commitment_type,
-                                KimchiParamsType::evaluations_in_batch_size> evaluations;
+                                kimchi_constants::evaluations_in_batch_size> evaluations;
                             std::size_t eval_idx = 0;
 
                             for (auto chal : params.proofs[i].comm.prev_challenges) {
@@ -460,7 +463,7 @@ namespace nil {
                             // evaluations[eval_idx++] = params.proofs[i].comm.table_comm;
                             // evaluations[eval_idx++] = params.proofs[i].comm.lookup_runtime_comm;
 
-                            assert(eval_idx == KimchiParamsType::evaluations_in_batch_size);
+                            assert(eval_idx == kimchi_constants::evaluations_in_batch_size);
 
                             batch_proof_type p = {/*params.proofs[i].transcript,*/ {evaluations},
                                 params.proofs[i].o};
@@ -622,7 +625,7 @@ namespace nil {
                             shifted_commitment_type ft_comm = {{ft_comm_shifted.X, ft_comm_shifted.Y}, {{ft_comm_unshifted.X, ft_comm_unshifted.Y}}};
 
                             std::array<shifted_commitment_type,
-                                KimchiParamsType::evaluations_in_batch_size> evaluations;
+                                kimchi_constants::evaluations_in_batch_size> evaluations;
                             std::size_t eval_idx = 0;
                             for (auto chal : params.proofs[i].comm.prev_challenges) {
                                 evaluations[eval_idx++] = chal;
@@ -649,7 +652,7 @@ namespace nil {
                             // evaluations[eval_idx++] = params.proofs[i].comm.table_comm;
                             // evaluations[eval_idx++] = params.proofs[i].comm.lookup_runtime_comm;
 
-                            assert(eval_idx == KimchiParamsType::evaluations_in_batch_size);
+                            assert(eval_idx == kimchi_constants::evaluations_in_batch_size);
 
                             batch_proof_type p = {/*params.proofs[i].transcript,*/ {evaluations},
                                 params.proofs[i].o};

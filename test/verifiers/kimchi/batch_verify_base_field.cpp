@@ -41,8 +41,11 @@
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_base_field.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
 #include "test_plonk_component.hpp"
 
@@ -81,7 +84,6 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
     constexpr static bool use_lookup = false;
 
     constexpr static std::size_t srs_len = 1;
-    constexpr static const std::size_t index_terms = 0;
     constexpr static const std::size_t prev_chal_size = 1;
 
     using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
@@ -93,10 +95,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_batch_verify_base_field_test) {
                                                              lookup_table_size,
                                                              alpha_powers_n,
                                                              public_input_size,
-                                                             index_terms,
                                                              prev_chal_size>;
+    using kimchi_constants = zk::components::kimchi_inner_constants<kimchi_params>;
 
-    constexpr static const std::size_t bases_size = kimchi_params::final_msm_size(batch_size);
+    constexpr static const std::size_t bases_size = kimchi_constants::final_msm_size(batch_size);
 
     using component_type = zk::components::batch_verify_base_field<ArithmetizationType,
                                                                    curve_type,

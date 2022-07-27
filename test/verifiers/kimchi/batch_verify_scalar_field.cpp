@@ -42,7 +42,8 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_scalar_field.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
@@ -103,7 +104,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
     constexpr std::size_t ConstantColumns = 1;
-    constexpr std::size_t SelectorColumns = 10;
+    constexpr std::size_t SelectorColumns = 30;
     using ArithmetizationParams =
         zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
@@ -124,7 +125,6 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
     constexpr static bool use_lookup = false;
 
     constexpr std::size_t srs_len = 5;
-    constexpr static const std::size_t index_terms = 0;
     constexpr static const std::size_t prev_chal_size = 1;
 
     using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
@@ -136,7 +136,6 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
                                                              lookup_table_size,
                                                              alpha_powers_n,
                                                              public_input_size,
-                                                             index_terms,
                                                              prev_chal_size>;
 
     zk::components::kimchi_verifier_index_scalar<BlueprintFieldType> verifier_index;

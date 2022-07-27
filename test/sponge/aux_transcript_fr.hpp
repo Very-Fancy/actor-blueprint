@@ -37,7 +37,8 @@
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
 
 namespace nil {
     namespace actor {
@@ -89,8 +90,6 @@ namespace nil {
                     constexpr static std::size_t lookup_table_size = 1;
                     constexpr static bool use_lookup = false;
 
-                    constexpr static const std::size_t index_terms = 0;
-
                     constexpr static const std::size_t eval_rounds = 1;
                     constexpr static const std::size_t max_poly_size = 1;
                     constexpr static const std::size_t srs_len = 1;
@@ -100,7 +99,7 @@ namespace nil {
                             srs_len>;
                     using kimchi_params = zk::components::kimchi_params_type<CurveType, commitment_params, witness_columns, perm_size,
                         use_lookup, lookup_table_size,
-                        alpha_powers_n, public_input_size, index_terms, prev_chal_size>;
+                        alpha_powers_n, public_input_size, prev_chal_size>;
 
                     using var = snark::plonk_variable<BlueprintFieldType>;
                     using transcript_type =

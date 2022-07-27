@@ -35,6 +35,7 @@
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/components/algebra/fields/plonk/combined_inner_product.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/random.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/prepare_scalars.hpp>
@@ -115,7 +116,8 @@ namespace nil {
                     using add_component = zk::components::addition<ArithmetizationType, W0, W1, W2>;
                     using mul_by_const_component = zk::components::mul_by_constant<ArithmetizationType, W0, W1>;
 
-                    using random_component = zk::components::random<ArithmetizationType, 
+                    using random_component = zk::components::random<ArithmetizationType,\
+                        KimchiParamsType, BatchSize,
                         W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
                     using endo_scalar_component =
@@ -131,8 +133,10 @@ namespace nil {
                         KimchiCommitmentParamsType::eval_rounds, W0, W1, W2, W3, W4, W5,
                         W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
+                    using kimchi_constants = zk::components::kimchi_inner_constants<KimchiParamsType>;
+
                     constexpr static std::size_t scalars_len() {
-                        return KimchiParamsType::final_msm_size(BatchSize);
+                        return kimchi_constants::final_msm_size(BatchSize);
                     }
                     
                     using prepare_scalars_component =
@@ -201,7 +205,7 @@ namespace nil {
                                 row += mul_component::rows_amount;
                             }
 
-                            for (std::size_t i = 0; i < KimchiParamsType::evaluations_in_batch_size; i++) {
+                            for (std::size_t i = 0; i < kimchi_constants::evaluations_in_batch_size; i++) {
                                 for (std::size_t j = 0; 
                                     j < KimchiParamsType::commitment_params_type::shifted_commitment_split + 1;
                                     j++) {
@@ -252,17 +256,20 @@ namespace nil {
                         var one = var(0, start_row_index + 1, false, var::column_type::constant);
 
                         std::array<var, scalars_len()> scalars;
-                        std::size_t scalar_idx = KimchiCommitmentParamsType::srs_len;
+                        std::size_t scalar_idx = KimchiCommitmentParamsType::srs_len
+                            + kimchi_constants::srs_padding_size();
 
-                        for (std::size_t i = 0; i < KimchiCommitmentParamsType::srs_len; i++) {
-                            scalars[i] = zero;
+                        for (std::size_t i = 0; 
+                            i < KimchiCommitmentParamsType::srs_len + kimchi_constants::srs_padding_size();
+                            i++) {
+                                scalars[i] = zero;
                         }
                         
                         var rand_base = random_component::generate_circuit(
-                            bp, assignment, {one}, row).output;
+                            bp, assignment, {params.batches}, row).output;
                         row += random_component::rows_amount;
                         var sg_rand_base = random_component::generate_circuit(
-                            bp, assignment, {one}, row).output;
+                            bp, assignment, {params.batches}, row).output;
                         row += random_component::rows_amount;
 
                         var rand_base_i = one;
@@ -389,7 +396,7 @@ namespace nil {
                             }
 
                             var xi_i = one;
-                            for (std::size_t i = 0; i < KimchiParamsType::evaluations_in_batch_size; i++) {
+                            for (std::size_t i = 0; i < kimchi_constants::evaluations_in_batch_size; i++) {
                                 // iterating over the polynomial segments + shifted part
                                 for (std::size_t j = 0; 
                                     j < KimchiParamsType::commitment_params_type::shifted_commitment_split + 1;
@@ -435,8 +442,7 @@ namespace nil {
                         row += prepare_scalars_component::rows_amount;
 
                         assert(row == start_row_index + rows_amount);
-                        std::size_t msm_size = KimchiParamsType::final_msm_size(BatchSize);
-                        assert(scalar_idx == KimchiParamsType::final_msm_size(BatchSize) - 1);
+                        assert(scalar_idx == kimchi_constants::final_msm_size(BatchSize) - 1);
 
                         result_type res(start_row_index);
                         res.output = scalars;
@@ -456,17 +462,20 @@ namespace nil {
                         var one = var(0, start_row_index + 1, false, var::column_type::constant);
 
                         std::array<var, scalars_len()> scalars;
-                        std::size_t scalar_idx = KimchiCommitmentParamsType::srs_len;
+                        std::size_t scalar_idx = KimchiCommitmentParamsType::srs_len
+                            + kimchi_constants::srs_padding_size();
 
-                        for (std::size_t i = 0; i < KimchiCommitmentParamsType::srs_len; i++) {
-                            scalars[i] = zero;
+                        for (std::size_t i = 0; 
+                            i < KimchiCommitmentParamsType::srs_len + kimchi_constants::srs_padding_size();
+                            i++) {
+                                scalars[i] = zero;
                         }
 
                         var rand_base = random_component::generate_assignments(
-                            assignment, {one}, row).output;
+                            assignment, {params.batches}, row).output;
                         row += random_component::rows_amount;
                         var sg_rand_base = random_component::generate_assignments(
-                            assignment, {one}, row).output;
+                            assignment, {params.batches}, row).output;
                         row += random_component::rows_amount;
 
                         var rand_base_i = one;
@@ -592,7 +601,7 @@ namespace nil {
                             }
 
                             var xi_i = one;
-                            for (std::size_t i = 0; i < KimchiParamsType::evaluations_in_batch_size; i++) {
+                            for (std::size_t i = 0; i < kimchi_constants::evaluations_in_batch_size; i++) {
                                 // iterating over the polynomial segments + shifted part
                                 for (std::size_t j = 0; 
                                     j < KimchiParamsType::commitment_params_type::shifted_commitment_split + 1;
@@ -636,7 +645,7 @@ namespace nil {
                         row += prepare_scalars_component::rows_amount;
 
                         assert(row == start_row_index + rows_amount);
-                        assert(scalar_idx == KimchiParamsType::final_msm_size(BatchSize) - 1);
+                        assert(scalar_idx == kimchi_constants::final_msm_size(BatchSize) - 1);
 
                         result_type res(start_row_index);
                         res.output = scalars;

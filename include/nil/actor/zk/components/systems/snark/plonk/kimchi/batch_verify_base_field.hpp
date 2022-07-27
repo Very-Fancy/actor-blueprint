@@ -30,7 +30,9 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/commitment.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>
@@ -101,7 +103,11 @@ namespace nil {
                     using var = snark::plonk_variable<BlueprintFieldType>;
                     using sub_component = zk::components::subtraction<ArithmetizationType, W0, W1, W2>;
 
-                    constexpr static const std::size_t final_msm_size = KimchiParamsType::final_msm_size(BatchSize);
+                    using kimchi_constants = zk::components::kimchi_inner_constants<KimchiParamsType>;
+
+                    constexpr static const std::size_t padding_size = kimchi_constants::srs_padding_size();
+
+                    constexpr static const std::size_t final_msm_size = kimchi_constants::final_msm_size(BatchSize);
 
                     using msm_component = zk::components::element_g1_multi_scalar_mul< ArithmetizationType, CurveType, final_msm_size,
                         W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14> ;
@@ -154,23 +160,29 @@ namespace nil {
                                                             const params_type &params,
                                                             std::size_t component_start_row) {
                         std::size_t row = component_start_row;
-                        typename BlueprintFieldType::integral_type one = 1;
-                        var two_pow_255(0, row, false, var::column_type::constant);
+                        var two_pow_255(0, component_start_row, false, var::column_type::constant);
+                        var zero(0, component_start_row + 1, false, var::column_type::constant);
                         std::array<var_ec_point, final_msm_size> bases;
                         std::size_t bases_idx = 0;
+
+                        var_ec_point point_at_infinity = {zero, zero};
 
                         bases[bases_idx++] = params.verifier_index.H;
                         
                         for(std::size_t i = 0; i < KimchiCommitmentParamsType::srs_len; i++) {
                             bases[bases_idx++] = params.verifier_index.G[i];
                         }
+                        for (std::size_t i = 0; i < padding_size; i++) {
+                            bases[bases_idx++] = point_at_infinity;
+                        }
+
                         for (std::size_t i = 0; i < params.proofs.size(); i++) {
                             //transcript_type transcript = params.proofs[i].transcript;
                             //transcript.absorb_fr_assignment(assignment, {params.fr_output.cip_shifted[i]}, row);
                             row += transcript_type::absorb_rows;
                             //U = transcript.squeeze.to_group()
-                            typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type U_value =
-                                 algebra::random_element<typename CurveType::template g1_type<algebra::curves::coordinates::affine>>();
+                            typename CurveType::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type U_value =
+                                 crypto3::algebra::random_element<typename CurveType::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
                             assignment.witness(W0)[row] = U_value.X;
                             assignment.witness(W1)[row] = U_value.Y;
                             var_ec_point U = {var(0, row), var(1, row)};
@@ -213,6 +225,9 @@ namespace nil {
 
                         std::size_t row = start_row_index;
                         var two_pow_255(0, row, false, var::column_type::constant);
+                        var zero(0, start_row_index + 1, false, var::column_type::constant);
+
+                        var_ec_point point_at_infinity = {zero, zero};
                         
                         std::array<var_ec_point, final_msm_size> bases;
                         std::size_t bases_idx = 0;
@@ -221,6 +236,10 @@ namespace nil {
                         for(std::size_t i = 0; i < KimchiCommitmentParamsType::srs_len; i ++) {
                             bases[bases_idx++] = params.verifier_index.G[i];
                         }
+                        for (std::size_t i = 0; i < padding_size; i++) {
+                            bases[bases_idx++] = point_at_infinity;
+                        }
+
                         for (std::size_t i = 0; i < params.proofs.size(); i++) {
                             //params.proofs[i].transcript.absorb_fr_circuit(bp, assignment, params.fr_output.cip_shifted[i], row);
                             row += transcript_type::absorb_rows;
@@ -282,6 +301,8 @@ namespace nil {
                             std::size_t row = component_start_row;
                             typename BlueprintFieldType::integral_type tmp = 1;
                             assignment.constant(0)[row] = (tmp << 255);
+                            row++;
+                            assignment.constant(0)[row] = 0;
                     }
                 };
 
