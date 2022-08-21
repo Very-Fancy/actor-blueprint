@@ -210,7 +210,7 @@ namespace nil {
                 }
             }    // namespace snark
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_R1CS_EXAMPLES_TEST_HPP

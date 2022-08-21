@@ -793,7 +793,7 @@ namespace nil {
                 }
             }    // namespace snark
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_MP_PCD_CIRCUITS_HPP

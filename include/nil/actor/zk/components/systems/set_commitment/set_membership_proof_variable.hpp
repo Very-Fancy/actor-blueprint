@@ -103,7 +103,7 @@ namespace nil {
                 }    // namespace components
             }        // namespace snark
         }            // namespace zk
-    }                // namespace crypto3
+    }                // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_SET_MEMBERSHIP_PROOF_VARIABLE_HPP

@@ -45,7 +45,7 @@ namespace nil {
                 return result;
             }
         }    // namespace detail
-    }        // namespace crypto3
+    }        // namespace actor
 }    // namespace nil
 
 #endif    // #ifndef ACTOR_DETAIL_STATIC_POW_HPP

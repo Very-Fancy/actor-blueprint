@@ -33,12 +33,13 @@
 #include <nil/actor/zk/component.hpp>
 
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/zkpm_evaluate.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/zk_w3.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/alpha_argument_type.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/constraints/index_terms_instances/ec_index_terms.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 namespace nil {
@@ -113,11 +114,10 @@ namespace nil {
                         W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
                     using verifier_index_type = kimchi_verifier_index_scalar<BlueprintFieldType>;
-                    using argument_type = typename verifier_index_type::argument_type;
 
-                    using index_terms_list = zk::components::index_terms_scalars_list<ArithmetizationType, KimchiParamsType, 
-                        W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
-                    using constant_term = typename index_terms_list::constant_term;
+                    using index_terms_list = KimchiParamsType::circuit_params::index_terms_list<ArithmetizationType>;
+                    using constant_term_component = zk::components::rpn_expression<ArithmetizationType, KimchiParamsType, 
+                                index_terms_list::constatnt_term_rows, W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
                     constexpr static const std::size_t selector_seed = 0x0f22;
                     constexpr static const std::size_t eval_points_amount = 2;
@@ -160,7 +160,7 @@ namespace nil {
                         row += mul_component::rows_amount;
                         row += add_component::rows_amount;
 
-                        row += constant_term::rows_amount;
+                        row += constant_term_component::rows_amount;
                         row += sub_component::rows_amount;
 
                         return row;
@@ -216,7 +216,7 @@ namespace nil {
 
                         // get alpha0, alpha1, alpha2
                         std::pair<std::size_t, std::size_t> alpha_idxs = 
-                            params.verifier_index.alpha_map[argument_type::Permutation];
+                            index_terms_list::alpha_map(argument_type::Permutation);
                         assert(alpha_idxs.second >= alpha_idxs.first + 3);
                         var alpha0 = params.alpha_powers[alpha_idxs.first];
                         var alpha1 = params.alpha_powers[alpha_idxs.first + 1];
@@ -372,11 +372,11 @@ namespace nil {
                         row += add_component::rows_amount;
 
                         // evaluate constant term expression
-                        auto tokens = constant_term::rpn_from_string(constant_term_polish);
-                        var pt = constant_term::generate_circuit(bp, assignment,
-                            {tokens, params.alpha_powers[1], params.beta, params.gamma, params.joint_combiner,
-                            params.combined_evals}, row).output;
-                        row += constant_term::rows_amount;
+                        var pt = constant_term_component::generate_circuit(bp, assignment,
+                            {index_terms_list::constant_term_str, params.zeta,
+                            params.alpha_powers[1], params.beta, params.gamma, params.joint_combiner,
+                            params.combined_evals, params.verifier_index.omega, params.verifier_index.domain_size}, row).output;
+                        row += constant_term_component::rows_amount;
                         
                         ft_eval0 = zk::components::generate_circuit<sub_component>(bp, 
                             assignment, {ft_eval0, pt}, row).output;
@@ -412,7 +412,7 @@ namespace nil {
 
                         // get alpha0, alpha1, alpha2
                         std::pair<std::size_t, std::size_t> alpha_idxs = 
-                            params.verifier_index.alpha_map[argument_type::Permutation];
+                            index_terms_list::alpha_map(argument_type::Permutation);
                         assert(alpha_idxs.second >= alpha_idxs.first + 3);
                         var alpha0 = params.alpha_powers[alpha_idxs.first];
                         var alpha1 = params.alpha_powers[alpha_idxs.first + 1];
@@ -568,11 +568,11 @@ namespace nil {
                         row += add_component::rows_amount;
 
                         // evaluate constant term expression
-                        auto tokens = constant_term::rpn_from_string(constant_term_polish);
-                        var pt = constant_term::generate_assignments(assignment,
-                            {tokens, params.alpha_powers[1], params.beta, params.gamma, params.joint_combiner,
-                            params.combined_evals}, row).output;
-                        row += constant_term::rows_amount;
+                        var pt = constant_term_component::generate_assignments(assignment,
+                            {index_terms_list::constant_term_str, params.zeta,
+                            params.alpha_powers[1], params.beta, params.gamma, params.joint_combiner,
+                            params.combined_evals, params.verifier_index.omega, params.verifier_index.domain_size}, row).output;
+                        row += constant_term_component::rows_amount;
                         
                         ft_eval0 = sub_component::generate_assignments(
                             assignment, {ft_eval0, pt}, row).output;
@@ -610,7 +610,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_FT_EVAL_HPP

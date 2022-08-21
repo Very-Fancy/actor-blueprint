@@ -154,6 +154,8 @@ set(NON_NATIVE_TESTS_FILES
     "non_native/plonk/non_native_demo"
     "non_native/plonk/reduction"
     "non_native/plonk/ed25519"
+    "non_native/plonk/signatures_verification"
+    "non_native/plonk/ec_point"
     )
 
 set(BLUEPRINT_TESTS_FILES
@@ -163,12 +165,14 @@ set(BLUEPRINT_TESTS_FILES
 set(PLONK_TESTS_FILES
     "algebra/curves/plonk/fixed_base_scalar_mul"
     "algebra/curves/plonk/variable_base_scalar_mul"
+    #"algebra/curves/plonk/decomposed_variable_base_scalar_mul"
     "algebra/curves/plonk/unified_addition"
     "algebra/curves/plonk/variable_base_endo_scalar_mul"
     "algebra/curves/plonk/endo_scalar"
     "algebra/curves/plonk/multi_scalar_multiplication"
     "hashes/plonk/poseidon"
     "hashes/plonk/sha256"
+    "hashes/plonk/sha512"
     "hashes/plonk/sha256_process"
     "hashes/plonk/sha512_process"
     "hashes/plonk/decomposition"
@@ -189,20 +193,26 @@ set(PLONK_TESTS_FILES
     "verifiers/kimchi/detail/prev_chal_evals"
     "verifiers/kimchi/detail/ft_eval"
     "verifiers/kimchi/detail/combine_proof_evals"
-    "verifiers/kimchi/detail/index_terms_scalars"
-    "verifiers/kimchi/detail/rpn_expression"
+    "verifiers/kimchi/detail//constraints/index_terms_scalars"
+    "verifiers/kimchi/detail/constraints/rpn_expression"
+    "verifiers/kimchi/detail/constraints/vanishes_on_last_4_rows"
+    "verifiers/kimchi/detail/constraints/unnormalized_lagrange_basis"
+    "verifiers/kimchi/detail/constraints/perm_scalars"
+    "verifiers/kimchi/detail/constraints/generic_scalars"
     "verifiers/kimchi/detail/oracles_cip"
-    "sponge/sponge"
-    "sponge/oracles"
-    "sponge/transcript_fr"
-    "sponge/transcript_fq"
-    "sponge/compare"
+    "verifiers/kimchi/detail/zk_w3"
+    "verifiers/kimchi/detail/prepare_scalars"
+    "verifiers/kimchi/detail/zkpm_evaluate"
+    "verifiers/kimchi/sponge/sponge"
+    "verifiers/kimchi/sponge/oracles"
+    "verifiers/kimchi/sponge/transcript_fr"
+    "verifiers/kimchi/sponge/transcript_fq"
+    "verifiers/kimchi/sponge/compare"
     "algebra/fields/plonk/field_operations"
     "algebra/fields/plonk/combined_inner_product"
     "algebra/fields/plonk/element_powers"
     "algebra/fields/plonk/exponentiation"
-    "detail/prepare_scalars"
-    "detail/zkpm_evaluate"
+    "algebra/fields/plonk/sqrt"
     )
 
 set(FIELDS_TESTS_FILES
@@ -285,3 +295,4 @@ actor_add_test("non_native/plonk/non_native_range")
 actor_add_test("non_native/plonk/fixed_base_mul")
 actor_add_test("non_native/plonk/complete_addition")
 actor_add_test("non_native/plonk/var_base_mul_per_bit")
+actor_add_test("non_native/plonk/signatures_verification")

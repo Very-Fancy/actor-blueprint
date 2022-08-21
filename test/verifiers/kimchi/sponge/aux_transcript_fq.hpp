@@ -36,21 +36,27 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/sponge.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
 
 namespace nil {
     namespace actor {
         namespace zk {
             namespace components {
 
-                template<size_t num_squeezes,
+                template<size_t num_absorb,
+                         size_t num_challenges,
+                         size_t num_challenges_fq,
+                         bool digest,
                          typename ArithmetizationType,
                          typename CurveType,
                          std::size_t... WireIndexes>
-                class aux;
+                class aux_fq;
 
                 template<typename BlueprintFieldType,
-                         size_t num_squeezes,
+                         size_t num_absorb,
+                         size_t num_challenges,
+                         size_t num_challenges_fq,
+                         bool digest,
                          typename ArithmetizationParams,
                          typename CurveType,
                          std::size_t W0,
@@ -68,8 +74,11 @@ namespace nil {
                          std::size_t W12,
                          std::size_t W13,
                          std::size_t W14>
-                class aux<
-                    num_squeezes,
+                class aux_fq<
+                    num_absorb,
+                    num_challenges,
+                    num_challenges_fq,
+                    digest,
                     snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>,
                     CurveType,
                     W0, W1, W2, W3,
@@ -81,27 +90,26 @@ namespace nil {
                         ArithmetizationParams> ArithmetizationType;
 
                     using var = snark::plonk_variable<BlueprintFieldType>;
-                    using sponge_type =
-                        zk::components::kimchi_sponge<ArithmetizationType, CurveType, W0, W1, W2, W3, W4, W5, W6, 
+                    using transcript_type =
+                        zk::components::kimchi_transcript_fq<ArithmetizationType, CurveType, W0, W1, W2, W3, W4, W5, W6, 
                                                                             W7, W8, W9, W10, W11, W12, W13, W14>;
-                    sponge_type sponge;
 
                 public:
-                    constexpr static const std::size_t selector_seed = 0x0fd2;
-                    constexpr static const std::size_t rows_amount = 200;
+                    constexpr static const std::size_t selector_seed = 0x0fd8;
+                    constexpr static const std::size_t rows_amount = transcript_type::init_rows + num_absorb * transcript_type::absorb_group_rows + 
+                                                                    num_challenges * transcript_type::challenge_rows + 
+                                                                    num_challenges_fq * transcript_type::challenge_fq_rows +
+                                                                    static_cast<int>(digest) * transcript_type::digest_rows;
                     constexpr static const std::size_t gates_amount = 0;
 
                     struct params_type {
-                        std::vector<var> input;
-                        var zero;
+                        std::vector<std::array<var, 2>> input_fr;
+                        std::vector<std::array<var, 2>> input_g;
                     };
 
                     struct result_type {
                         var squeezed = var(0, 0, false);
                         result_type(var &input) : squeezed(input) {}
-                        result_type(const params_type &params, const std::size_t &start_row_index) {
-                            squeezed = var(W6, start_row_index + rows_amount - 1, false, var::column_type::witness);
-                        }
                     };
 
                     static result_type generate_circuit(blueprint<ArithmetizationType> &bp,
@@ -109,18 +117,36 @@ namespace nil {
                         const params_type &params,
                         const std::size_t start_row_index){
 
+                        generate_assignments_constants(bp, assignment, params, start_row_index);
+                        generate_copy_constraints(bp, assignment, params, start_row_index);
+
+                        var zero(0, start_row_index, false, var::column_type::constant);
+
                         std::size_t row = start_row_index;
-                        sponge_type sponge;
-                        sponge.init_circuit(bp, assignment, params.zero, row);
-                        row += sponge_type::init_rows;
-                        for (std::size_t i = 0; i < params.input.size(); ++i) {
-                            sponge.absorb_circuit(bp, assignment, params.input[i], row);
-                            row += sponge_type::absorb_rows;
+
+                        transcript_type transcript;
+                        transcript.init_circuit(bp, assignment, zero, row);
+                        row += transcript_type::init_rows;
+                        for (std::size_t i = 0; i < params.input_fr.size(); ++i) {
+                            transcript.absorb_fr_circuit(bp, assignment, params.input_fr[i][0], row);
+                            row += transcript_type::absorb_fr_rows;
+                        }
+                        for (std::size_t i = 0; i < params.input_g.size(); ++i) {
+                            transcript.absorb_g_circuit(bp, assignment, params.input_g[i], row);
+                            row += transcript_type::absorb_group_rows;
                         }
                         var sq;
-                        for (size_t i = 0; i < num_squeezes; ++i) {
-                            sq = sponge.squeeze_circuit(bp, assignment, row);
-                            row += sponge_type::squeeze_rows;
+                        for (size_t i = 0; i < num_challenges; ++i) {
+                            sq = transcript.challenge_circuit(bp, assignment, row);
+                            row += transcript_type::challenge_rows;
+                        }
+                        for (size_t i = 0; i < num_challenges_fq; ++i) {
+                            sq = transcript.challenge_fq_circuit(bp, assignment, row);
+                            row += transcript_type::challenge_fq_rows;
+                        }
+                        if (digest) {
+                            sq = transcript.digest_circuit(bp, assignment, row);
+                            row += transcript_type::digest_rows;
                         }
                         return {sq};
                     }
@@ -130,19 +156,34 @@ namespace nil {
                                 &assignment,
                             const params_type &params,
                             const std::size_t start_row_index){
+
                         std::size_t row = start_row_index;
 
-                        sponge_type sponge;
-                        sponge.init_assignment(assignment, params.zero, row);
-                        row += sponge_type::init_rows;
-                        for (std::size_t i = 0; i < params.input.size(); ++i) {
-                            sponge.absorb_assignment(assignment, params.input[i], row);
-                            row += sponge_type::absorb_rows;
+                        var zero = var(0, start_row_index, false, var::column_type::constant);
+
+                        transcript_type transcript;
+                        transcript.init_assignment(assignment, zero, row);
+                        row += transcript_type::init_rows;
+                        for (std::size_t i = 0; i < params.input_fr.size(); ++i) {
+                            transcript.absorb_fr_assignment(assignment, params.input_fr[i][0], row);
+                            row += transcript_type::absorb_fr_rows;
+                        }
+                        for (std::size_t i = 0; i < params.input_g.size(); ++i) {
+                            transcript.absorb_g_assignment(assignment, params.input_g[i], row);
+                            row += transcript_type::absorb_group_rows;
                         }
                         var sq;
-                        for (size_t i = 0; i < num_squeezes; ++i) {
-                            sq = sponge.squeeze_assignment(assignment, row);
-                            row += sponge_type::squeeze_rows;
+                        for (size_t i = 0; i < num_challenges; ++i) {
+                            sq = transcript.challenge_assignment(assignment, row);
+                            row += transcript_type::challenge_rows;
+                        }
+                        for (size_t i = 0; i < num_challenges_fq; ++i) {
+                            sq = transcript.challenge_fq_assignment(assignment, row);
+                            row += transcript_type::challenge_fq_rows;
+                        }
+                        if (digest) {
+                            sq = transcript.digest_assignment(assignment, row);
+                            row += transcript_type::digest_rows;
                         }
                         return {sq};
                     }
@@ -158,10 +199,18 @@ namespace nil {
                             blueprint_public_assignment_table<ArithmetizationType> &assignment,
                             const params_type &params,
                             const std::size_t start_row_index) {}
+
+                    static void generate_assignments_constants(blueprint<ArithmetizationType> &bp,
+                                                  blueprint_public_assignment_table<ArithmetizationType> &assignment,
+                                                  const params_type &params,
+                                                  const std::size_t component_start_row) {
+                        std::size_t row = component_start_row;
+                        assignment.constant(0)[row] = 0;
+                    }
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_CURVE_ELEMENT_ENDO_SCALAR_COMPONENT_15_WIRES_HPP

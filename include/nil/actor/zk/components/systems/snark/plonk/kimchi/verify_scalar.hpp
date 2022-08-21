@@ -39,7 +39,7 @@
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/prepare_batch_scalar.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_scalar_field.hpp>
@@ -237,7 +237,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_VERIFY_SCALAR_HPP

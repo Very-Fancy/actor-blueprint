@@ -186,6 +186,7 @@ namespace nil {
                         assignment.witness(W2)[row] = y3[2];
                         assignment.witness(W3)[row] = y3[3];
                         std::array<var, 4>  P_y = {var(W0, row), var(W1, row), var(W2, row), var(W3, row)};
+
                         typename non_native_range_component::params_type range_params_y3 = {P_y};
                         non_native_range_component::generate_assignments(assignment, range_params_y3, row);
                         row+=non_native_range_component::rows_amount;
@@ -258,6 +259,7 @@ namespace nil {
                         row+=non_native_range_component::rows_amount;
 
                         std::array<var, 4>  P_y = {var(W0, row), var(W1, row), var(W2, row), var(W3, row)};
+
                         typename non_native_range_component::params_type range_params_y3 = {P_y};
                         non_native_range_component::generate_circuit(bp, assignment, range_params_y3, row);
                         row+=non_native_range_component::rows_amount;
@@ -288,8 +290,8 @@ namespace nil {
                         auto z2 = multiplication_component::generate_circuit(bp, assignment, typename multiplication_component::params_type({t0.output, t1.output}), row);
                         row+=multiplication_component::rows_amount;
 
-                        std::array<var, 4> d_var_array = {var(0, 4, false, var::column_type::constant), var(0, 5, false, var::column_type::constant),
-                        var(0, 6, false, var::column_type::constant), var(0, 7, false, var::column_type::constant)};
+                        std::array<var, 4> d_var_array = {var(0, row + 4, false, var::column_type::constant), var(0, row + 5, false, var::column_type::constant),
+                        var(0, row + 6, false, var::column_type::constant), var(0, row + 7, false, var::column_type::constant)};
 
                         auto k0 = multiplication_component::generate_circuit(bp, assignment, typename multiplication_component::params_type({d_var_array, z2.output}), row);
                         row+=multiplication_component::rows_amount;
@@ -348,7 +350,7 @@ namespace nil {
 
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP

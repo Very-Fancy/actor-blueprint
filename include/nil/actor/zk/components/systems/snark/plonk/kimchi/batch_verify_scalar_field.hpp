@@ -34,7 +34,7 @@
 
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/components/algebra/fields/plonk/combined_inner_product.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/batch_scalar/random.hpp>
@@ -685,7 +685,7 @@ namespace nil {
 
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_BATCH_VERIFY_SCALAR_FIELD_HPP

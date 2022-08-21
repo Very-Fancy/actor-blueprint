@@ -39,16 +39,16 @@ namespace nil {
 
                 template<typename FieldType, typename KimchiParamsType>
                 struct kimchi_lookup_evaluations {
-                    /// sorted lookup table polynomial
-                    // pub sorted: Vec<Field>,
-                    // /// lookup aggregation polynomial
-                    // pub aggreg: Field,
-                    // // TODO: May be possible to optimize this away?
-                    // /// lookup table polynomial
-                    // pub table: Field,
+                    using var = snark::plonk_variable<FieldType>;
 
-                    // /// Optionally, a runtime table polynomial.
-                    // pub runtime: Option<Field>,
+                    std::array<var, 
+                        KimchiParamsType::circuit_params::lookup_columns> sorted;
+                    
+                    var aggreg;
+                    var table;
+
+                    var runtime;
+
                     kimchi_lookup_evaluations() {
                     }
                 };
@@ -75,7 +75,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_TYPES_EVALUATION_PROOF_HPP

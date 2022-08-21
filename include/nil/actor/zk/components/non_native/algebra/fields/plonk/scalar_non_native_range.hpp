@@ -188,12 +188,14 @@ namespace nil {
                                                   const params_type &params,
                                                   std::size_t component_start_row) {
                         std::size_t row = component_start_row;
+                        bp.add_copy_constraint({{W0, static_cast<int>(row), false},
+                            params.k});
                     }
                 };
 
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_REDUCTION_HPP

@@ -70,7 +70,7 @@ namespace nil {
             }
         }
 
-    }    // namespace crypto3
+    }    // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_PROFILING_HPP

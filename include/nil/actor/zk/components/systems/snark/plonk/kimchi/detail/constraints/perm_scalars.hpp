@@ -32,7 +32,7 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/component.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/evaluation_proof.hpp>
 
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
@@ -208,31 +208,10 @@ namespace nil {
                         auto const_res = mul_const_component::generate_assignments(assignment, {res.output, -1}, row);
                         return result_type(start_row_index);
                     }
-
-                private:
-                    static void generate_gates(blueprint<ArithmetizationType> &bp,
-                                               blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                               const params_type &params,
-                                               const std::size_t first_selector_index) {
-
-                    }
-
-                    static void generate_copy_constraints(blueprint<ArithmetizationType> &bp,
-                                                  blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                                  const params_type &params,
-                                                  const std::size_t start_row_index) {
-                    }
-
-                    static void generate_assignments_constants(blueprint<ArithmetizationType> &bp,
-                                                  blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                                  const params_type &params,
-                                                  const std::size_t start_row_index) {
-
-                    }
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_PERM_SCALAR_HPP

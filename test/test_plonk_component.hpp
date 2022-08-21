@@ -125,8 +125,7 @@ namespace nil {
             typename component_type::result_type component_result =
                 component_type::generate_assignments(assignment_bp, params, start_row);
             
-            auto rc = std::bind(result_check, assignment_bp, component_result);
-            rc(assignment_bp, component_result);
+            result_check(assignment_bp, component_result);
 
             assignment_bp.padding();
 
@@ -180,7 +179,10 @@ namespace nil {
 
             bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
               public_preprocessed_data, proof, bp, fri_params);
-            //profiling(assignments);
+
+#ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
+            profiling(assignments);
+#endif
             BOOST_CHECK(verifier_res);
         }
 
@@ -208,7 +210,7 @@ namespace nil {
             BOOST_CHECK(verifier_res);
             return std::make_tuple(proof, fri_params, public_preprocessed_data, bp);
         }
-    }    // namespace crypto3
+    }    // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_TEST_PLONK_COMPONENT_HPP

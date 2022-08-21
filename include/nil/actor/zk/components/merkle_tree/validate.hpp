@@ -157,7 +157,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_MERKLE_TREE_CHECK_READ_COMPONENT_HPP

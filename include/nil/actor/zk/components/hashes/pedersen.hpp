@@ -493,6 +493,6 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 #endif    // ACTOR_ZK_BLUEPRINT_HASHES_PEDERSEN_HPP

@@ -186,7 +186,7 @@ namespace nil {
 
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_NON_NATIVE_FIELDS_EDDSA_C_MULTIPLICATION_COMPONENT_9_WIRES_HPP

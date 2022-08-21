@@ -41,7 +41,7 @@
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/combine_proof_evals.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/ft_eval.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/oracles_scalar/oracles_cip.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/limbs.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
@@ -146,6 +146,11 @@ namespace nil {
 
                     constexpr static std::size_t rows() {
                         std::size_t row = 0;
+
+                        if (KimchiParamsType::circuit_params::use_lookup &&
+                            KimchiParamsType::circuit_params::joint_lookup) {
+                            row += endo_scalar_component::rows_amount;
+                        }
 
                         // alpha
                         row += endo_scalar_component::rows_amount;
@@ -285,7 +290,15 @@ namespace nil {
 
                         var beta = params.fq_output.beta;
                         var gamma = params.fq_output.gamma;
-                        var joint_combiner = params.fq_output.joint_combiner;
+                        
+                        
+                        var joint_combiner; 
+                        if (KimchiParamsType::circuit_params::use_lookup &&
+                            KimchiParamsType::circuit_params::joint_lookup) {
+                            joint_combiner = endo_scalar_component::generate_circuit(bp, assignment,
+                                {params.fq_output.joint_combiner}, row).output;
+                            row += endo_scalar_component::rows_amount;
+                        }
 
                         // alpha = phi(alpha_challenge)
                         var alpha = endo_scalar_component::generate_circuit(
@@ -405,7 +418,7 @@ namespace nil {
                         }
 
                         std::array<kimchi_proof_evaluations<BlueprintFieldType, KimchiParamsType>,
-                            eval_points_amount> p_evals = params.proof.proof_evals;
+                            eval_points_amount> evals = params.proof.proof_evals;
                         var ft_eval0 = ft_eval_component::generate_circuit(
                             bp,
                             assignment, 
@@ -415,7 +428,7 @@ namespace nil {
                             combined_evals,
                             gamma,
                             beta,
-                            p_evals,
+                            public_eval,
                             zeta,
                             joint_combiner},
                             row
@@ -474,7 +487,14 @@ namespace nil {
                         var fq_digest = params.fq_output.fq_digest;
                         var beta = params.fq_output.beta;
                         var gamma = params.fq_output.gamma;
-                        var joint_combiner = params.fq_output.joint_combiner;
+
+                        var joint_combiner; 
+                        if (KimchiParamsType::circuit_params::use_lookup &&
+                            KimchiParamsType::circuit_params::joint_lookup) {
+                            joint_combiner = endo_scalar_component::generate_assignments(assignment,
+                                {params.fq_output.joint_combiner}, row).output;
+                            row += endo_scalar_component::rows_amount;
+                        }
 
                         var alpha = endo_scalar_component::generate_assignments(assignment,
                             {params.fq_output.alpha}, row).output;
@@ -586,7 +606,7 @@ namespace nil {
                         }
 
                         std::array<kimchi_proof_evaluations<BlueprintFieldType, KimchiParamsType>,
-                            eval_points_amount> p_evals = params.proof.proof_evals;
+                            eval_points_amount> evals = params.proof.proof_evals;
                         var ft_eval0 = ft_eval_component::generate_assignments(
                             assignment, 
                             {params.verifier_index,
@@ -595,7 +615,7 @@ namespace nil {
                             combined_evals,
                             gamma,
                             beta,
-                            p_evals,
+                            public_eval,
                             zeta,
                             joint_combiner},
                             row
@@ -672,7 +692,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_ORACLES_SCALAR_COMPONENT_HPP

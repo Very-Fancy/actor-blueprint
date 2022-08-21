@@ -46,8 +46,10 @@
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_base_field.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_base_field.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
 
 #include "test_plonk_component.hpp"
+#include "verifiers/kimchi/index_terms_instances/ec_index_terms.hpp"
 using namespace nil::crypto3;
 
 BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_base_field_test_suite)
@@ -59,7 +61,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
     constexpr std::size_t ConstantColumns = 1;
-    constexpr std::size_t SelectorColumns = 10;
+    constexpr std::size_t SelectorColumns = 25;
     using ArithmetizationParams =
         zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
     using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
@@ -74,28 +76,21 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     // constexpr static const std::size_t padding = (1 << n_2) - n;
 
     constexpr static std::size_t public_input_size = 1;
-    constexpr static std::size_t alpha_powers_n = 5;
     constexpr static std::size_t max_poly_size = 32;
     constexpr static std::size_t eval_rounds = 5;
 
     constexpr static std::size_t witness_columns = 15;
     constexpr static std::size_t perm_size = 7;
-    constexpr static std::size_t lookup_table_size = 1;
-    constexpr static bool use_lookup = false;
 
     constexpr static std::size_t srs_len = 1;
     constexpr static const std::size_t prev_chal_size = 1;
 
     using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
-    using kimchi_params = zk::components::kimchi_params_type<curve_type,
-                                                             commitment_params,
-                                                             witness_columns,
-                                                             perm_size,
-                                                             use_lookup,
-                                                             lookup_table_size,
-                                                             alpha_powers_n,
-                                                             public_input_size,
-                                                             prev_chal_size>;
+    using index_terms_list = zk::components::index_terms_scalars_list_ec_test<ArithmetizationType>;
+    using circuit_description = zk::components::kimchi_circuit_description<index_terms_list, 
+        witness_columns, perm_size>;
+    using kimchi_params = zk::components::kimchi_params_type<curve_type, commitment_params, circuit_description,
+        public_input_size, prev_chal_size>;
 
     using component_type = zk::components::base_field<ArithmetizationType,
                                                       curve_type,
@@ -118,8 +113,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
                                                       13,
                                                       14>;
 
-    using shifted_commitment_type =
-        typename zk::components::kimchi_shifted_commitment_type<BlueprintFieldType,
+    using commitment_type =
+        typename zk::components::kimchi_commitment_type<BlueprintFieldType,
                                                                 commitment_params::shifted_commitment_split>;
 
     using opening_proof_type =
@@ -158,32 +153,32 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
         unshifted_var.push_back({var(0, i * 4 + 2, false, var::column_type::public_input),
                                  var(0, i * 4 + 3, false, var::column_type::public_input)});
     }
-    std::array<shifted_commitment_type, witness_columns> witness_comm;
+    std::array<commitment_type, witness_columns> witness_comm;
     for (std::size_t i = 0; i < witness_columns; i++) {
-        witness_comm[i] = {{shifted_var[0]}, {unshifted_var[0]}};
+        witness_comm[i] = {{unshifted_var[0]}};
     }
 
-    std::array<shifted_commitment_type, perm_size> sigma_comm;
+    std::array<commitment_type, perm_size> sigma_comm;
     for (std::size_t i = 0; i < perm_size; i++) {
-        witness_comm[i] = {{shifted_var[1]}, {unshifted_var[1]}};
+        witness_comm[i] = {{unshifted_var[1]}};
     }
-    std::array<shifted_commitment_type, kimchi_params::witness_columns> 
+    std::array<commitment_type, kimchi_params::witness_columns> 
         coefficient_comm;
     for (std::size_t i = 0; i < coefficient_comm.size(); i++) {
-        coefficient_comm[i] = {{shifted_var[2]}, {unshifted_var[2]}};
+        coefficient_comm[i] = {{unshifted_var[2]}};
     }
-    std::vector<shifted_commitment_type> oracles_poly_comm = {
-        {{shifted_var[3]}, {unshifted_var[3]}}};    // to-do: get in the component from oracles
-    shifted_commitment_type lookup_runtime_comm = {{shifted_var[4]}, {unshifted_var[4]}};
-    shifted_commitment_type table_comm = {{shifted_var[5]}, {unshifted_var[5]}};
-    std::vector<shifted_commitment_type> lookup_sorted_comm {{{shifted_var[6]}, {unshifted_var[6]}}};
-    std::vector<shifted_commitment_type> lookup_selectors_comm = {{{shifted_var[7]}, {unshifted_var[7]}}};
-    std::vector<shifted_commitment_type> selectors_comm = {{{shifted_var[8]}, {unshifted_var[8]}}};
-    shifted_commitment_type lookup_agg_comm = {{shifted_var[9]}, {unshifted_var[9]}};
-    shifted_commitment_type z_comm = {{shifted_var[10]}, {unshifted_var[10]}};
-    shifted_commitment_type t_comm = {{shifted_var[11]}, {unshifted_var[11]}};
-    shifted_commitment_type generic_comm = {{shifted_var[12]}, {unshifted_var[12]}};
-    shifted_commitment_type psm_comm = {{shifted_var[13]}, {unshifted_var[13]}};
+    std::vector<commitment_type> oracles_poly_comm = {
+        {{unshifted_var[3]}}};    // to-do: get in the component from oracles
+    commitment_type lookup_runtime_comm = {{unshifted_var[4]}};
+    commitment_type table_comm = {{unshifted_var[5]}};
+    std::vector<commitment_type> lookup_sorted_comm {{{unshifted_var[6]}}};
+    std::vector<commitment_type> lookup_selectors_comm = {{{unshifted_var[7]}}};
+    std::vector<commitment_type> selectors_comm = {{{unshifted_var[8]}}};
+    commitment_type lookup_agg_comm = {{unshifted_var[9]}};
+    commitment_type z_comm = {{unshifted_var[10]}};
+    commitment_type t_comm = {{unshifted_var[11]}};
+    commitment_type generic_comm = {{unshifted_var[12]}};
+    commitment_type psm_comm = {{unshifted_var[13]}};
 
     curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type L =
         algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
@@ -223,11 +218,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     opening_proof_type o_var = {{L_var}, {R_var}, delta_var, G_var};
 
-    std::array<curve_type::base_field_type::value_type, proof_type::f_comm_base_size> scalars;
+    std::array<curve_type::base_field_type::value_type, kimchi_constants::f_comm_msm_size> scalars;
 
-    std::array<var, proof_type::f_comm_base_size> scalars_var;
+    std::array<var, kimchi_constants::f_comm_msm_size> scalars_var;
 
-    for (std::size_t i = 0; i < proof_type::f_comm_base_size; i++) {
+    for (std::size_t i = 0; i < kimchi_constants::f_comm_msm_size; i++) {
         scalars[i] = algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(scalars[i]);
         scalars_var[i] = var(0, 74 + i, false, var::column_type::public_input);
@@ -290,7 +285,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
     var cip_var = var(0, 74 + bases_size, false, var::column_type::public_input);
 
-    typename proof_type::commitments commitments = {
+    typename proof_type::commitments_type commitments = {
         {witness_comm}, lookup_runtime_comm,   table_comm, {lookup_sorted_comm}, lookup_agg_comm, z_comm,
         t_comm,         {oracles_poly_comm[0]}    // to-do: get in the component from oracles
     };
@@ -301,7 +296,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
         H_var,
         {PI_G_var},
         {lagrange_bases_var},
-        {{sigma_comm}, {coefficient_comm}, generic_comm, psm_comm, {selectors_comm}, {lookup_selectors_comm}}};
+        {{sigma_comm}, {coefficient_comm}, generic_comm, psm_comm, {selectors_comm}, {lookup_selectors_comm},
+        psm_comm, // runtime_tables_selector 
+        psm_comm, // complete_add
+        psm_comm, // var_base_mmul
+        psm_comm, // endo_mul
+        psm_comm, // endo_mul_scalar
+        }};
 
     typename binding::fr_data<var, batch_size> fr_data = {
         batch_scalars_var, {cip_var}, {Pub_var}, zeta_to_srs_len_var, zeta_to_domain_size_minus_1_var};

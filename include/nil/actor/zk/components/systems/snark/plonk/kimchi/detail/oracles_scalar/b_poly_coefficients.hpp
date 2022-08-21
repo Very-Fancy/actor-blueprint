@@ -32,7 +32,7 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/component.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
 
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
@@ -134,7 +134,6 @@ namespace nil {
                             row += mul_component::rows_amount;                 
                         }
 
-                        generate_copy_constraints(bp, assignment, params, start_row_index);
                         result_type res;
                         res.output = output;
                         return res;
@@ -166,24 +165,10 @@ namespace nil {
                         res.output = output;
                         return res;
                     }
-
-                private:
-                    static void generate_gates(blueprint<ArithmetizationType> &bp,
-                                               blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                               const params_type &params,
-                                               const std::size_t first_selector_index) {
-
-                    }
-
-                    static void generate_copy_constraints(blueprint<ArithmetizationType> &bp,
-                                                  blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                                  const params_type &params,
-                                                  const std::size_t start_row_index) {
-                    }
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_B_POLY_COEFFICIENTS_HPP

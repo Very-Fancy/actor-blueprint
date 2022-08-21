@@ -30,19 +30,22 @@
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/constraint_system.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/constraint_system.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/component.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/component.hpp>
 
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 
-#include <nil/crypto3/zk/components/algebra/fields/plonk/field_operations.hpp>
-#include <nil/crypto3/zk/components/algebra/fields/plonk/exponentiation.hpp>
-#include <nil/crypto3/zk/components/algebra/curves/pasta/plonk/endo_scalar.hpp>
-#include <nil/crypto3/zk/components/hashes/poseidon/plonk/poseidon_15_wires.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
+#include <nil/actor/zk/components/algebra/fields/plonk/exponentiation.hpp>
+#include <nil/actor/zk/components/algebra/curves/pasta/plonk/endo_scalar.hpp>
+#include <nil/actor/zk/components/hashes/poseidon/plonk/poseidon_15_wires.hpp>
 
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/constraints/vanishes_on_last_4_rows.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/constraints/unnormalized_lagrange_basis.hpp>
+
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
 namespace nil {
     namespace actor {
@@ -78,12 +81,19 @@ namespace nil {
                                                     KimchiParamsType::scalar_challenge_size, W0, W1, W2, W3, W4, W5, W6,
                                                     W7, W8, W9, W10, W11, W12, W13, W14>;
 
-                    using poseidon_component = zk::components::poseidon<ArithmetizationType, BlueprintFieldType, 0, 1,
-                                                                        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
+                    using poseidon_component = zk::components::poseidon<ArithmetizationType, BlueprintFieldType, W0, W1,
+                                                                        W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
                     using exponentiation_component =
                         zk::components::exponentiation<ArithmetizationType, 64, W0, W1, W2, W3, W4, W5, W6, W7, W8, W9,
                                                        W10, W11, W12, W13, W14>;
+
+                    using vanishes_on_last_4_rows_component = zk::components::vanishes_on_last_4_rows<
+                        ArithmetizationType, W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10,
+                                                                    W11, W12, W13, W14>;
+
+                    using unnormalized_lagrange_basis_component = zk::components::unnormalized_lagrange_basis<ArithmetizationType,
+                         W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14>;
 
                     using evaluations_type =
                         typename zk::components::kimchi_proof_evaluations<BlueprintFieldType, KimchiParamsType>;
@@ -132,20 +142,19 @@ namespace nil {
                             case KimchiParamsType::witness_columns + 3:
                                 return evals.generic_selector;
                             case KimchiParamsType::witness_columns + 4:
-                                // TODO: lookups
-                                return evals.z;
+                                return evals.lookup.aggreg;
                             case KimchiParamsType::witness_columns + 5:
-                                // TODO: lookups
-                                return evals.z;
+                                return evals.lookup.table;
                             case KimchiParamsType::witness_columns + 6:
-                                // TODO: lookups
-                                return evals.z;
-                            case KimchiParamsType::witness_columns + 7:
-                                // TODO: lookups
-                                return evals.z;
+                                return evals.lookup.runtime;
                             default:
-                                throw std::runtime_error("Unknown column type");
+                                break;
                         }
+
+                        assert(var_column <= KimchiParamsType::witness_columns + 
+                            6 + KimchiParamsType::circuit_params::lookup_columns);
+                        
+                        return evals.lookup.sorted[var_column - KimchiParamsType::witness_columns - 7];
                     }
 
                     enum token_type {
@@ -172,6 +181,7 @@ namespace nil {
                         token_type type;
                         std::pair<typename BlueprintFieldType::value_type, typename BlueprintFieldType::value_type>
                             value;
+                        int int_data;
                     };
 
                     static std::vector<token_value_type>
@@ -260,7 +270,7 @@ namespace nil {
                                         std::size_t col_end_pos = token_str.find(")", col_start_pos);
                                         std::string col_str =
                                             token_str.substr(col_start_pos, col_end_pos - col_start_pos);
-                                        col = KimchiParamsType::witness_columns + 6 + std::stoi(col_str);
+                                        col = KimchiParamsType::witness_columns + 7 + std::stoi(col_str);
                                     }
                                 }
 
@@ -285,6 +295,12 @@ namespace nil {
                                 token.type = token_type::vanishes_on_last_4_rows;
                             } else if (token_str.find("UnnormalizedLagrangeBasis") != std::string::npos) {
                                 token.type = token_type::unnormalized_lagrange_basis;
+
+                                std::size_t exp_start_pos = token_str.find("UnnormalizedLagrangeBasis");
+                                exp_start_pos = token_str.find("(", exp_start_pos);
+                                std::size_t exp_end_pos = token_str.find(")", exp_start_pos);
+                                std::string exp_str = token_str.substr(exp_start_pos, exp_end_pos - exp_start_pos);
+                                token.int_data = std::stoi(exp_str);
                             } else if (token_str.find("Store") != std::string::npos) {
                                 token.type = token_type::store;
                             } else if (token_str.find("Load") != std::string::npos) {
@@ -311,12 +327,17 @@ namespace nil {
                     struct params_type {
                         std::string_view expression;
 
+                        var eval_point; // zeta
+
                         var alpha;
                         var beta;
                         var gamma;
                         var joint_combiner;
 
                         std::array<evaluations_type, KimchiParamsType::eval_points_amount> evaluations;
+
+                        var group_gen;
+                        std::size_t domain_size;
                     };
 
                     struct result_type {
@@ -344,15 +365,11 @@ namespace nil {
                         std::vector<var> stack;
                         std::vector<var> cache;
 
-                        std::size_t constant_row = 0;
+                        var endo_factor(0, row, false, var::column_type::constant);
+                        row++;
 
-                        var endo_factor(0, constant_row, false, var::column_type::constant);
-                        var zero(0, constant_row + 1, false, var::column_type::constant);
-                        var one(0, constant_row + 2, false, var::column_type::constant);
-                        constant_row += 3;
-
-                        auto mds = mds_vars(constant_row);
-                        constant_row += mds_size * mds_size;
+                        auto mds = mds_vars(row);
+                        row += mds_size * mds_size;
 
                         for (token_value_type t : tokens) {
                             switch (t.type) {
@@ -380,9 +397,9 @@ namespace nil {
                                     break;
                                 }
                                 case token_type::literal: {
-                                    var literal(0, constant_row, false, var::column_type::constant);
+                                    var literal(0, row, false, var::column_type::constant);
                                     stack.emplace_back(literal);
-                                    constant_row++;
+                                    row++;
                                     break;
                                 }
                                 case token_type::cell: {
@@ -398,14 +415,13 @@ namespace nil {
                                     stack.emplace_back(stack.back());
                                     break;
                                 case token_type::pow: {
-                                    var exponent(0, constant_row, false, var::column_type::constant);
-                                    constant_row++;
+                                    var exponent(0, row, false, var::column_type::constant);
+                                    row++;
 
                                     var res = zk::components::generate_circuit<exponentiation_component>(
                                                   bp, assignment, {stack.back(), exponent}, row)
                                                   .output;
                                     row += exponentiation_component::rows_amount;
-
                                     stack[stack.size() - 1] = res;
                                     break;
                                 }
@@ -439,18 +455,26 @@ namespace nil {
                                     var y = stack.back();
                                     stack.pop_back();
                                     var res =
-                                        zk::components::generate_circuit<sub_component>(bp, assignment, {x, y}, row)
+                                        zk::components::generate_circuit<sub_component>(bp, assignment, {y, x}, row)
                                             .output;
                                     row += sub_component::rows_amount;
                                     stack.push_back(res);
                                     break;
                                 }
-                                case token_type::vanishes_on_last_4_rows:
-                                    // TODO: lookups
+                                case token_type::vanishes_on_last_4_rows: {
+                                    var res = vanishes_on_last_4_rows_component::generate_circuit(
+                                                  bp, assignment, {params.group_gen, params.domain_size, params.eval_point}, row).output;
+                                    row += vanishes_on_last_4_rows_component::rows_amount;
+                                    stack.push_back(res);
                                     break;
-                                case token_type::unnormalized_lagrange_basis:
-                                    // TODO: lookups
+                                }
+                                case token_type::unnormalized_lagrange_basis: {
+                                    var res = unnormalized_lagrange_basis_component::generate_circuit(
+                                                  bp, assignment, {params.group_gen, params.domain_size, params.eval_point, t.int_data}, row).output;
+                                    row += unnormalized_lagrange_basis_component::rows_amount;
+                                    stack.push_back(res);
                                     break;
+                                }
                                 case token_type::store: {
                                     var x = stack.back();
                                     cache.emplace_back(x);
@@ -482,15 +506,11 @@ namespace nil {
                         std::vector<var> stack;
                         std::vector<var> cache;
 
-                        std::size_t constant_row = 0;
+                        var endo_factor(0, row, false, var::column_type::constant);
+                        row += 1;
 
-                        var endo_factor(0, constant_row, false, var::column_type::constant);
-                        var zero(0, constant_row + 1, false, var::column_type::constant);
-                        var one(0, constant_row + 2, false, var::column_type::constant);
-                        constant_row += 3;
-
-                        auto mds = mds_vars(constant_row);
-                        constant_row += mds_size * mds_size;
+                        auto mds = mds_vars(row);
+                        row += mds_size * mds_size;
 
                         for (token_value_type t : tokens) {
                             switch (t.type) {
@@ -518,9 +538,9 @@ namespace nil {
                                     break;
                                 }
                                 case token_type::literal: {
-                                    var literal(0, constant_row, false, var::column_type::constant);
+                                    var literal(0, row, false, var::column_type::constant);
                                     stack.emplace_back(literal);
-                                    constant_row++;
+                                    row++;
                                     break;
                                 }
                                 case token_type::cell: {
@@ -536,8 +556,8 @@ namespace nil {
                                     stack.emplace_back(stack.back());
                                     break;
                                 case token_type::pow: {
-                                    var exponent(0, constant_row, false, var::column_type::constant);
-                                    constant_row++;
+                                    var exponent(0, row, false, var::column_type::constant);
+                                    row++; 
 
                                     var res = exponentiation_component::generate_assignments(
                                                   assignment, {stack.back(), exponent}, row)
@@ -572,17 +592,25 @@ namespace nil {
                                     stack.pop_back();
                                     var y = stack.back();
                                     stack.pop_back();
-                                    var res = sub_component::generate_assignments(assignment, {x, y}, row).output;
+                                    var res = sub_component::generate_assignments(assignment, {y, x}, row).output;
                                     row += sub_component::rows_amount;
                                     stack.push_back(res);
                                     break;
                                 }
-                                case token_type::vanishes_on_last_4_rows:
-                                    // TODO: lookups
+                                case token_type::vanishes_on_last_4_rows: {
+                                    var res = vanishes_on_last_4_rows_component::generate_assignments(
+                                                  assignment, {params.group_gen, params.domain_size, params.eval_point}, row).output;
+                                    row += vanishes_on_last_4_rows_component::rows_amount;
+                                    stack.push_back(res);
                                     break;
-                                case token_type::unnormalized_lagrange_basis:
-                                    // TODO: lookups
+                                }
+                                case token_type::unnormalized_lagrange_basis: {
+                                    var res = unnormalized_lagrange_basis_component::generate_assignments(
+                                                  assignment, {params.group_gen, params.domain_size, params.eval_point, t.int_data}, row).output;
+                                    row += unnormalized_lagrange_basis_component::rows_amount;
+                                    stack.push_back(res);
                                     break;
+                                }
                                 case token_type::store: {
                                     var x = stack.back();
                                     cache.emplace_back(x);
@@ -610,12 +638,7 @@ namespace nil {
                         const params_type &params,
                         const std::size_t start_row_index) {
                         std::size_t row = start_row_index;
-                        assignment.constant(0)[row] = endo_scalar_component::endo_factor;
-                        row++;
-
-                        assignment.constant(0)[row] = 0;
-                        row++;
-                        assignment.constant(0)[row] = 1;
+                        assignment.constant(0)[row] = endo_scalar_component::endo_q;
                         row++;
 
                         std::array<std::array<typename BlueprintFieldType::value_type, mds_size>, mds_size> mds =
@@ -632,27 +655,43 @@ namespace nil {
                         for (token_value_type t : tokens) {
                             switch (t.type) {
                                 case token_type::literal: {
-                                    assignment.constant(W0)[row] = t.value.first;
+                                    assignment.constant(0)[row] = t.value.first;
                                     row++;
                                     break;
                                 }
                                 case token_type::pow: {
-                                    assignment.constant(W0)[row] = t.value.first;
+                                    assignment.constant(0)[row] = t.value.first;
                                     row++;
+                                    row += exponentiation_component::rows_amount;
                                     break;
                                 }
-                                case token_type::unnormalized_lagrange_basis:
-                                    // TODO: lookups
+                                case token_type::add: {
+                                    row += add_component::rows_amount;
                                     break;
-                                default:
+                                }
+                                case token_type::mul: {
+                                    row += mul_component::rows_amount;
                                     break;
+                                }
+                                case token_type::sub: {
+                                    row += sub_component::rows_amount;
+                                    break;
+                                }
+                                case token_type::vanishes_on_last_4_rows: {
+                                    row += vanishes_on_last_4_rows_component::rows_amount;
+                                    break;
+                                }
+                                case token_type::unnormalized_lagrange_basis: {
+                                    row += unnormalized_lagrange_basis_component::rows_amount;
+                                    break;
+                                }
                             }
                         }
                     }
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_RPN_EXPRESSION_HPP

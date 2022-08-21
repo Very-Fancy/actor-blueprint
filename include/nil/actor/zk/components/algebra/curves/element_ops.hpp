@@ -49,7 +49,7 @@ namespace nil {
                 struct element_g1_to_bits { };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_ELEMENT_OPS_COMPONENT_HPP

@@ -68,7 +68,7 @@ namespace nil {
                 };
             }    // namespace chips
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_INCOMPLETE_ADDITION_CHIP_HPP

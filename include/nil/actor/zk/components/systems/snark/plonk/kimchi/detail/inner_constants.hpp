@@ -40,6 +40,8 @@ namespace nil {
             namespace components {
                 template<typename KimchiParamsType>
                 struct kimchi_inner_constants {
+
+                    public:
                     using commitment_params_type = typename KimchiParamsType::commitment_params_type;
 
                     constexpr static std::size_t ft_generic_size = 2 * 5;
@@ -73,15 +75,19 @@ namespace nil {
                                 + 1 // U
                                 + 2 * commitment_params_type::eval_rounds
                                 + evaluations_in_batch_size
-                                    * (commitment_params_type::shifted_commitment_split + 1)
+                                    * commitment_params_type::shifted_commitment_split
                                 + 1 // U
                                 + 1) // opening.delta 
                             * batch_size;
                     }
+
+                    constexpr static std::size_t f_comm_msm_size = 1 
+                                + ft_generic_size
+                                + KimchiParamsType::circuit_params::index_terms_list::size;
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP

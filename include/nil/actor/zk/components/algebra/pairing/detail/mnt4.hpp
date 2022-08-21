@@ -91,7 +91,7 @@ namespace nil {
                 }    // namespace detail
             }        // namespace components
         }            // namespace zk
-    }                // namespace crypto3
+    }                // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_MNT4_BASIC_PAIRING_HPP

@@ -39,10 +39,8 @@
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/prepare_batch_scalar.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_scalar_field.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
 
 namespace nil {
@@ -83,7 +81,7 @@ namespace nil {
                     constexpr static const std::size_t selector_seed = 0x0f2D;
 
                 public:
-                    constexpr static const std::size_t rows_amount = 1;
+                    constexpr static const std::size_t rows_amount = 0;
                     constexpr static const std::size_t gates_amount = 0;
 
                     struct params_type {
@@ -142,7 +140,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_MAP_FQ_HPP

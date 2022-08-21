@@ -222,7 +222,7 @@ namespace nil {
                 }
             };
         }    // namespace zk
-    }        // namespace crypto3
+    }        // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_PROFILING_PLONK_CIRCUIT_HPP

@@ -371,7 +371,7 @@ namespace nil {
 
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_NON_NATIVE_FIELDS_EDDSA_SUM_OF_SQUARES_AND_C_COMPONENT_9_WIRES_HPP

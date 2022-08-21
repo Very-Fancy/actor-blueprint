@@ -107,7 +107,7 @@ namespace nil {
 
             }    // namespace snark
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_SNARK_SET_COMMITMENT_HPP

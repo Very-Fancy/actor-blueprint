@@ -303,7 +303,7 @@ namespace nil {
                 std::size_t knapsack_crh_with_field_out_component<FieldType>::num_cached_coefficients;
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_KNAPSACK_COMPONENT_HPP

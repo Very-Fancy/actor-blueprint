@@ -324,20 +324,20 @@ namespace nil {
 
                         std::size_t row = component_start_row;
 
-                        // bp.add_copy_constraint({var(W0, row + 4, false), params.A[0]});
-                        // bp.add_copy_constraint({var(W1, row + 4, false), params.A[1]});
-                        // bp.add_copy_constraint({var(W2, row + 4, false), params.A[2]});
-                        // bp.add_copy_constraint({var(W3, row + 4, false), params.A[3]});
-                        // bp.add_copy_constraint({var(W4, row + 4, false), params.B[0]});
-                        // bp.add_copy_constraint({var(W5, row + 4, false), params.B[1]});
-                        // bp.add_copy_constraint({var(W6, row + 4, false), params.B[2]});
-                        // bp.add_copy_constraint({var(W7, row + 4, false), params.B[3]});
+                         bp.add_copy_constraint({var(W0, row + 4, false), params.A[0]});
+                         bp.add_copy_constraint({var(W1, row + 4, false), params.A[1]});
+                         bp.add_copy_constraint({var(W2, row + 4, false), params.A[2]});
+                         bp.add_copy_constraint({var(W3, row + 4, false), params.A[3]});
+                        bp.add_copy_constraint({var(W4, row + 4, false), params.B[0]});
+                        bp.add_copy_constraint({var(W5, row + 4, false), params.B[1]});
+                        bp.add_copy_constraint({var(W6, row + 4, false), params.B[2]});
+                        bp.add_copy_constraint({var(W7, row + 4, false), params.B[3]});
                     }
                 };
 
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_NON_NATIVE_FIELDS_EDDSA_MULTIPLICATION_COMPONENT_9_WIRES_HPP

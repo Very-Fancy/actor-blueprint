@@ -31,7 +31,7 @@
 #include <nil/actor/zk/component.hpp>
 
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
@@ -212,7 +212,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_BATCH_SCALAR_RANDOM_HPP

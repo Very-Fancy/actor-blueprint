@@ -711,7 +711,7 @@ namespace nil {
                 }    // namespace components
             }        // namespace snark
         }            // namespace zk
-    }                // namespace crypto3
+    }                // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_R1CS_PPZKSNARK_VERIFIER_COMPONENT_HPP

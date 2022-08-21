@@ -420,6 +420,6 @@ namespace nil {
             };
 
         }    // namespace zk
-    }        // namespace crypto3
+    }        // namespace actor
 }    // namespace nil
 #endif    // ACTOR_ZK_BLUEPRINT_ASSIGNMENT_PLONK_HPP

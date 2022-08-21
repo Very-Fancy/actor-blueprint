@@ -47,7 +47,7 @@ namespace nil {
                 using element_fp = blueprint_linear_combination<FieldType>;
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_FP_COMPONENTS_HPP

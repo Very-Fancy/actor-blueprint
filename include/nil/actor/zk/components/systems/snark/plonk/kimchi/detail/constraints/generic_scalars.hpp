@@ -32,8 +32,8 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/component.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
@@ -186,7 +186,7 @@ namespace nil {
                             output[5 * i + 3] = zk::components::generate_circuit<mul_component>(
                                 bp, assignment, 
                                 {alpha_generic,
-                                 params.evals[0].w[offsets[i] + 1]}, row).output;
+                                 tmp}, row).output;
                             row += mul_component::rows_amount;
 
                             // constant
@@ -237,7 +237,7 @@ namespace nil {
                             output[5 * i + 3] = mul_component::generate_assignments(
                                 assignment, 
                                 {alpha_generic,
-                                 params.evals[0].w[offsets[i] + 1]}, row).output;
+                                 tmp}, row).output;
                             row += mul_component::rows_amount;
 
                             // constant
@@ -269,7 +269,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_GENERIC_SCALARS_HPP

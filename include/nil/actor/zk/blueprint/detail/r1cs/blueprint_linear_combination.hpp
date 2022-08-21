@@ -277,7 +277,7 @@ namespace nil {
                 }
             }    // namespace detail
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
 #endif    // ACTOR_ZK_BLUEPRINT_LINEAR_COMBINATION_HPP
