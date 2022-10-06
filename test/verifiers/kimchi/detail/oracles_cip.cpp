@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------//
 // Copyright (c) 2022 Ilia Shirobokov <i.shirobokov@nil.foundation>
+// Copyright (c) 2022 Ekaterina Chukavina <kate@nil.foundation>
 //
 // MIT License
 //
@@ -43,8 +44,8 @@
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
+#include "verifiers/kimchi/index_terms_instances/ec_index_terms_cip.hpp"
 #include "verifiers/kimchi/index_terms_instances/ec_index_terms.hpp"
-
 #include "../../../test_plonk_component.hpp"
 
 using namespace nil::actor;
@@ -81,11 +82,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_kimchi_detail_oracles_cip_test2) 
     constexpr static const std::size_t eval_points_amount = 2;
 
     using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
-    using index_terms_list = zk::components::index_terms_scalars_list_ec_test<ArithmetizationType>;
-    using circuit_description = zk::components::kimchi_circuit_description<index_terms_list, 
-        witness_columns, perm_size>;
+    using index_terms_list = zk::components::index_terms_scalars_cip_list_ec_test<ArithmetizationType>;
+    using circuit_description = zk::components::kimchi_circuit_description<index_terms_list,
+                                                                           witness_columns, perm_size>;
     using kimchi_params = zk::components::kimchi_params_type<curve_type, commitment_params, circuit_description,
-        public_input_size, prev_chal_size>;
+                                                             public_input_size, prev_chal_size>;
 
     using component_type =
         zk::components::oracles_cip<ArithmetizationType, kimchi_params, 0, 1, 2, 3, 4,
@@ -120,11 +121,12 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_kimchi_detail_oracles_cip_test2) 
     public_input.push_back(0x16FE1AE7F56997161DB512632BE7BFA337F47F422E0D01AF06DE298DD8C429D5_cppui255);
     ft_eval1 = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-    p_eval[1] = var(0, public_input.size() - 1, false, var::column_type::public_input);
+
     //    }
     public_input.push_back(0x0000000000000000000000000000000000000000000000000000000000000000_cppui255);//x35557EBE9125C357A755F10D90F82A78DE0522FCBA6A3C2039F7F4F95B24F1BC_cppui255);//algebra::random_element<BlueprintFieldType>());
     p_eval[0] = var(0, public_input.size() - 1, false, var::column_type::public_input);
     public_input.push_back(0x0000000000000000000000000000000000000000000000000000000000000000_cppui255);//0x175762EC87AE06A44B63D3F5626B76591A06D32BB6A2FCCA8A62A36C1D7A59E7_cppui255);//algebra::random_element<BlueprintFieldType>());
+    p_eval[1] = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
     public_input.push_back(0x1480D3E4FD095CEC3688F88B105EE6F2365DCFAAA28CCB6B87DAB7E71E58010B_cppui255);//lgebra::random_element<BlueprintFieldType>());
     evals[0].z = var(0, public_input.size() - 1, false, var::column_type::public_input);
@@ -283,11 +285,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_kimchi_detail_oracles_cip_test) {
     constexpr static const std::size_t eval_points_amount = 2;
 
     using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
-    using index_terms_list = zk::components::index_terms_scalars_list<ArithmetizationType>;
-    using circuit_description = zk::components::kimchi_circuit_description<index_terms_list, 
-        witness_columns, perm_size>;
+    using index_terms_list = zk::components::index_terms_scalars_list_ec_test<ArithmetizationType>;
+    using circuit_description = zk::components::kimchi_circuit_description<index_terms_list,
+                                                                           witness_columns, perm_size>;
     using kimchi_params = zk::components::kimchi_params_type<curve_type, commitment_params, circuit_description,
-        public_input_size, prev_chal_size>;
+                                                             public_input_size, prev_chal_size>;
 
     using component_type =
         zk::components::oracles_cip<ArithmetizationType, kimchi_params, 0, 1, 2, 3, 4,
@@ -454,129 +456,5 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_kimchi_detail_oracles_cip_test) {
     test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,
                                                                                                  result_check);
 }
-
-//
-//BOOST_AUTO_TEST_CASE(blueprint_plonk_verifiers_kimchi_detail_oracles_cip_test) {
-//
-//    using curve_type = algebra::curves::vesta;
-//    using BlueprintFieldType = typename curve_type::scalar_field_type;
-//    constexpr std::size_t WitnessColumns = 15;
-//    constexpr std::size_t PublicInputColumns = 1;
-//    constexpr std::size_t ConstantColumns = 1;
-//    constexpr std::size_t SelectorColumns = 30;
-//    using ArithmetizationParams =
-//        zk::snark::plonk_arithmetization_params<WitnessColumns, PublicInputColumns, ConstantColumns, SelectorColumns>;
-//    using ArithmetizationType = zk::snark::plonk_constraint_system<BlueprintFieldType, ArithmetizationParams>;
-//    using AssignmentType = zk::blueprint_assignment_table<ArithmetizationType>;
-//    using hash_type = nil::crypto3::hashes::keccak_1600<256>;
-//    constexpr std::size_t Lambda = 40;
-//
-//    using var = zk::snark::plonk_variable<BlueprintFieldType>;
-//
-//    constexpr static std::size_t alpha_powers_n = 5;
-//    constexpr static std::size_t public_input_size = 3;
-//    constexpr static std::size_t max_poly_size = 32;
-//    constexpr static std::size_t eval_rounds = 5;
-//
-//    constexpr static std::size_t witness_columns = 15;
-//    constexpr static std::size_t perm_size = 7;
-//    constexpr static std::size_t lookup_table_size = 1;
-//    constexpr static bool use_lookup = false;
-//
-//    constexpr static std::size_t srs_len = 10;
-//    constexpr static const std::size_t prev_chal_size = 1;
-//
-//    constexpr static const std::size_t eval_points_amount = 2;
-//
-//    using commitment_params = zk::components::kimchi_commitment_params_type<eval_rounds, max_poly_size, srs_len>;
-//    using kimchi_params =
-//        zk::components::kimchi_params_type<curve_type, commitment_params, witness_columns, perm_size, use_lookup, lookup_table_size,
-//                                           alpha_powers_n, public_input_size, prev_chal_size>;
-//
-//    using component_type =
-//        zk::components::oracles_cip<ArithmetizationType, kimchi_params,1, 0, 1, 2, 3, 4,
-//                                       5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
-//
-//    std::vector<typename BlueprintFieldType::value_type> public_input;
-//
-//    // component input
-//    var v;
-//    var u;
-//    var ft_eval0;
-//    var ft_eval1;
-//    std::array<
-//        std::array<
-//        std::array<var, commitment_params::split_poly_eval_size>,
-//        eval_points_amount>,
-//        kimchi_params::prev_challenges_size> polys;
-//    std::array<var, eval_points_amount> p_eval;
-//    std::array<zk::components::kimchi_proof_evaluations<BlueprintFieldType, kimchi_params>,
-//        eval_points_amount> evals;
-//
-//    public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//    v = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//
-//    public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//    u = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//
-//    public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//    ft_eval0 = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//
-//    public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//    ft_eval1 = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//
-//    for (std::size_t i = 0; i < kimchi_params::prev_challenges_size; i++) {
-//        for (std::size_t j = 0; j < eval_points_amount; j++) {
-//            for (std::size_t k = 0; k < commitment_params::split_poly_eval_size; k++) {
-//                public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//                polys[i][j][k] = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//            }
-//        }
-//    }
-//
-//    for (std::size_t i = 0; i < eval_points_amount; i++) {
-//        public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//        p_eval[i] = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//    }
-//
-//    for (std::size_t i = 0; i < eval_points_amount; i++) {
-//        for (std::size_t j = 0; j < kimchi_params::witness_columns; j++) {
-//            public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//            evals[i].w[j] = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//        }
-//
-//        public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//        evals[i].z = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//
-//        for (std::size_t j = 0; j < kimchi_params::permut_size - 1; j++) {
-//            public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//            evals[i].s[j] = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//        }
-//
-//        // TODO: lookups
-//
-//        public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//        evals[i].generic_selector = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//
-//        public_input.push_back(algebra::random_element<BlueprintFieldType>());
-//        evals[i].poseidon_selector = var(0, public_input.size() - 1, false, var::column_type::public_input);
-//    }
-//
-//
-//    typename component_type::params_type params = {
-//        v,
-//        u,
-//        ft_eval0,
-//        ft_eval1,
-//        polys,
-//        p_eval,
-//        evals
-//    };
-//
-//    auto result_check = [](AssignmentType &assignment, component_type::result_type &real_res) {};
-//
-//    test_component<component_type, BlueprintFieldType, ArithmetizationParams, hash_type, Lambda>(params, public_input,
-//                                                                                                 result_check);
-//}
 
 BOOST_AUTO_TEST_SUITE_END()

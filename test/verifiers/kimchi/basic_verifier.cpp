@@ -44,7 +44,7 @@
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/binding.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
 
 #include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>

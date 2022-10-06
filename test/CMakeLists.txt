@@ -165,7 +165,7 @@ set(BLUEPRINT_TESTS_FILES
 set(PLONK_TESTS_FILES
     "algebra/curves/plonk/fixed_base_scalar_mul"
     "algebra/curves/plonk/variable_base_scalar_mul"
-    #"algebra/curves/plonk/decomposed_variable_base_scalar_mul"
+    "algebra/curves/plonk/decomposed_variable_base_scalar_mul"
     "algebra/curves/plonk/unified_addition"
     "algebra/curves/plonk/variable_base_endo_scalar_mul"
     "algebra/curves/plonk/endo_scalar"
@@ -213,6 +213,7 @@ set(PLONK_TESTS_FILES
     "algebra/fields/plonk/element_powers"
     "algebra/fields/plonk/exponentiation"
     "algebra/fields/plonk/sqrt"
+    "algebra/fields/plonk/range_check"
     )
 
 set(FIELDS_TESTS_FILES
