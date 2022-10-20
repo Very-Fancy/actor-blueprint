@@ -93,13 +93,13 @@ void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
             var(0, public_input.size() - 1, false, var::column_type::public_input);
     }
     // ft_eval
-    public_input.push_back(algebra::random_element<BlueprintFieldType>());
+    public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prepare_batch_scalar_test_suite) {
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -176,14 +176,14 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prepare_batch_scalar_test_suite) {
 
     // TODO prepare real data
     for (std::size_t i = 0; i < public_input_size; i++) {
-        typename BlueprintFieldType::value_type tmp = algebra::random_element<BlueprintFieldType>();
+        typename BlueprintFieldType::value_type tmp = crypto3::algebra::random_element<BlueprintFieldType>();
         public_input.push_back(tmp);
         proof.public_input[i] = var(0, public_input.size() - 1, false, var::column_type::public_input);
     }
 
     for (std::size_t i = 0; i < kimchi_params::prev_challenges_size; i++) {
         for (std::size_t j = 0; j < eval_rounds; j++) {
-            typename BlueprintFieldType::value_type tmp = algebra::random_element<BlueprintFieldType>();
+            typename BlueprintFieldType::value_type tmp = crypto3::algebra::random_element<BlueprintFieldType>();
             public_input.push_back(tmp);
             proof.prev_challenges[i][j] = var(0, public_input.size() - 1, false, var::column_type::public_input);
         }

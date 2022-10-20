@@ -101,13 +101,13 @@ namespace nil {
                         typename BlueprintFieldType::value_type b = assignment.var_value(params.b);
                         typename BlueprintFieldType::value_type T_x = assignment.var_value(params.T.x);
                         typename BlueprintFieldType::value_type T_y = assignment.var_value(params.T.y);
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type T(T_x,
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type T(T_x,
                                                                                                                  T_y);
 
                         std::array<
-                            typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type, 6>
+                            typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type, 6>
                             P;
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type Q;
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type Q;
 
                         typename CurveType::scalar_field_type::integral_type integral_b =
                             typename CurveType::scalar_field_type::integral_type(b.data);
@@ -122,7 +122,7 @@ namespace nil {
                         auto addition_res = add_component::generate_assignments(
                             assignment, {{params.T.x, params.T.y}, {params.T.x, params.T.y}}, start_row_index);
 
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type
                             T_doubled(assignment.var_value(addition_res.X), assignment.var_value(addition_res.Y));
 
                         std::size_t j = start_row_index + add_component::rows_amount;

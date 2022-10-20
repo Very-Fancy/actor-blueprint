@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_combined_inner_product) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -74,14 +74,14 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_combined_inner_product) {
     for (std::size_t i = 0 ; i < k; i++) {
         input_var_zeta1[i] = var(0, 2 * i, false, var::column_type::public_input);
         input_var_zeta2[i] = var(0, 2 * i + 1, false, var::column_type::public_input);
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
     }
 
     var xi = var(0, 2 * k, false, var::column_type::public_input);
     var r = var(0, 2 * k + 1, false, var::column_type::public_input);
-    public_input.push_back(algebra::random_element<BlueprintFieldType>());
-    public_input.push_back(algebra::random_element<BlueprintFieldType>());
+    public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
+    public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
 
     typename component_type::params_type params = {input_var_zeta1, input_var_zeta2, xi, r};
 

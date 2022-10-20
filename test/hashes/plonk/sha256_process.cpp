@@ -141,15 +141,15 @@ ACTOR_THREAD_TEST_CASE(blueprint_plonk_sha256_process) {
 
         /*std::vector<bool> e_bits(32);
         for (std::size_t j = 0; j < 32; j++) {
-            e_bits[32 - j - 1] = multiprecision::bit_test(e, j);
+            e_bits[32 - j - 1] = nil::crypto3::multiprecision::bit_test(e, j);
         }
         std::vector<bool> f_bits(32);
         for (std::size_t j = 0; j < 32; j++) {
-            f_bits[32 - j - 1] = multiprecision::bit_test(f, j);
+            f_bits[32 - j - 1] = nil::crypto3::multiprecision::bit_test(f, j);
         }
         std::vector<bool> g_bits(32);
         for (std::size_t j = 0; j < 32; j++) {
-            g_bits[32 - j - 1] = multiprecision::bit_test(g, j);
+            g_bits[32 - j - 1] = nil::crypto3::multiprecision::bit_test(g, j);
         }
         std::vector<std::size_t> sizes = {32};
         std::size_t base = 7;

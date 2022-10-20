@@ -63,7 +63,7 @@ typename FieldType::value_type b_poly(const std::array<typename FieldType::value
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prev_chal_evals) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -97,8 +97,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prev_chal_evals) {
     var one(0, 0, false, var::column_type::public_input);
     var zero(0, 1, false, var::column_type::public_input);
 
-    // typename BlueprintFieldType::value_type zeta_value = algebra::random_element<BlueprintFieldType>();
-    // typename BlueprintFieldType::value_type omega_value = algebra::random_element<BlueprintFieldType>();
+    // typename BlueprintFieldType::value_type zeta_value = crypto3::algebra::random_element<BlueprintFieldType>();
+    // typename BlueprintFieldType::value_type omega_value = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type zeta_value = 0x01751A5CCC6A9B9BDF660296AF5F7C80229DC97F3646FFC3729D827E80DF39DF_cppui256;
     //typename BlueprintFieldType::zeta_value * omega_value
     typename BlueprintFieldType::value_type zeta_omega_value = 0x11039196D240AC7CC0D1A88749F716B6B025F6BCA2CBBD0B41D2DA46FCC90558_cppui256;
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_prev_chal_evals) {
 
     
     for (std::size_t i = 0; i < eval_rounds; i++) {
-        // prev_challenges_values[i] = algebra::random_element<BlueprintFieldType>(); // 
+        // prev_challenges_values[i] = crypto3::algebra::random_element<BlueprintFieldType>(); //
         public_input.push_back(prev_challenges_values[i]);
         prev_challenges[i] = var(0, public_input.size() - 1, false, var::column_type::public_input);
     }

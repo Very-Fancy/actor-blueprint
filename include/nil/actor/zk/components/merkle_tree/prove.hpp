@@ -30,7 +30,7 @@
 #ifndef ACTOR_ZK_BLUEPRINT_MERKLE_AUTHENTICATION_PATH_VARIABLE_HPP
 #define ACTOR_ZK_BLUEPRINT_MERKLE_AUTHENTICATION_PATH_VARIABLE_HPP
 
-#include <nil/crypto3/container/merkle/proof.hpp>
+#include <nil/actor/container/merkle/proof.hpp>
 
 #include <nil/actor/zk/component.hpp>
 #include <nil/actor/zk/components/hashes/hash_io.hpp>

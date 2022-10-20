@@ -55,8 +55,8 @@ namespace nil {
                 struct endo_scalar_params;
 
                 template<>
-                struct endo_scalar_params<algebra::curves::vesta> {
-                    using curve_type = algebra::curves::vesta;
+                struct endo_scalar_params<nil::crypto3::algebra::curves::vesta> {
+                    using curve_type = nil::crypto3::algebra::curves::vesta;
                     using scalar_field_type = typename curve_type::scalar_field_type;
                     using base_field_type = typename curve_type::base_field_type;
                     constexpr static const typename scalar_field_type::value_type endo_r =
@@ -66,8 +66,8 @@ namespace nil {
                 };
 
                 template<>
-                struct endo_scalar_params<algebra::curves::pallas> {
-                    using curve_type = algebra::curves::pallas;
+                struct endo_scalar_params<nil::crypto3::algebra::curves::pallas> {
+                    using curve_type = nil::crypto3::algebra::curves::pallas;
                     using scalar_field_type = typename curve_type::scalar_field_type;
                     using base_field_type = typename curve_type::base_field_type;
                     constexpr static const typename scalar_field_type::value_type endo_r =

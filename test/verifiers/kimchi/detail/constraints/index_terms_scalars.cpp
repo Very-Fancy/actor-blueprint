@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_detail_index_terms_scalar_test_suit
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_ec_test_suite) {
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_ec_test_su
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_index_terms_scalar_lookup_test_suite) {
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;

@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_base_field_test_suite)
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -135,8 +135,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     std::vector<var_ec_point> shifted_var;
     std::vector<var_ec_point> unshifted_var;
     for (std::size_t i = 0; i < 14; i++) {
-        curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type shifted =
-            algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+        curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type shifted =
+            algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
         public_input.push_back(shifted.X);
         public_input.push_back(shifted.Y);
@@ -144,8 +144,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
         shifted_var.push_back({var(0, i * 4, false, var::column_type::public_input),
                                var(0, i * 4 + 1, false, var::column_type::public_input)});
 
-        curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type unshifted =
-            algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+        curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type unshifted =
+            algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
         public_input.push_back(unshifted.X);
         public_input.push_back(unshifted.Y);
@@ -180,8 +180,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     commitment_type generic_comm = {{unshifted_var[12]}};
     commitment_type psm_comm = {{unshifted_var[13]}};
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type L =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type L =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(L.X);
     public_input.push_back(L.Y);
@@ -189,8 +189,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     var_ec_point L_var = {var(0, 56, false, var::column_type::public_input),
                           var(0, 57, false, var::column_type::public_input)};
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type R =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(R.X);
     public_input.push_back(R.Y);
@@ -198,8 +198,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     var_ec_point R_var = {var(0, 58, false, var::column_type::public_input),
                           var(0, 59, false, var::column_type::public_input)};
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type delta =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type delta =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(delta.X);
     public_input.push_back(delta.Y);
@@ -207,8 +207,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     var_ec_point delta_var = {var(0, 60, false, var::column_type::public_input),
                               var(0, 61, false, var::column_type::public_input)};
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type G =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type G =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(G.X);
     public_input.push_back(G.Y);
@@ -223,13 +223,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     std::array<var, kimchi_constants::f_comm_msm_size> scalars_var;
 
     for (std::size_t i = 0; i < kimchi_constants::f_comm_msm_size; i++) {
-        scalars[i] = algebra::random_element<curve_type::base_field_type>();
+        scalars[i] = crypto3::algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(scalars[i]);
         scalars_var[i] = var(0, 74 + i, false, var::column_type::public_input);
     }
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type lagrange_bases =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type lagrange_bases =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(lagrange_bases.X);
     public_input.push_back(lagrange_bases.Y);
@@ -237,7 +237,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     var_ec_point lagrange_bases_var = {var(0, 65, false, var::column_type::public_input),
                                        var(0, 66, false, var::column_type::public_input)};
 
-    typename curve_type::base_field_type::value_type Pub = algebra::random_element<curve_type::base_field_type>();
+    typename curve_type::base_field_type::value_type Pub = crypto3::algebra::random_element<curve_type::base_field_type>();
     public_input.push_back(Pub);
     var Pub_var = var(0, 67, false, var::column_type::public_input);
 
@@ -251,8 +251,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     public_input.push_back(zeta_to_domain_size_minus_1);
     var zeta_to_domain_size_minus_1_var = var(0, 69, false, var::column_type::public_input);
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type H =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type H =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(H.X);
     public_input.push_back(H.Y);
@@ -260,8 +260,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     var_ec_point H_var = {var(0, 70, false, var::column_type::public_input),
                           var(0, 71, false, var::column_type::public_input)};
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type PI_G =
-        algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type PI_G =
+        algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 
     public_input.push_back(PI_G.X);
     public_input.push_back(PI_G.Y);
@@ -275,11 +275,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_base_field_test_suite) {
     std::array<var, bases_size> batch_scalars_var;
 
     for (std::size_t i = 0; i < bases_size; i++) {
-        batch_scalars[i] = algebra::random_element<curve_type::base_field_type>();
+        batch_scalars[i] = crypto3::algebra::random_element<curve_type::base_field_type>();
         public_input.push_back(batch_scalars[i]);
         batch_scalars_var[i] = var(0, 74 + i, false, var::column_type::public_input);
     }
-    curve_type::base_field_type::value_type cip = algebra::random_element<curve_type::base_field_type>();
+    curve_type::base_field_type::value_type cip = crypto3::algebra::random_element<curve_type::base_field_type>();
 
     public_input.push_back(cip);
 

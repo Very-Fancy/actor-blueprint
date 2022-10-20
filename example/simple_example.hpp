@@ -63,8 +63,8 @@ namespace nil {
 
                     /* fill in random example */
                     for (std::size_t i = 0; i < new_num_constraints; ++i) {
-                        bp.val(A[i]) = algebra::random_element<FieldType>();
-                        bp.val(B[i]) = algebra::random_element<FieldType>();
+                        bp.val(A[i]) = crypto3::algebra::random_element<FieldType>();
+                        bp.val(B[i]) = crypto3::algebra::random_element<FieldType>();
                     }
 
                     compute_inner_product.generate_r1cs_witness();

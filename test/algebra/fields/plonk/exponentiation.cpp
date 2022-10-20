@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_exponentiation) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_exponentiation) {
     var exponent(0, 1, false, var::column_type::public_input);
 
 
-    typename BlueprintFieldType::value_type base_value = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type base_value = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type exponent_value = 654;
     typename BlueprintFieldType::integral_type exponent_value_integral = typename BlueprintFieldType::integral_type(exponent_value.data);
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_exponentiation) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_exponentiation_2) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_exponentiation_2) {
     var exponent(0, 1, false, var::column_type::public_input);
 
 
-    typename BlueprintFieldType::value_type base_value = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type base_value = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type exponent_value = (BlueprintFieldType::value_type::modulus - 1) / 2;
     typename BlueprintFieldType::integral_type exponent_value_integral = typename BlueprintFieldType::integral_type(exponent_value.data);
 

@@ -43,7 +43,7 @@
 
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/prepare_batch_scalar.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/batch_verify_scalar_field.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/binding.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/binding.hpp>
 
 namespace nil {
     namespace actor {

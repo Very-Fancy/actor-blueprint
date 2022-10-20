@@ -79,9 +79,9 @@ ACTOR_THREAD_TEST_CASE(blueprint_non_native_fixed_base_mul) {
 
     typename component_type::params_type params = {{var_b}};
 
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type B =
-        ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type::one();
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type P = b * B;
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type B =
+        ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::one();
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = b * B;
     ed25519_type::base_field_type::integral_type Px = ed25519_type::base_field_type::integral_type(P.X.data);
     ed25519_type::base_field_type::integral_type Py = ed25519_type::base_field_type::integral_type(P.Y.data);
     typename ed25519_type::base_field_type::integral_type base = 1;

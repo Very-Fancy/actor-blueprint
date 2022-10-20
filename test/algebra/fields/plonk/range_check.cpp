@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_fields_range_check_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_fields_range_check) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_fields_range_check) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_fields_range_check_false_result) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;

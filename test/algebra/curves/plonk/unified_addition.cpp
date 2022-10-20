@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unified_addition_double) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 11;
     constexpr std::size_t PublicInputColumns = 1;
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unified_addition_double) {
     using component_type = zk::components::curve_element_unified_addition<ArithmetizationType, curve_type, 0, 1, 2, 3,
                                                                           4, 5, 6, 7, 8, 9, 10>;
 
-    auto P = algebra::random_element<curve_type::template g1_type<>>().to_affine();
+    auto P = crypto3::algebra::random_element<curve_type::template g1_type<>>().to_affine();
     auto Q(P);
 
     typename component_type::params_type params = {
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unified_addition_double) {
 
     std::vector<typename BlueprintFieldType::value_type> public_input = {P.X, P.Y, Q.X, Q.Y};
 
-    typename curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type expected_res = P + Q;
+    typename curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type expected_res = P + Q;
 
     auto result_check = [&expected_res](AssignmentType &assignment, 
         component_type::result_type &real_res) {
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unified_addition_double) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_unified_addition_addition) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 11;
     constexpr std::size_t PublicInputColumns = 1;
@@ -115,10 +115,10 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unified_addition_addition) {
     using component_type = zk::components::curve_element_unified_addition<ArithmetizationType, curve_type, 0, 1, 2, 3,
                                                                           4, 5, 6, 7, 8, 9, 10>;
 
-    auto P = algebra::random_element<curve_type::template g1_type<>>().to_affine();
-    auto Q = algebra::random_element<curve_type::template g1_type<>>().to_affine();
-    typename curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type zero = {0, 0};
-    typename curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type expected_res;
+    auto P = crypto3::algebra::random_element<curve_type::template g1_type<>>().to_affine();
+    auto Q = crypto3::algebra::random_element<curve_type::template g1_type<>>().to_affine();
+    typename curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type zero = {0, 0};
+    typename curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type expected_res;
     P.X = Q.X;
     P.Y = -Q.Y;
     if (Q.X == zero.X && Q.Y == zero.Y) {

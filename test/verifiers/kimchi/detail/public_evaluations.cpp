@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_publuc_evaluations) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -73,8 +73,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_publuc_evaluations) {
     var one(0, 0, false, var::column_type::public_input);
     var zeta_pow_n(0, 1, false, var::column_type::public_input);
     var zeta_omega_pow_n(0, 2, false, var::column_type::public_input);
-    typename BlueprintFieldType::value_type zeta_value = algebra::random_element<BlueprintFieldType>();
-    typename BlueprintFieldType::value_type omega_value = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type zeta_value = crypto3::algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type omega_value = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type zeta_omega_value = zeta_value * omega_value;
     constexpr std::size_t domain = 5;
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_publuc_evaluations) {
     std::array<var, n> pi;
     std::array<typename BlueprintFieldType::value_type, n> pi_values;
     for (std::size_t i = 0; i < n; i++) {
-        pi_values[i] = algebra::random_element<BlueprintFieldType>();
+        pi_values[i] = crypto3::algebra::random_element<BlueprintFieldType>();
         public_input.push_back(pi_values[i]);
         pi[i] = var(0, public_input.size() - 1, false, var::column_type::public_input);
     }
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_publuc_evaluations) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_real_data) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -242,7 +242,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_real_data) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_no_public_input) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;

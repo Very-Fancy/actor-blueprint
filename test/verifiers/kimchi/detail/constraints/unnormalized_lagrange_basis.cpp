@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_unnormalized_lagrange_basis_positive_power) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unnormalized_lagrange_basis_positive_power)
     typename BlueprintFieldType::value_type group_gen = 0x0CB8102D0128EBB25343154773101EAF1A9DAEF679667EB4BD1E06B973E985E4_cppui256;
     std::size_t domain_size = 512;
     int ith = 5;
-    typename BlueprintFieldType::value_type x = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type x = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type group_gen_pow = group_gen.pow(ith);
     typename BlueprintFieldType::value_type expected_res = (x.pow(domain_size) - 1) * (x - group_gen_pow).inversed();
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unnormalized_lagrange_basis_positive_power)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_unnormalized_lagrange_basis_negative_power) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_unnormalized_lagrange_basis_negative_power)
     typename BlueprintFieldType::value_type group_gen = 0x0CB8102D0128EBB25343154773101EAF1A9DAEF679667EB4BD1E06B973E985E4_cppui256;
     std::size_t domain_size = 512;
     int ith = -5;
-    typename BlueprintFieldType::value_type x = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type x = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type group_gen_pow = group_gen.pow(-ith).inversed();
     typename BlueprintFieldType::value_type expected_res = (x.pow(domain_size) - 1) * (x - group_gen_pow).inversed();
 

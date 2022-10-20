@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_multiplication) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 3;
     constexpr std::size_t PublicInputColumns = 1;
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_multiplication) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_addition) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 3;
     constexpr std::size_t PublicInputColumns = 1;
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_addition) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_division) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 4;
     constexpr std::size_t PublicInputColumns = 1;
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_division) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_subtraction) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 3;
     constexpr std::size_t PublicInputColumns = 1;
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_subtraction) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_mul_by_constant) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 2;
     constexpr std::size_t PublicInputColumns = 1;
@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_mul_by_constant) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_div_or_zero) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 5;
     constexpr std::size_t PublicInputColumns = 1;

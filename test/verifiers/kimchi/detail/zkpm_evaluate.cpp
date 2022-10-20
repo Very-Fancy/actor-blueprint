@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_zkpm) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -69,9 +69,9 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_zkpm) {
     using component_type = zk::components::zkpm_evaluate<ArithmetizationType, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                                                                             11, 12, 13, 14>;
 
-    typename BlueprintFieldType::value_type group_gen = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type group_gen = crypto3::algebra::random_element<BlueprintFieldType>();
     std::size_t domain_size = 1000;
-    typename BlueprintFieldType::value_type x = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type x = crypto3::algebra::random_element<BlueprintFieldType>();
     typename BlueprintFieldType::value_type group_gen_pow = group_gen.pow(domain_size - 3);
     typename BlueprintFieldType::value_type expected_res = (x - group_gen_pow) * (x - group_gen_pow * group_gen) * 
                                                             (x - group_gen_pow * group_gen * group_gen);

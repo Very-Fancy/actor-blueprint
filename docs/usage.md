@@ -305,8 +305,8 @@ Next, we set the random values to vectors.
 
 ```cpp
 for (std::size_t i = 0; i < n; ++i) {
-    bp.val(A[i]) = algebra::random_element<FieldType>();
-    bp.val(B[i]) = algebra::random_element<FieldType>();
+    bp.val(A[i]) = crypto3::algebra::random_element<FieldType>();
+    bp.val(B[i]) = crypto3::algebra::random_element<FieldType>();
 }
 ```
 

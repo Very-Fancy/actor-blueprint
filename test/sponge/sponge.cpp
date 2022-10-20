@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 // BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_0) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::vesta;
+//     using curve_type = crypto3::algebra::curves::vesta;
 //     using BlueprintFieldType = typename curve_type::scalar_field_type;
 //     constexpr std::size_t WitnessColumns = 15;
 //     constexpr std::size_t PublicInputColumns = 1;
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 // BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_1) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::vesta;
+//     using curve_type = crypto3::algebra::curves::vesta;
 //     using BlueprintFieldType = typename curve_type::scalar_field_type;
 //     constexpr std::size_t WitnessColumns = 15;
 //     constexpr std::size_t PublicInputColumns = 1;
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 // BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_2) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::vesta;
+//     using curve_type = crypto3::algebra::curves::vesta;
 //     using BlueprintFieldType = typename curve_type::scalar_field_type;
 //     constexpr std::size_t WitnessColumns = 15;
 //     constexpr std::size_t PublicInputColumns = 1;
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 // BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_3) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::vesta;
+//     using curve_type = crypto3::algebra::curves::vesta;
 //     using BlueprintFieldType = typename curve_type::scalar_field_type;
 //     constexpr std::size_t WitnessColumns = 15;
 //     constexpr std::size_t PublicInputColumns = 1;
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 // BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_4) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::vesta;
+//     using curve_type = crypto3::algebra::curves::vesta;
 //     using BlueprintFieldType = typename curve_type::scalar_field_type;
 //     constexpr std::size_t WitnessColumns = 15;
 //     constexpr std::size_t PublicInputColumns = 1;
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_5) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -302,7 +302,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_5) {
 // BOOST_AUTO_TEST_CASE(blueprint_plonk_sponge_double_squeeze) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::vesta;
+//     using curve_type = crypto3::algebra::curves::vesta;
 //     using BlueprintFieldType = typename curve_type::scalar_field_type;
 //     constexpr std::size_t WitnessColumns = 15;
 //     constexpr std::size_t PublicInputColumns = 1;

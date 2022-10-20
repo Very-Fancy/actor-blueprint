@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(variable_base_scalar_mul_9_wires_test_case) {
 BOOST_AUTO_TEST_CASE(blueprint_plonk_variable_base_scalar_mul) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     using BlueprintScalarType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_variable_base_scalar_mul) {
     using component_type = zk::components::curve_element_variable_base_scalar_mul<ArithmetizationType, curve_type,
                                                             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14>;
 	using var = zk::snark::plonk_variable<BlueprintFieldType>;
-    typename BlueprintScalarType::value_type b_scalar = algebra::random_element<BlueprintScalarType>();
+    typename BlueprintScalarType::value_type b_scalar = crypto3::algebra::random_element<BlueprintScalarType>();
 
 	typename curve_type::scalar_field_type::value_type shift_base = 2;
 	auto shift = shift_base.pow(255) + 1;
@@ -142,13 +142,13 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_variable_base_scalar_mul) {
 	BlueprintFieldType::value_type x_scalar =  integral_x;
 
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type T = algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T = crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
 	var scalar_var = {0, 2, false, var::column_type::public_input};
     var T_X_var = {0, 0, false, var::column_type::public_input};
     var T_Y_var = {0, 1, false, var::column_type::public_input};
     typename component_type::params_type assignment_params = {{T_X_var, T_Y_var},scalar_var};
 	std::vector<typename BlueprintFieldType::value_type> public_input = {T.X, T.Y, x_scalar};
-	curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type expected;
+	curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type expected;
 	if (b_scalar != 0) {
 	 	expected = b_scalar * T;
 	} else {
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_variable_base_scalar_mul) {
 	std::cout<<"Expected result: "<< expected.X.data <<" " << expected.Y.data<<std::endl;
 	auto result_check = [&expected, T, shift_base](AssignmentType &assignment, 
         component_type::result_type &real_res) {
-			curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type R;
+			curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R;
 			R.X = assignment.var_value(real_res.X);
 			R.Y = assignment.var_value(real_res.Y);
 			std::cout<<"Component result: "<< assignment.var_value(real_res.X).data <<" " << assignment.var_value(real_res.Y).data<<std::endl;

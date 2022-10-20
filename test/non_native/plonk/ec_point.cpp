@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 // BOOST_AUTO_TEST_CASE(blueprint_ec_point_to_fail) {
 //     auto start = std::chrono::high_resolution_clock::now();
 
-//     using curve_type = algebra::curves::pallas;
+//     using curve_type = crypto3::algebra::curves::pallas;
 //     using ed25519_type = algebra::curves::ed25519;
 //     using BlueprintFieldType = typename curve_type::base_field_type;
 //     constexpr std::size_t witness_columns = 9;
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_ec_point_to_work) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using ed25519_type = algebra::curves::ed25519;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 9;
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(blueprint_ec_point_to_work) {
     using component_type =
         zk::components::ec_point<ArithmetizationType, curve_type, ed25519_type, 0, 1, 2, 3, 4, 5, 6, 7, 8>;
 
-    auto value = ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type::one();
+    auto value = ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::one();
 
     typename ed25519_type::scalar_field_type::integral_type base = 1;
     typename ed25519_type::scalar_field_type::integral_type mask = (base << 66) - 1;

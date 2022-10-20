@@ -37,10 +37,10 @@
 using namespace nil::crypto3::zk;
 
 /**
- * Test Benes network routing for all permutations on 2^static_cast<std::size_t>(std::ceil(std::log2(N))) elements.
+ * Test Benes network routing for all permutations on 2^static_cast<int>(std::ceil(std::log2(N))) elements.
  */
 void test_benes(const std::size_t N) {
-    integer_permutation permutation(1ul << static_cast<std::size_t>(std::ceil(std::log2(N))));
+    integer_permutation permutation(1ul << static_cast<int>(std::ceil(std::log2(N))));
 
     do {
         const benes_routing routing = get_benes_routing(permutation);

@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_multi_scalar_mul) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     using BlueprintScalarType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
@@ -74,17 +74,17 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_multi_scalar_mul) {
     std::vector<typename BlueprintFieldType::value_type> public_input = { };
     typename component_type::params_type assignment_params = {{}, {}};
 
-    curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type sum = 
-        curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type::zero();
+    curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type sum =
+        curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::zero();
     for (std::size_t i = 0; i < msm_size; i++) {
-        typename curve_type::scalar_field_type::value_type x = algebra::random_element<BlueprintScalarType>();
+        typename curve_type::scalar_field_type::value_type x = crypto3::algebra::random_element<BlueprintScalarType>();
         typename curve_type::scalar_field_type::value_type shift = 2;
         shift = shift.pow(255) + 1;
         typename curve_type::scalar_field_type::value_type b = (x - shift) / 2;
         typename curve_type::scalar_field_type::integral_type integral_b = typename curve_type::scalar_field_type::integral_type(b.data);
         BlueprintFieldType::value_type b_scalar = integral_b;
 
-        curve_type::template g1_type<algebra::curves::coordinates::affine>::value_type T = algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>();
+        curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T = crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
         public_input.push_back(b_scalar);
         public_input.push_back(T.X);
         public_input.push_back(T.Y);

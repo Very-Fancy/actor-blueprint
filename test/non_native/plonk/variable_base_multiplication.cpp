@@ -48,7 +48,9 @@
 
 #include "../../test_plonk_component.hpp"
 
+using namespace nil;
 using namespace nil::actor;
+using namespace nil::crypto3::algebra;
 
 //BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 
@@ -84,12 +86,12 @@ ACTOR_THREAD_TEST_CASE(blueprint_non_native_variable_base_multiplication) {
     var b_var = var(0, 8, false, var::column_type::public_input);
 
     typename component_type::params_type params = {{input_var_Xa, input_var_Xb}, b_var};
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type T =
-        algebra::random_element<ed25519_type::template g1_type<algebra::curves::coordinates::affine>>();
-    ed25519_type::scalar_field_type::value_type b = algebra::random_element<ed25519_type::scalar_field_type>();
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T =
+        crypto3::algebra::random_element<ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+    ed25519_type::scalar_field_type::value_type b = crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
     // ed25519_type::scalar_field_type::value_type b = 1;
     ed25519_type::base_field_type::integral_type integral_b = ed25519_type::base_field_type::integral_type(b.data);
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type P = b * T;
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = b * T;
     ed25519_type::base_field_type::integral_type Tx = ed25519_type::base_field_type::integral_type(T.X.data);
     ed25519_type::base_field_type::integral_type Ty = ed25519_type::base_field_type::integral_type(T.Y.data);
     ed25519_type::base_field_type::integral_type Px = ed25519_type::base_field_type::integral_type(P.X.data);

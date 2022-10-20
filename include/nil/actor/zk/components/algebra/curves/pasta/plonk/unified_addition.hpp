@@ -134,22 +134,22 @@ namespace nil {
 
                         typename BlueprintFieldType::value_type p_x = assignment.var_value(params.P.x);
                         typename BlueprintFieldType::value_type p_y = assignment.var_value(params.P.y);
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type P(p_x,
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type P(p_x,
                                                                                                                  p_y);
 
                         typename BlueprintFieldType::value_type q_x = assignment.var_value(params.Q.x);
                         typename BlueprintFieldType::value_type q_y = assignment.var_value(params.Q.y);
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type Q(q_x,
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type Q(q_x,
                                                                                                                  q_y);
 
-                        const typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type R =
+                        const typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type R =
                             P + Q;
 
                         assignment.witness(W0)[j] = P.X;
                         assignment.witness(W1)[j] = P.Y;
                         assignment.witness(W2)[j] = Q.X;
                         assignment.witness(W3)[j] = Q.Y;
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type zero = {
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type zero = {
                             0, 0};
                         if (P.X == zero.X && P.Y == zero.Y) {
                             assignment.witness(W4)[j] = Q.X;

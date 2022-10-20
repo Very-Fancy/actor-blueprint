@@ -29,12 +29,12 @@
 
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/commitment.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/commitment.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/to_group.hpp>
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/verifier_index.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>
 #include <nil/actor/zk/components/algebra/curves/pasta/plonk/multi_scalar_mul_15_wires.hpp>
@@ -148,10 +148,11 @@ namespace nil {
                             row += transcript_type::challenge_rows;
 
                             // var_ec_point U = to_group_component::
+
                             // U = transcript.squeeze.to_group()
-                            typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type
-                                U_value = algebra::random_element<
-                                    typename CurveType::template g1_type<algebra::curves::coordinates::affine>>();
+                            typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type
+                                U_value = nil::crypto3::algebra::random_element<
+                                    typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>>();
                             assignment.witness(W0)[row] = U_value.X;
                             assignment.witness(W1)[row] = U_value.Y;
                             var_ec_point U = {var(0, row), var(1, row)};

@@ -518,7 +518,7 @@ namespace nil {
                              i++) {
                             std::vector<bool> value(14);
                             for (std::size_t j = 0; j < 14; j++) {
-                                value[14 - j - 1] = multiprecision::bit_test(i, j);
+                                value[14 - j - 1] = nil::crypto3::multiprecision::bit_test(i, j);
                             }
                             std::array<std::vector<uint64_t>, 2> value_chunks =
                                 split_and_sparse(value, value_sizes, base4);
@@ -531,7 +531,7 @@ namespace nil {
                              i++) {
                             std::vector<bool> value(14);
                             for (std::size_t j = 0; j < 14; j++) {
-                                value[14 - j - 1] = multiprecision::bit_test(i, j);
+                                value[14 - j - 1] = nil::crypto3::multiprecision::bit_test(i, j);
                             }
                             std::array<std::vector<uint64_t>, 2> value_chunks =
                                 split_and_sparse(value, value_sizes, base7);

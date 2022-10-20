@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_SUITE(fixed_base_scalar_mul_test_suite)
 
 BOOST_AUTO_TEST_CASE(fixed_base_scalar_mul_15_wires_test_case) {
 
-	using curve_type = algebra::curves::pallas;
+	using curve_type = crypto3::algebra::curves::pallas;
 	using BlueprintFieldType = typename curve_type::base_field_type;
 	constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 5;

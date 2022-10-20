@@ -173,7 +173,7 @@ namespace nil {
                         typename CurveType::scalar_field_type::integral_type integral_k =
                             typename CurveType::scalar_field_type::integral_type(assignment.var_value(params.k).data);
                         for (std::size_t i = 0; i < scalar_size; i++) {
-                            b[scalar_size - i - 1] = crypto3::multiprecision::bit_test(integral_k, i);
+                            b[scalar_size - i - 1] = nil::crypto3::multiprecision::bit_test(integral_k, i);
                         }
                         typename CurveType::base_field_type::integral_type n = 0;
                         typename CurveType::base_field_type::integral_type t = 0;

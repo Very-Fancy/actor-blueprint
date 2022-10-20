@@ -22,8 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_SQRT_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_SQRT_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_SQRT_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_SQRT_HPP
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
@@ -315,4 +315,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_SQRT_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_SQRT_HPP

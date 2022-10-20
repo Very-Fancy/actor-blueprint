@@ -24,8 +24,8 @@
 // @file Declaration of interfaces for auxiliary components for the EDDSA25519 component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_SIGNATURES_VERIFICATION_HPP
-#define CRYPTO3_ZK_BLUEPRINT_SIGNATURES_VERIFICATION_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_SIGNATURES_VERIFICATION_HPP
+#define ACTOR_ZK_BLUEPRINT_SIGNATURES_VERIFICATION_HPP
 
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
@@ -156,4 +156,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP

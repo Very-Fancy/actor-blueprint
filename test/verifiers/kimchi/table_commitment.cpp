@@ -34,19 +34,19 @@
 #include <nil/crypto3/hash/sha2.hpp>
 #include <nil/crypto3/hash/keccak.hpp>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-//#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+//#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fr.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/components/algebra/curves/pasta/plonk/types.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/table_commitment.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
-#include <nil/crypto3/zk/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/components/algebra/curves/pasta/plonk/types.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/table_commitment.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/kimchi_commitment_params.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/transcript_fq.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/inner_constants.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/proof_system/circuit_description.hpp>
 #include "verifiers/kimchi/index_terms_instances/lookup_test.hpp"
 
 #include "test_plonk_component.hpp"
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_table_commitment_test_suite)
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     using ScalarFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
     using commitment_type = typename 
                         zk::components::kimchi_commitment_type<BlueprintFieldType, 
                             KimchiParamsType::commitment_params_type::shifted_commitment_split>;
-    using kimchi_constants = zk::components::kimchi_inner_constants<KimchiParamsType>;
+    using kimchi_constants = actor::zk::components::kimchi_inner_constants<KimchiParamsType>;
 
     using component_type = zk::components::table_commitment<ArithmetizationType,
                                                                    KimchiParamsType,
@@ -132,8 +132,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
     for (std::size_t i = j; i < lookup_columns; i++){
         commitment_type column_var;
         for (std::size_t k = 0; k < size; k++) {
-            public_input.push_back(algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>().X);
-            public_input.push_back(algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>().Y);
+            public_input.push_back(crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>().X);
+            public_input.push_back(crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>().Y);
             column_var.parts[k] = {var(0, i*k*2 + k*2, false, var::column_type::public_input),
             var(0, i*k*2 + k*2 + 1, false, var::column_type::public_input)};
             j+=2;
@@ -143,8 +143,8 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
 
     if (KimchiParamsType::circuit_params::lookup_runtime){
         for (std::size_t k = 0; k < size; k++) {
-            public_input.push_back(algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>().X);
-            public_input.push_back(algebra::random_element<curve_type::template g1_type<algebra::curves::coordinates::affine>>().Y);
+            public_input.push_back(crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>().X);
+            public_input.push_back(crypto3::algebra::random_element<curve_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>().Y);
             runtime_var.parts[k] = {var(0, j + k*2, false, var::column_type::public_input),
             var(0, j + k*2 + 1, false, var::column_type::public_input)};
             j+=2;
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_table_commitment_test) {
     std::size_t s = lookup_columns + j;
     for (std::size_t i = j; i < s; i++){
         for (std::size_t k = 0; k < size; k++) {
-            public_input.push_back(algebra::random_element<curve_type::base_field_type>());
+            public_input.push_back(crypto3::algebra::random_element<curve_type::base_field_type>());
             lookup_scalars_var[i - j] = (var(0, i, false, var::column_type::public_input));
             j++;
         }

@@ -24,8 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
@@ -85,4 +85,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_INNER_CONSTANTS_HPP

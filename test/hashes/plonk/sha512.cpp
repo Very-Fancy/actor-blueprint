@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_sha512) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     using FieldType = typename curve_type::base_field_type;
 
@@ -77,11 +77,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_sha512) {
 
     using ed25519_type = algebra::curves::ed25519;
 
-ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type B =
-     ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type::one();
-     ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type R = 2*B;
-     ed25519_type::scalar_field_type::value_type b = algebra::random_element<ed25519_type::scalar_field_type>();
-     ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type T = b*R;
+ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type B =
+     ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type::one();
+     ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R = 2*B;
+     ed25519_type::scalar_field_type::value_type b = crypto3::algebra::random_element<ed25519_type::scalar_field_type>();
+     ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T = b*R;
      
     ed25519_type::base_field_type::integral_type Tx = ed25519_type::base_field_type::integral_type(T.X.data);
     ed25519_type::base_field_type::integral_type Ty = ed25519_type::base_field_type::integral_type(T.Y.data);

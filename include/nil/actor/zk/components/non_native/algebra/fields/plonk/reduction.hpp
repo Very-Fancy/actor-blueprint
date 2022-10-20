@@ -35,7 +35,6 @@
 #include <nil/crypto3/algebra/curves/ed25519.hpp>
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
-
 namespace nil {
     namespace actor {
         namespace zk {
@@ -187,8 +186,7 @@ namespace nil {
                         s_r += assignment.witness(0)[row + 1] + assignment.witness(1)[row + 1] +
                                assignment.witness(2)[row + 1];
                         s_r -= 12 * ((1 << (20)) - 1);
-
-                        crypto3::algebra::curves::ed25519::scalar_field_type::extended_integral_type one = 1;
+                        nil::crypto3::algebra::curves::ed25519::scalar_field_type::extended_integral_type one = 1;
                         assignment.witness(5)[row + 1] = s_r.inversed();
 
                         // if ((r) & ((1 << (13)) - 1) (L - (one << 252))) { \\TO-DO
@@ -259,9 +257,10 @@ namespace nil {
 
                         auto constraint_4 =
                             bp.add_constraint((s_r)*var(W5, 0) + (1 - (s_r)*var(W5, 0)) * var(W6, 0) - 1);
-                        crypto3::algebra::curves::ed25519::scalar_field_type::extended_integral_type one = 1;
-                        std::array<crypto3::algebra::curves::ed25519::scalar_field_type::extended_integral_type, 5> m =
-                        {((one << 192)%L), ((one << 256)%L), ((one << 320)%L), ((one << 384)%L), ((one << 448)%L)};
+                        nil::crypto3::algebra::curves::ed25519::scalar_field_type::extended_integral_type one = 1;
+                        std::array<nil::crypto3::algebra::curves::ed25519::scalar_field_type::extended_integral_type, 5> m = {
+                            ((one << 192) % L), ((one << 256) % L), ((one << 320) % L), ((one << 384) % L),
+                            ((one << 448) % L)};
                         auto constraint_5 = bp.add_constraint(
                             var(W0, +1) + var(W1, +1) * (one << 64) + var(W3, +1) * (m[0] & ((one << 73) - 1)) +
                             var(W4, +1) * (m[1] & ((one << 73) - 1)) + var(W5, +1) * (m[2] & ((one << 73) - 1)) +

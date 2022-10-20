@@ -22,8 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_INDEX_TERMS_INSTANCES_LOOKUP_TEST_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_INDEX_TERMS_INSTANCES_LOOKUP_TEST_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_INDEX_TERMS_INSTANCES_LOOKUP_TEST_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_INDEX_TERMS_INSTANCES_LOOKUP_TEST_HPP
 
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/constraints/rpn_expression.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/index_term_type.hpp>
@@ -210,4 +210,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_INDEX_TERMS_INSTANCES_LOOKUP_TEST_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_INDEX_TERMS_INSTANCES_LOOKUP_TEST_HPP

@@ -82,8 +82,8 @@ namespace nil {
                     cs.auxiliary_input_size = 2 + num_constraints - num_inputs;    // TODO: explain this
 
                     snark::r1cs_variable_assignment<FieldType> full_variable_assignment;
-                    typename FieldType::value_type a = algebra::random_element<FieldType>();
-                    typename FieldType::value_type b = algebra::random_element<FieldType>();
+                    typename FieldType::value_type a = crypto3::algebra::random_element<FieldType>();
+                    typename FieldType::value_type b = crypto3::algebra::random_element<FieldType>();
                     full_variable_assignment.push_back(a);
                     full_variable_assignment.push_back(b);
 

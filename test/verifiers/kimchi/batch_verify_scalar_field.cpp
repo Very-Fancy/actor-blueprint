@@ -95,13 +95,13 @@ void prepare_proof(zk::snark::pickles_proof<CurveType> &original_proof,
     }
 
     // ft_eval
-    public_input.push_back(algebra::random_element<BlueprintFieldType>());
+    public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
     circuit_proof.ft_eval = var(0, public_input.size() - 1, false, var::column_type::public_input);
 }
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_suite) {
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -206,22 +206,22 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
         fq_output.challenges = challenges;
 
         // joint_combiner
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         fq_output.joint_combiner = var(0, public_input.size() - 1, false, var::column_type::public_input);
         // beta
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         fq_output.beta = var(0, public_input.size() - 1, false, var::column_type::public_input);
         // gamma
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         fq_output.gamma = var(0, public_input.size() - 1, false, var::column_type::public_input);
         // alpha
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         fq_output.alpha = var(0, public_input.size() - 1, false, var::column_type::public_input);
         // zeta
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         fq_output.zeta = var(0, public_input.size() - 1, false, var::column_type::public_input);
         // fq_digest
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         fq_output.fq_digest = var(0, public_input.size() - 1, false, var::column_type::public_input);
         // c
         public_input.emplace_back(250);
@@ -234,11 +234,11 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_batch_verifier_scalar_field_test_sui
         batches[i].eval_points = {var(0, public_input.size() - 2, false, var::column_type::public_input),
                                   var(0, public_input.size() - 1, false, var::column_type::public_input)};
 
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         batches[i].r = var(0, public_input.size() - 1, false, var::column_type::public_input);
 
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
-        public_input.push_back(algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
+        public_input.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
         batches[i].opening = {var(0, public_input.size() - 2, false, var::column_type::public_input),
                               var(0, public_input.size() - 1, false, var::column_type::public_input)};
     }

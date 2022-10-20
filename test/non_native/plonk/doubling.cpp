@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_non_native_doubling) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using ed25519_type = algebra::curves::ed25519;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 9;
@@ -81,9 +81,9 @@ BOOST_AUTO_TEST_CASE(blueprint_non_native_doubling) {
 
     typename component_type::params_type params = {{input_var_Xa, input_var_Xb}};
 
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type T =
-        algebra::random_element<ed25519_type::template g1_type<algebra::curves::coordinates::affine>>();
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type P = T + T;
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T =
+        algebra::random_element<ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = T + T;
     ed25519_type::base_field_type::integral_type Tx = ed25519_type::base_field_type::integral_type(T.X.data);
     ed25519_type::base_field_type::integral_type Ty = ed25519_type::base_field_type::integral_type(T.Y.data);
     ed25519_type::base_field_type::integral_type Px = ed25519_type::base_field_type::integral_type(P.X.data);

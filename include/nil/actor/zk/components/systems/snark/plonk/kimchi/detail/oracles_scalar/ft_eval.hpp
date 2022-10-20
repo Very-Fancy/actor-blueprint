@@ -42,7 +42,6 @@
 
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 
-#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 namespace nil {
     namespace actor {
         namespace zk {

@@ -24,8 +24,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_PREV_CHALLENGES_HPP
-#define ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_PREV_CHALLENGES_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_ELEMENT_POWERS_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_ELEMENT_POWERS_HPP
 
 #include <nil/marshalling/algorithms/pack.hpp>
 
@@ -34,7 +34,7 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/component.hpp>
 
-#include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/proof.hpp>
+#include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/proof.hpp>
 
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 
@@ -188,4 +188,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_PREV_CHALLENGES_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_ALGEBRA_FIELDS_ELEMENT_POWERS_HPP

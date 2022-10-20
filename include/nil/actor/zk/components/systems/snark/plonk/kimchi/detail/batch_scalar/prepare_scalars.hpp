@@ -30,6 +30,8 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/component.hpp>
 
+// #include <nil/actor/zk/components/systems/snark/plonk/kimchi/types/verifier_index.hpp>
+
 #include <nil/actor/zk/components/algebra/fields/plonk/field_operations.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
 

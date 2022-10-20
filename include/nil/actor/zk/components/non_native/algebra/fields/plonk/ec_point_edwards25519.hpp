@@ -24,8 +24,8 @@
 // @file Declaration of interfaces for component to check if a point is on ed25519 curve.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_EC_POINT_HPP
-#define CRYPTO3_ZK_BLUEPRINT_EC_POINT_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_EC_POINT_HPP
+#define ACTOR_ZK_BLUEPRINT_EC_POINT_HPP
 
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
@@ -300,4 +300,4 @@ namespace nil {
     }            // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP

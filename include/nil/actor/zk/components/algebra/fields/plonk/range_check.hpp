@@ -22,8 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_FIELD_RANGE_CHECK_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_FIELD_RANGE_CHECK_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_FIELD_RANGE_CHECK_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_FIELD_RANGE_CHECK_HPP
 
 #include <cmath>
 
@@ -36,7 +36,7 @@
 #include <nil/actor/zk/component.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         namespace zk {
             namespace components {
 
@@ -241,7 +241,7 @@ namespace nil {
                 };
             }    // namespace components
         }        // namespace zk
-    }            // namespace crypto3
+    }            // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_FIELD_RANGE_CHECK_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_FIELD_RANGE_CHECK_HPP

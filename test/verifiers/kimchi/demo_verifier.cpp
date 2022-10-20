@@ -117,7 +117,7 @@ typename fri_type::params_type create_fri_params(std::size_t degree_log, const i
 ACTOR_THREAD_TEST_CASE(blueprint_plonk_kimchi_demo_verifier_test) {
     constexpr std::size_t complexity = 16000;
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::base_field_type;
     using hash_type = nil::crypto3::hashes::keccak_1600<256>;
     constexpr std::size_t Lambda = 1;

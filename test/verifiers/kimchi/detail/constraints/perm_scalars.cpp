@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_kimchi_detail_constraints_perm_scalars_tes
 
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_detail_constraints_perm_scalars_ec_input_test_suite) {
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;

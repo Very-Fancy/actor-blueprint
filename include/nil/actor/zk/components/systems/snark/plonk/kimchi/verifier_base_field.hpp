@@ -510,65 +510,6 @@ namespace nil {
                                 row);
                             row += scalar_mul_component::rows_amount;
 
-                            //to-do: U = zero()
-                            typename CurveType::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type U =
-                                crypto3::algebra::random_element<typename CurveType::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
-                            assignment.witness(W0)[row] = U.X;
-                            assignment.witness(W1)[row] = U.Y;
-                            std::size_t urow = row;
-                            auto shifted_commitment_type_shifted = msm_component::generate_assignments(
-                                assignment, {params.proofs[i].scalars, shifted_commitments}, row);
-                            row+= msm_component::rows_amount;
-                            std::array<var_ec_point, 
-                                KimchiCommitmentParamsType::shifted_commitment_split> shifted_commitment_type_unshifted; 
-                            for(std::size_t j = 0; j < KimchiCommitmentParamsType::shifted_commitment_split; j ++) {
-                                std::array<var_ec_point, f_comm_base_size> part_unshifted_commitments;
-                                std::array<var, f_comm_base_size> part_scalars;
-                                for (std::size_t k = 0; k < f_comm_base_size; k++) {
-                                    part_unshifted_commitments[k] = unshifted_commitments[j][k];
-                                    part_scalars[k] = params.proofs[i].scalars[k];
-                                }
-                                auto res = msm_component::generate_assignments(assignment, {part_scalars, part_unshifted_commitments}, row);
-                                shifted_commitment_type_unshifted[j] = {res.sum.X, res.sum.Y};
-                                row+= msm_component::rows_amount;
-                            }
-                            auto chunked_shifted_commitment_type_shifted = shifted_commitment_type_shifted.sum;
-                            var_ec_point chunked_shifted_commitment_type_unshifted = {var(0, urow, false), var(1, urow, false)};
-                            row++;
-
-                            for(std::size_t j = 0; j < shifted_commitment_type_unshifted.size(); j ++) {
-                                auto res0 = scalar_mul_component::generate_assignments(assignment, 
-                                    {{chunked_shifted_commitment_type_unshifted.X, chunked_shifted_commitment_type_unshifted.Y}, 
-                                    params.fr_data.zeta_to_srs_len[i]}, row);
-                                row+=scalar_mul_component::rows_amount;
-                                chunked_shifted_commitment_type_unshifted = {res0.X, res0.Y};
-                                auto res1 = add_component::generate_assignments(assignment,
-                                    {{chunked_shifted_commitment_type_unshifted.X, chunked_shifted_commitment_type_unshifted.Y},
-                                    {shifted_commitment_type_unshifted[j].X, shifted_commitment_type_unshifted[j].Y}}, row);
-                                row+=add_component::rows_amount;
-                                chunked_shifted_commitment_type_unshifted = {res1.X, res1.Y};
-
-                            }
-                            auto chunked_t_comm_shifted = scalar_mul_component::generate_assignments(assignment, 
-                                {{ params.proofs[i].comm.t_comm.shifted.X,  params.proofs[i].comm.t_comm.shifted.Y},
-                                params.fr_data.zeta_to_domain_size_minus_1}, row);
-                            row+=scalar_mul_component::rows_amount;
-                            var_ec_point chunked_t_comm_unshifted = {var(0, urow, false), var(1, urow, false)};;
-                            for(std::size_t j = 0; j < params.proofs[i].comm.t_comm.unshifted.size(); j++) {
-                                auto res0 = scalar_mul_component::generate_assignments(assignment, 
-                                    {{chunked_t_comm_unshifted.X, chunked_t_comm_unshifted.Y}, 
-                                    params.fr_data.zeta_to_srs_len[i]}, row);
-                                row+=scalar_mul_component::rows_amount;
-                                chunked_t_comm_unshifted = {res0.X, res0.Y};
-                                auto res1 = add_component::generate_assignments(assignment, {{chunked_t_comm_unshifted.X, chunked_t_comm_unshifted.Y},
-                                 {params.proofs[i].comm.t_comm.unshifted[j].X, params.proofs[i].comm.t_comm.unshifted[j].Y}}, row);
-                                row+=add_component::rows_amount;
-                                chunked_t_comm_unshifted = {res1.X, res1.Y};
-                            }
-                            auto chunk_res_unshifted = scalar_mul_component::generate_assignments(assignment, 
-                            {{ chunked_t_comm_unshifted.X,  chunked_t_comm_unshifted.Y}, params.fr_data.zeta_to_domain_size_minus_1}, row);
-                            row+=scalar_mul_component::rows_amount;
-
                             typename BlueprintFieldType::value_type minus_1 = -1;
                             var const_res_unshifted =
                                 const_mul_component::generate_assignments(assignment, {scaled_t_comm.Y, minus_1}, row)
@@ -927,4 +868,5 @@ namespace nil {
         }        // namespace zk
     }            // namespace actor
 }    // namespace nil
-#endif    // ACTOR_ZK_BLUEPRINT_VARIABLE_BASE_MULTIPLICATION_EDWARD25519_HPP
+
+#endif    // ACTOR_ZK_BLUEPRINT_BASE_FIELD_HPP

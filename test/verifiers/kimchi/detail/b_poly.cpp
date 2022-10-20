@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_b_poly) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::pallas;
+    using curve_type = crypto3::algebra::curves::pallas;
     using BlueprintFieldType = typename curve_type::base_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -69,14 +69,14 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_kimchi_b_poly) {
 
     var one(0, 0, false, var::column_type::public_input);
     var zeta(0, 1, false, var::column_type::public_input);
-    typename BlueprintFieldType::value_type zeta_value = algebra::random_element<BlueprintFieldType>();
+    typename BlueprintFieldType::value_type zeta_value = crypto3::algebra::random_element<BlueprintFieldType>();
 
     std::vector<typename BlueprintFieldType::value_type> public_input = {1, zeta_value};
 
     std::array<var, n> challenges;
     std::array<typename BlueprintFieldType::value_type, n> challenges_values;
     for (std::size_t i = 0; i < n; i++) {
-        challenges_values[i] = algebra::random_element<BlueprintFieldType>();
+        challenges_values[i] = crypto3::algebra::random_element<BlueprintFieldType>();
         public_input.push_back(challenges_values[i]);
         challenges[i] = var(0, public_input.size() - 1, false, var::column_type::public_input);
     }

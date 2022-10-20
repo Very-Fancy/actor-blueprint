@@ -162,13 +162,13 @@ namespace nil {
                         typename BlueprintFieldType::value_type b = assignment.var_value(params.b);
                         typename BlueprintFieldType::value_type T_x = assignment.var_value(params.T.x);
                         typename BlueprintFieldType::value_type T_y = assignment.var_value(params.T.y);
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type T(T_x,
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type T(T_x,
                                                                                                                  T_y);
 
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type P;
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type P;
 
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type R;
-                        typename CurveType::template g1_type<algebra::curves::coordinates::affine>::value_type Q;
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type R;
+                        typename CurveType::template g1_type<nil::crypto3::algebra::curves::coordinates::affine>::value_type Q;
                         typename CurveType::scalar_field_type::integral_type integral_b =
                             typename CurveType::scalar_field_type::integral_type(b.data);
 

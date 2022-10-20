@@ -202,8 +202,8 @@ void test_mul() {
     mul.generate_r1cs_constraints();
 
     for (size_t i = 0; i < 10; ++i) {
-        const typename FpExtT::value_type x_val = algebra::random_element<FpExtT>();
-        const typename FpExtT::value_type y_val = algebra::random_element<FpExtT>();
+        const typename FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
+        const typename FpExtT::value_type y_val = crypto3::algebra::random_element<FpExtT>();
         x.generate_r1cs_witness(x_val);
         y.generate_r1cs_witness(y_val);
         mul.generate_r1cs_witness();
@@ -225,7 +225,7 @@ void test_sqr() {
     sqr.generate_r1cs_constraints();
 
     for (size_t i = 0; i < 10; ++i) {
-        const typename FpExtT::value_type x_val = algebra::random_element<FpExtT>();
+        const typename FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
         x.generate_r1cs_witness(x_val);
         sqr.generate_r1cs_witness();
         const typename FpExtT::value_type res = xsq.get_element();
@@ -247,7 +247,7 @@ void test_cyclotomic_sqr() {
     sqr.generate_r1cs_constraints();
 
     for (size_t i = 0; i < 10; ++i) {
-        FpExtT::value_type x_val = algebra::random_element<FpExtT>();
+        FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
         x_val = final_exponentiation<CurveType>(x_val);
 
         x.generate_r1cs_witness(x_val);
@@ -268,7 +268,7 @@ void test_Frobenius() {
         VarT<FpExtT> x(bp);
         VarT<FpExtT> x_frob = x.Frobenius_map(i);
 
-        const typename FpExtT::value_type x_val = algebra::random_element<FpExtT>();
+        const typename FpExtT::value_type x_val = crypto3::algebra::random_element<FpExtT>();
         x.generate_r1cs_witness(x_val);
         x_frob.evaluate();
         const typename FpExtT::value_type res = x_frob.get_element();

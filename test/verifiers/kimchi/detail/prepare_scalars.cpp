@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(blueprint_plonk_test_suite)
 BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    using curve_type = algebra::curves::vesta;
+    using curve_type = crypto3::algebra::curves::vesta;
     using BlueprintFieldType = typename curve_type::scalar_field_type;
     constexpr std::size_t WitnessColumns = 15;
     constexpr std::size_t PublicInputColumns = 1;
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(blueprint_plonk_prepare_scalars_vesta) {
 
     std::vector<typename BlueprintFieldType::value_type> scalars;
     for (int i = 0; i < InputSize; ++i) {
-        scalars.push_back(algebra::random_element<BlueprintFieldType>());
+        scalars.push_back(crypto3::algebra::random_element<BlueprintFieldType>());
     }
 
     typename BlueprintFieldType::value_type base = 2;

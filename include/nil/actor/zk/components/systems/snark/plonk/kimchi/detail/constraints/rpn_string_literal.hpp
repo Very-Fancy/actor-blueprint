@@ -22,8 +22,8 @@
 // SOFTWARE.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_RPN_STRING_LITERAL_HPP
-#define CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_RPN_STRING_LITERAL_HPP
+#ifndef ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_RPN_STRING_LITERAL_HPP
+#define ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_RPN_STRING_LITERAL_HPP
 
 #include <nil/crypto3/algebra/curves/vesta.hpp>
 #include <nil/crypto3/algebra/fields/arithmetic_params/vesta.hpp>
@@ -34,6 +34,7 @@
 #include <nil/crypto3/hash/keccak.hpp>
 
 #include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/components/systems/snark/plonk/kimchi/detail/constraints/rpn_expression.hpp>
@@ -158,4 +159,4 @@ namespace nil {
     }     // namespace actor
 } // namespace nil
 
-#endif    // CRYPTO3_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_RPN_STRING_LITERAL_HPP
+#endif    // ACTOR_ZK_BLUEPRINT_PLONK_KIMCHI_DETAIL_CONSTRAINTS_RPN_STRING_LITERAL_HPP

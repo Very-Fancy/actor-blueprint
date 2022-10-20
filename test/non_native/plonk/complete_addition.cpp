@@ -92,11 +92,11 @@ ACTOR_THREAD_TEST_CASE(blueprint_non_native_complete_addition) {
 
     typename component_type::params_type params = {{input_var_Xa, input_var_Xb}, {input_var_Ya, input_var_Yb}};
 
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type T =
-        algebra::random_element<ed25519_type::template g1_type<algebra::curves::coordinates::affine>>();
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type R =
-        algebra::random_element<ed25519_type::template g1_type<algebra::curves::coordinates::affine>>();
-    ed25519_type::template g1_type<algebra::curves::coordinates::affine>::value_type P = T + R;
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type T =
+        algebra::random_element<ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type R =
+        algebra::random_element<ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>>();
+    ed25519_type::template g1_type<crypto3::algebra::curves::coordinates::affine>::value_type P = T + R;
 
     ed25519_type::base_field_type::integral_type Tx = ed25519_type::base_field_type::integral_type(T.X.data);
     ed25519_type::base_field_type::integral_type Ty = ed25519_type::base_field_type::integral_type(T.Y.data);
