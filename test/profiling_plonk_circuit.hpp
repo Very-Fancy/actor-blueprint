@@ -46,6 +46,8 @@ namespace nil {
             using placeholder_params = zk::snark::placeholder_params<FieldType, ArithmetizationParams, Hash, Hash, Lambda>;
             using types = zk::snark::detail::placeholder_policy<FieldType, placeholder_params>;
             using ArithmetizationType = zk::snark::plonk_constraint_system<FieldType, ArithmetizationParams>;
+            using preprocessed_public_data_type = typename zk::snark::placeholder_public_preprocessor<
+                    FieldType, placeholder_params>::preprocessed_data_type;
 
             template<typename Container, typename ContainerIt>
             static bool is_last_element(const Container &c, ContainerIt it) {
@@ -61,7 +63,7 @@ namespace nil {
                     std::begin(public_preprocessed_data.common_data.columns_rotations.at(var.index));
                 os << "get_W_i_by_rotation_idx(" << var.index << "," << rotation_idx
                    << ","
-                      "mload(add(gate_params, WITNESS_EVALUATIONS_OFFSET))"
+                      "mload(add(gate_params, WITNESS_EVALUATIONS_OFFSETS_OFFSET))"
                       ")";
             }
 
@@ -72,7 +74,7 @@ namespace nil {
                 print_term(std::ostream &os,
                            const Vars &vars,
                            VarsIt it,
-                           const typename types::preprocessed_public_data_type &public_preprocessed_data) {
+                           const preprocessed_public_data_type &public_preprocessed_data) {
                 if (it != std::cend(vars)) {
                     if (!is_last_element(vars, it)) {
                         os << "mulmod(";
@@ -95,7 +97,7 @@ namespace nil {
                 print_terms(std::ostream &os,
                             const Terms &terms,
                             TermsIt it,
-                            const typename types::preprocessed_public_data_type &public_preprocessed_data) {
+                            const preprocessed_public_data_type &public_preprocessed_data) {
                 if (it != std::cend(terms)) {
                     os << "mstore("
                           "add(gate_params, CONSTRAINT_EVAL_OFFSET),"
@@ -199,14 +201,14 @@ namespace nil {
             }
 
             static void process(std::ostream &os, const zk::blueprint<ArithmetizationType> &bp,
-                                const typename types::preprocessed_public_data_type &public_preprocessed_data) {
+                                const preprocessed_public_data_type &public_preprocessed_data) {
                 for (const auto &gate : bp.gates()) {
                     print_gate(os, gate, public_preprocessed_data);
                 }
             }
 
             static void process_split(const zk::blueprint<ArithmetizationType> &bp,
-                                      const typename types::preprocessed_public_data_type &public_preprocessed_data) {
+                                      const preprocessed_public_data_type &public_preprocessed_data) {
                 for (const auto &gate : bp.gates()) {
                     std::ofstream gate_out;
                     gate_out.open("gate" + std::to_string(gate.selector_index) + ".txt");

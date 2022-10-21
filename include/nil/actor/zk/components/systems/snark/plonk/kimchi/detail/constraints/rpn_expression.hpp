@@ -462,10 +462,10 @@ namespace nil {
                                     stack.emplace_back(endo_factor);
                                     break;
                                 case token_type::mds: {
-                                    std::size_t mds_row =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.first.data);
-                                    std::size_t mds_col =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.second.data);
+                                    std::size_t mds_row = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.first.data);
+                                    std::size_t mds_col = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.second.data);
                                     stack.emplace_back(mds[mds_row][mds_col]);
                                     break;
                                 }
@@ -476,10 +476,10 @@ namespace nil {
                                     break;
                                 }
                                 case token_type::cell: {
-                                    std::size_t cell_col =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.first.data);
-                                    std::size_t cell_row =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.second.data);
+                                    std::size_t cell_col = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.first.data);
+                                    std::size_t cell_row = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.second.data);
                                     var cell_val = var_from_evals(params.evaluations, cell_col, cell_row);
                                     stack.emplace_back(cell_val);
                                     break;
@@ -562,7 +562,7 @@ namespace nil {
                                     break;
                                 }
                                 case token_type::load: {
-                                    std::size_t idx = (std::size_t)typename BlueprintFieldType::integral_type(t.value.first.data);
+                                    std::size_t idx = (std::size_t) typename BlueprintFieldType::integral_type(t.value.first.data);
                                     stack.push_back(cache[idx]);
                                     break;
                                 }
@@ -611,10 +611,10 @@ namespace nil {
                                     stack.emplace_back(endo_factor);
                                     break;
                                 case token_type::mds: {
-                                    std::size_t mds_row =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.first.data);
-                                    std::size_t mds_col =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.second.data);
+                                    std::size_t mds_row = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.first.data);
+                                    std::size_t mds_col = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.second.data);
                                     stack.emplace_back(mds[mds_row][mds_col]);
                                     break;
                                 }
@@ -625,10 +625,10 @@ namespace nil {
                                     break;
                                 }
                                 case token_type::cell: {
-                                    std::size_t cell_col =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.first.data);
-                                    std::size_t cell_row =
-                                        (std::size_t)typename BlueprintFieldType::integral_type(t.value.second.data);
+                                    std::size_t cell_col = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.first.data);
+                                    std::size_t cell_row = (std::size_t)
+                                        typename BlueprintFieldType::integral_type(t.value.second.data);
                                     var cell_val = var_from_evals(params.evaluations, cell_col, cell_row);
                                     stack.emplace_back(cell_val);
                                     break;
@@ -703,7 +703,7 @@ namespace nil {
                                     break;
                                 }
                                 case token_type::load: {
-                                    std::size_t idx = (std::size_t)typename BlueprintFieldType::integral_type(t.value.first.data);
+                                    std::size_t idx = (std::size_t) typename BlueprintFieldType::integral_type(t.value.first.data);
                                     stack.push_back(cache[idx]);
                                     break;
                                 }
