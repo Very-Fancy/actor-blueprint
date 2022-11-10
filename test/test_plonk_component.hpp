@@ -25,22 +25,22 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef CRYPTO3_TEST_PLONK_COMPONENT_HPP
-#define CRYPTO3_TEST_PLONK_COMPONENT_HPP
+#ifndef ACTOR_TEST_PLONK_COMPONENT_HPP
+#define ACTOR_TEST_PLONK_COMPONENT_HPP
 
 #include <fstream>
 #include <random>
 
-#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/prover.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/verifier.hpp>
-#include <nil/crypto3/zk/snark/systems/plonk/placeholder/params.hpp>
+#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
+#include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
 
-#include <nil/crypto3/zk/blueprint/plonk.hpp>
-#include <nil/crypto3/zk/assignment/plonk.hpp>
-#include <nil/crypto3/zk/algorithms/allocate.hpp>
-#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
+#include <nil/actor/zk/blueprint/plonk.hpp>
+#include <nil/actor/zk/assignment/plonk.hpp>
+#include <nil/actor/zk/algorithms/allocate.hpp>
+#include <nil/actor/zk/algorithms/generate_circuit.hpp>
 #include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
 
 #include "profiling_plonk_circuit.hpp"
@@ -51,7 +51,7 @@
 #include <nil/marshalling/endianness.hpp>
 
 namespace nil {
-    namespace crypto3 {
+    namespace actor {
         inline std::vector<std::size_t> generate_random_step_list(const std::size_t r, const int max_step) {
             using dist_type = std::uniform_int_distribution<int>;
             static std::random_device random_engine;
@@ -221,7 +221,7 @@ namespace nil {
             }
             return std::make_tuple(proof, fri_params, public_preprocessed_data, bp);
         }
-    }    // namespace crypto3
+    }    // namespace actor
 }    // namespace nil
 
-#endif    // CRYPTO3_TEST_PLONK_COMPONENT_HPP
+#endif    // ACTOR_TEST_PLONK_COMPONENT_HPP

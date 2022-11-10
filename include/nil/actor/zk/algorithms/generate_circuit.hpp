@@ -60,7 +60,7 @@ namespace nil {
                     if (selector_iterator == assignment.selectors_end()){
                         first_selector_index = assignment.allocate_selector(ComponentType::selector_seed,
                             ComponentType::gates_amount);
-                        ComponentType::generate_gates(bp, assignment, params, first_selector_index);
+                      //  ComponentType::generate_gates(bp, assignment, params, first_selector_index);
                     } else {
                         first_selector_index = selector_iterator->second;
                     }
