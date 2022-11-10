@@ -35,6 +35,8 @@
 #include <nil/actor/zk/blueprint/plonk.hpp>
 #include <nil/actor/zk/assignment/plonk.hpp>
 #include <nil/actor/zk/algorithms/generate_circuit.hpp>
+#include <nil/crypto3/math/expressions/expression_tstr.hpp>
+#include <nil/crypto3/math/expressions/expression_string.hpp>
 
 namespace nil {
     namespace actor {
@@ -100,6 +102,15 @@ namespace nil {
                 public:
                     constexpr static const std::size_t rows_amount = 1;
                     constexpr static const std::size_t gates_amount = 1;
+
+                    using constraint1 = ExpressionTstr<X<
+                        decltype("W20 * W20 * W100 - W20 * W100 * W00 - W20 * W100 * W00 + W20 * W100 * W00 - W30 + W10"_tstr)>>;
+                    using constraint2 = ExpressionTstr<X<
+                        decltype("W80 * W10 * W100 + W80 * W10 * W100 - W80 * W00 * W00 - W80 * "
+                                 "W00 * W00 - W80* W00 * W00 - W20 * W80 * W10 * W100 - W20 * W80 * "
+                                 "W10 * W100 + W20 * W80 * W00 * W00 + W20 * W80 * W00 * W00 + W20 * var(W8, "
+                                 "0) * W00 * W00 + W00 * W80 * W10 * W100 + W00 * W80 * W10 * W100 - W00 * "
+                                 "W80 * W00 * W00 - W00 * W80 * W00 * W00 - W00 * W80 * W00 * W00"_tstr)>>;
 
                     struct params_type {
                         struct var_ec_point {
@@ -203,49 +214,24 @@ namespace nil {
 
                         return result_type(params, start_row_index);
                     }
-                    static void generate_gates(blueprint<ArithmetizationType> &bp,
-                                               blueprint_public_assignment_table<ArithmetizationType> &assignment,
-                                               const params_type params,
-                                               const std::size_t first_selector_index) {
+                    template<typename VarType, typename ValueType>
+                    static std::vector<VarType> evaluate_gates(std::array<VarType, 11> column_polynomials,
+                                                               ValueType theta) {
 
-                        auto constraint_1 =
-                            bp.add_constraint((var(W2, 0) - var(W0, 0)) *
-                                              ((var(W2, 0) - var(W0, 0)) * var(W10, 0) - (var(W3, 0) - var(W1, 0))));
-                        auto constraint_2 =
-                            bp.add_constraint((1 - (var(W2, 0) - var(W0, 0)) * var(W8, 0)) *
-                                              (2 * var(W1, 0) * var(W10, 0) - 3 * var(W0, 0) * var(W0, 0)));
+                        ValueType theta_acc = ValueType::one();
+                        std::vector<VarType> input {};
+                        for (std::size_t i = 0; i < 11; i++) {
+                            input.push_back(column_polynomials[i]);
+                        }
 
-                        auto constraint_3 = bp.add_constraint(
-                            (var(W0, 0) * var(W2, 0) * var(W2, 0) - var(W0, 0) * var(W2, 0) * var(W0, 0)) *
-                            (var(W10, 0) * var(W10, 0) - var(W0, 0) - var(W2, 0) - var(W4, 0)));
-                        auto constraint_4 = bp.add_constraint(
-                            (var(W0, 0) * var(W2, 0) * var(W2, 0) - var(W0, 0) * var(W2, 0) * var(W0, 0)) *
-                            (var(W10, 0) * (var(W0, 0) - var(W4, 0)) - var(W1, 0) - var(W5, 0)));
-                        auto constraint_5 = bp.add_constraint(
-                            (var(W0, 0) * var(W2, 0) * var(W3, 0) + var(W0, 0) * var(W2, 0) * var(W1, 0)) *
-                            (var(W10, 0) * var(W10, 0) - var(W0, 0) - var(W2, 0) - var(W4, 0)));
-                        auto constraint_6 = bp.add_constraint(
-                            (var(W0, 0) * var(W2, 0) * var(W3, 0) + var(W0, 0) * var(W2, 0) * var(W1, 0)) *
-                            (var(W10, 0) * (var(W0, 0) - var(W4, 0)) - var(W1, 0) - var(W5, 0)));
-                        auto constraint_7 =
-                            bp.add_constraint((1 - var(W0, 0) * var(W6, 0)) * (var(W4, 0) - var(W2, 0)));
-                        auto constraint_8 =
-                            bp.add_constraint((1 - var(W0, 0) * var(W6, 0)) * (var(W5, 0) - var(W3, 0)));
-                        auto constraint_9 =
-                            bp.add_constraint((1 - var(W2, 0) * var(W7, 0)) * (var(W4, 0) - var(W0, 0)));
-                        auto constraint_10 =
-                            bp.add_constraint((1 - var(W2, 0) * var(W7, 0)) * (var(W5, 0) - var(W1, 0)));
-                        auto constraint_11 = bp.add_constraint(
-                            (1 - (var(W2, 0) - var(W0, 0)) * var(W8, 0) - (var(W3, 0) + var(W1, 0)) * var(W9, 0)) *
-                            var(W4, 0));
-                        auto constraint_12 = bp.add_constraint(
-                            (1 - (var(W2, 0) - var(W0, 0)) * var(W8, 0) - (var(W3, 0) + var(W1, 0)) * var(W9, 0)) *
-                            var(W5, 0));
+                        std::vector<const char *> s {"W00", "W10", "W20", "W30", "W40", "W50",
+                                                     "W60", "W70", "W80", "W90", "W100"};
+                        //     for (std::size_t i = 0; i < gates.size(); i++) {
+                        VarType gate_result = evaluate<constraint1>(std::make_pair(s, input)) * theta_acc;
 
-                        bp.add_gate(first_selector_index,
-                                    {constraint_1, constraint_2, constraint_3, constraint_4, constraint_5, constraint_6,
-                                     constraint_7, constraint_8, constraint_9, constraint_10, constraint_11,
-                                     constraint_12});
+                        gate_result = gate_result + evaluate<constraint2>(std::make_pair(s, input)) * theta_acc;
+
+                        return std::vector<VarType> {gate_result};
                     }
 
                     static void
