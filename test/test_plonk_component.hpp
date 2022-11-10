@@ -25,22 +25,22 @@
 // @file Declaration of interfaces for PLONK unified addition component.
 //---------------------------------------------------------------------------//
 
-#ifndef ACTOR_TEST_PLONK_COMPONENT_HPP
-#define ACTOR_TEST_PLONK_COMPONENT_HPP
+#ifndef CRYPTO3_TEST_PLONK_COMPONENT_HPP
+#define CRYPTO3_TEST_PLONK_COMPONENT_HPP
 
 #include <fstream>
 #include <random>
 
-#include <nil/actor/zk/snark/arithmetization/plonk/params.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/prover.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/verifier.hpp>
-#include <nil/actor/zk/snark/systems/plonk/placeholder/params.hpp>
+#include <nil/crypto3/zk/snark/arithmetization/plonk/params.hpp>
+#include <nil/crypto3/zk/snark/systems/plonk/placeholder/preprocessor.hpp>
+#include <nil/crypto3/zk/snark/systems/plonk/placeholder/prover.hpp>
+#include <nil/crypto3/zk/snark/systems/plonk/placeholder/verifier.hpp>
+#include <nil/crypto3/zk/snark/systems/plonk/placeholder/params.hpp>
 
-#include <nil/actor/zk/blueprint/plonk.hpp>
-#include <nil/actor/zk/assignment/plonk.hpp>
-#include <nil/actor/zk/algorithms/allocate.hpp>
-#include <nil/actor/zk/algorithms/generate_circuit.hpp>
+#include <nil/crypto3/zk/blueprint/plonk.hpp>
+#include <nil/crypto3/zk/assignment/plonk.hpp>
+#include <nil/crypto3/zk/algorithms/allocate.hpp>
+#include <nil/crypto3/zk/algorithms/generate_circuit.hpp>
 #include <nil/crypto3/math/algorithms/calculate_domain_set.hpp>
 
 #include "profiling_plonk_circuit.hpp"
@@ -51,7 +51,7 @@
 #include <nil/marshalling/endianness.hpp>
 
 namespace nil {
-    namespace actor {
+    namespace crypto3 {
         inline std::vector<std::size_t> generate_random_step_list(const std::size_t r, const int max_step) {
             using dist_type = std::uniform_int_distribution<int>;
             static std::random_device random_engine;
@@ -82,8 +82,8 @@ namespace nil {
             constexpr std::size_t expand_factor = 0;
             std::size_t r = degree_log - 1;
 
-            std::vector<std::shared_ptr<crypto3::math::evaluation_domain<FieldType>>> domain_set =
-                crypto3::math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
+            std::vector<std::shared_ptr<math::evaluation_domain<FieldType>>> domain_set =
+                math::calculate_domain_set<FieldType>(degree_log + expand_factor, r);
 
             params.r = r;
             params.D = domain_set;
@@ -124,10 +124,12 @@ namespace nil {
             zk::components::generate_circuit<component_type>(bp, public_assignment, params, start_row);
             typename component_type::result_type component_result =
                 component_type::generate_assignments(assignment_bp, params, start_row);
-            
+
             result_check(assignment_bp, component_result);
 
             assignment_bp.padding();
+            std::cout << "Usable rows: " << desc.usable_rows_amount << std::endl;
+            std::cout << "Padded rows: " << desc.rows_amount << std::endl;
 
             zk::snark::plonk_assignment_table<BlueprintFieldType, ArithmetizationParams> assignments(private_assignment,
                                                                                                      public_assignment);
@@ -149,11 +151,11 @@ namespace nil {
             typename zk::snark::placeholder_public_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type public_preprocessed_data =
                 zk::snark::placeholder_public_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, public_assignment, desc, fri_params, permutation_size).get();
+                    bp, public_assignment, desc, fri_params, permutation_size);
             typename zk::snark::placeholder_private_preprocessor<
                 BlueprintFieldType, placeholder_params>::preprocessed_data_type private_preprocessed_data =
                 zk::snark::placeholder_private_preprocessor<BlueprintFieldType, placeholder_params>::process(
-                    bp, private_assignment, desc, fri_params).get();
+                    bp, private_assignment, desc, fri_params);
 
             return std::make_tuple(desc, bp, fri_params, assignments, public_preprocessed_data,
                                    private_preprocessed_data);
@@ -174,11 +176,11 @@ namespace nil {
                 prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda,
                                   FunctorResultCheck>(params, public_input, result_check);
 
-            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
+            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params,ComponentType>::process(
                 public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
 
-            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
-              public_preprocessed_data, proof, bp, fri_params);
+            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params,ComponentType>::process(
+                public_preprocessed_data, proof, bp, fri_params);
 
 #ifdef BLUEPRINT_PLONK_PROFILING_ENABLED
             profiling_plonk_circuit<BlueprintFieldType, ArithmetizationParams, Hash, Lambda>::process(std::cout, bp, public_preprocessed_data);
@@ -207,10 +209,10 @@ namespace nil {
                 prepare_component<ComponentType, BlueprintFieldType, ArithmetizationParams, Hash, Lambda>(
                     params, public_input, result_check);
 
-            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params>::process(
+            auto proof = zk::snark::placeholder_prover<BlueprintFieldType, placeholder_params,ComponentType>::process(
                 public_preprocessed_data, private_preprocessed_data, desc, bp, assignments, fri_params);
 
-            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params>::process(
+            bool verifier_res = zk::snark::placeholder_verifier<BlueprintFieldType, placeholder_params,ComponentType>::process(
                 public_preprocessed_data, proof, bp, fri_params);
             if (verification_result) {
                 BOOST_CHECK(verifier_res);
@@ -219,7 +221,7 @@ namespace nil {
             }
             return std::make_tuple(proof, fri_params, public_preprocessed_data, bp);
         }
-    }    // namespace actor
+    }    // namespace crypto3
 }    // namespace nil
 
-#endif    // ACTOR_TEST_PLONK_COMPONENT_HPP
+#endif    // CRYPTO3_TEST_PLONK_COMPONENT_HPP
